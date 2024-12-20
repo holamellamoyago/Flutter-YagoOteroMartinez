@@ -1,5 +1,5 @@
 name: english_by_holamellamoyago
-description: "A new Flutter project."
+description: "Página web hecha por Yago Otero que permite aprender inglés de una forma dinámica y divertida"
 publish_to: 'none'
 version: 0.1.0
 
@@ -12,6 +12,7 @@ dependencies:
   go_router: ^14.6.2
   google_fonts: ^6.2.1
   hovering: ^1.0.4
+  seo: ^0.0.9
   sizer: ^2.0.15
 
 dev_dependencies:

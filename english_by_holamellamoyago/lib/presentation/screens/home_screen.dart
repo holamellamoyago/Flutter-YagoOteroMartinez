@@ -1,5 +1,6 @@
 import 'package:english_by_holamellamoyago/config/Sizer/sizer.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,9 +35,10 @@ class HomeScreen extends StatelessWidget {
               children: [
                 EnglishAnimatedContainer(
                   texto: "Verbos\nirregulares",
+                  navegacion: 'VIrregulares',
                 ),
-                EnglishAnimatedContainer(texto: "Verbos\nregulares"),
-                EnglishAnimatedContainer(texto: "Frases\nhechas")
+                EnglishAnimatedContainer(texto: "Verbos\nregulares", navegacion: 'VRegulares',),
+                EnglishAnimatedContainer(texto: "Frases\nhechas", navegacion: 'FrasesHechas',)
               ],
             ),
           ),
@@ -81,9 +83,11 @@ class EnglishAnimatedContainer extends StatefulWidget {
   const EnglishAnimatedContainer({
     super.key,
     required this.texto,
+    required this.navegacion,
   });
 
   final String texto;
+  final String navegacion;
 
   @override
   State<EnglishAnimatedContainer> createState() =>
@@ -105,30 +109,34 @@ class _EnglishAnimatedContainerState extends State<EnglishAnimatedContainer> {
     return GestureDetector(
       onTap: () {
         seleccionado();
+
       },
       child: LayoutBuilder(
-        builder: (context, constraints) => HoverAnimatedContainer(
-            width: size.width * 0.1,
-            height: size.height * 0.12,
-            padding: EdgeInsets.all(size.width * 0.01),
-            hoverDecoration: BoxDecoration(
+        builder: (context, constraints) => GestureDetector(
+          onTap: () => context.push('/' + widget.navegacion),
+          child: HoverAnimatedContainer(
+              width: size.width * 0.1,
+              height: size.height * 0.12,
+              padding: EdgeInsets.all(size.width * 0.01),
+              hoverDecoration: BoxDecoration(
+                  color: selected ? Colors.red[400] : Colors.grey[400],
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey[600]!,
+                        offset: const Offset(8, 8),
+                        blurRadius: 5),
+                  ]),
+              decoration: BoxDecoration(
                 color: selected ? Colors.red[400] : Colors.grey[400],
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey[600]!,
-                      offset: const Offset(8, 8),
-                      blurRadius: 5),
-                ]),
-            decoration: BoxDecoration(
-              color: selected ? Colors.red[400] : Colors.grey[400],
-              border: Border.all(),
-            ),
-            child: Text(
-              "Hola",
-              style: TextStyle(
-                  fontSize: calcularTamanhoLetra(TipoFuente.body, constraints)),
-            )),
+                border: Border.all(),
+              ),
+              child: Text(
+                widget.texto,
+                style: TextStyle(
+                    fontSize: calcularTamanhoLetra(TipoFuente.body, constraints)),
+              )),
+        ),
       ),
     );
   }

@@ -1,22 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
+import 'dart:io';
+
+import 'package:english_by_holamellamoyago/presentation/screens.dart';
+
 
 class TitleLargeCustom extends StatelessWidget {
-  const TitleLargeCustom({super.key, required this.titulo, required this.sp, this.align});
+  const TitleLargeCustom({super.key, required this.titulo, this.align});
 
   final String titulo;
-  final double sp;
-    final TextAlign? align;
-
+  final TextAlign? align;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      titulo,
-      style: GoogleFonts.silkscreen(fontSize: sp.sp),
-      textAlign: align,
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      //TODO Arreglar esto
+      return Text(
+        titulo,
+        style: GoogleFonts.silkscreen(
+            fontSize: calcularTamanhoLetra(TipoFuente.large, constraints)),
+        textAlign: align,
+      );
+    });
   }
 }
 
@@ -25,53 +28,58 @@ class TitleMediumCustom extends StatelessWidget {
     super.key,
     required this.titulo,
     this.align,
-    required this.sp,
   });
 
   final String titulo;
   final TextAlign? align;
-  final double sp;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      titulo,
-      style: GoogleFonts.lato(fontSize: sp.sp,fontWeight: FontWeight.bold),
-      textAlign: align,
+    return LayoutBuilder(
+      builder: (context, constraints) => Text(
+        titulo,
+        style: GoogleFonts.lato(
+            fontSize: calcularTamanhoLetra(TipoFuente.medium, constraints),
+            fontWeight: FontWeight.bold),
+        textAlign: align,
+      ),
     );
   }
 }
 
 class TitleSmallcustom extends StatelessWidget {
-  const TitleSmallcustom({super.key, required this.titulo, required this.sp});
+  const TitleSmallcustom({super.key, required this.titulo});
 
   final String titulo;
-  final double sp;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      titulo,
-      style: TextStyle(fontSize: sp.sp),
+    return LayoutBuilder(
+      builder: (context, constraints) => Text(
+        titulo,
+        style: TextStyle(
+            fontSize: calcularTamanhoLetra(TipoFuente.small, constraints)),
+      ),
     );
   }
 }
 
-
-
 class BodyCustom extends StatelessWidget {
-  const BodyCustom( {super.key, required this.titulo, this.align, required this.sp});
+  const BodyCustom({super.key, required this.titulo, this.align});
 
   final String titulo;
   final TextAlign? align;
-  final double sp;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      titulo,
-      style: TextStyle(fontSize: sp.sp, ),
-      textAlign: align,
+    return LayoutBuilder(
+      builder: (context, constraints) => Text(
+        titulo,
+        style: TextStyle(
+          fontSize: calcularTamanhoLetra(TipoFuente.body, constraints),
+        ),
+        textAlign: align,
+      ),
     );
   }
 }

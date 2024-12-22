@@ -6,3 +6,6 @@ export 'package:sizer/sizer.dart';
 
 export 'package:english_by_holamellamoyago/presentation/widgets/widgets_standart.dart';
 export 'package:hovering/hovering.dart';
+
+export 'package:english_by_holamellamoyago/config/Sizer/sizer.dart';
+export 'package:english_by_holamellamoyago/presentation/screens.dart';

@@ -9,8 +9,8 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   await Supabase.initialize(
-    url: environment.supabase_url,
-    anonKey: environment.supabase_key,
+    url: Environment.supabaseUrl,
+    anonKey: Environment.supabaseKey,
   );
 
   runApp(const MyApp());

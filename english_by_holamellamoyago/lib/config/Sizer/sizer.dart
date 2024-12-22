@@ -1,6 +1,5 @@
 
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
-import 'package:sizer/sizer.dart';
 
 enum TipoFuente { large, medium, small, body }
 
@@ -34,13 +33,13 @@ double calcularTamanhoLetra(tipoFuente, BoxConstraints constraints) {
 double spLarge(BoxConstraints constraints) {
   const mobileMaxWidth = 500;
   const webMaxWidth = 900;
-  final _maxWidth = constraints.maxWidth;
+  final maxWidth = constraints.maxWidth;
 
 
 
-  if (_maxWidth < mobileMaxWidth) { //Movil
+  if (maxWidth < mobileMaxWidth) { //Movil
     return 30;
-  } else if (_maxWidth < webMaxWidth) { // Tablet
+  } else if (maxWidth < webMaxWidth) { // Tablet
     return 20;
   } else {
     return 10;
@@ -52,13 +51,13 @@ double spLarge(BoxConstraints constraints) {
 double spMedium(BoxConstraints constraints) {
   const mobileMaxWidth = 500;
   const webMaxWidth = 900;
-  final _maxWidth = constraints.maxWidth;
+  final maxWidth = constraints.maxWidth;
 
 
 
-  if (_maxWidth < mobileMaxWidth) {
+  if (maxWidth < mobileMaxWidth) {
     return 28; // Movil 
-  } else if (_maxWidth < webMaxWidth) {
+  } else if (maxWidth < webMaxWidth) {
     return 18;
   } else {
     return 8;
@@ -70,13 +69,13 @@ double spMedium(BoxConstraints constraints) {
 double spSmall(BoxConstraints constraints) {
   const mobileMaxWidth = 500;
   const webMaxWidth = 900;
-  final _maxWidth = constraints.maxWidth;
+  final maxWidth = constraints.maxWidth;
 
 
 
-  if (_maxWidth < mobileMaxWidth) {
+  if (maxWidth < mobileMaxWidth) {
     return 26;
-  } else if (_maxWidth < webMaxWidth) {
+  } else if (maxWidth < webMaxWidth) {
     return 16;
   } else {
     return 6;
@@ -88,13 +87,13 @@ double spSmall(BoxConstraints constraints) {
 double spBody(BoxConstraints constraints) {
   const mobileMaxWidth = 500;
   const webMaxWidth = 900;
-  final _maxWidth = constraints.maxWidth;
+  final maxWidth = constraints.maxWidth;
 
 
 
-  if (_maxWidth < mobileMaxWidth) {
+  if (maxWidth < mobileMaxWidth) {
     return 24;
-  } else if (_maxWidth < webMaxWidth) {
+  } else if (maxWidth < webMaxWidth) {
     return 14;
   } else {
     return 4.5;

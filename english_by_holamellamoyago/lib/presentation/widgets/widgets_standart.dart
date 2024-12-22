@@ -1,6 +1,9 @@
-import 'dart:io';
 
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
+
+
+const mobileMaxWidth = 700;
+const webMaxWidth = 1200;
 
 
 class TitleLargeCustom extends StatelessWidget {
@@ -12,7 +15,6 @@ class TitleLargeCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      //TODO Arreglar esto
       return Text(
         titulo,
         style: GoogleFonts.silkscreen(
@@ -84,20 +86,6 @@ class BodyCustom extends StatelessWidget {
   }
 }
 
-// class BodySmallCustom extends StatelessWidget {
-//   const BodySmallCustom({super.key, required this.titulo, required this.sp});
-
-//   final String titulo;
-//   final double sp;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       titulo,
-//       style: TextStyle(fontSize: sp.sp),
-//     );
-//   }
-// }
 
 class LabelLarge extends StatelessWidget {
   const LabelLarge({super.key, required this.titulo, required this.sp});
@@ -163,17 +151,33 @@ class PaddingCustom extends StatelessWidget {
 }
 
 
-// class BodyMediumCustom extends StatelessWidget {
-//   const BodyMediumCustom({super.key, required this.titulo, required this.sp});
+class ResponsiveWidget extends StatelessWidget {
+  /// default constructor
+  const ResponsiveWidget({
+    super.key,
+    this.mobile,
+    this.tablet,
+    this.web,
+  });
 
-//   final String titulo;
-//   final double sp;
+  final Widget? mobile;
+  final Widget? tablet;
+  final Widget? web;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       titulo,
-//       style: TextStyle(fontSize: sp.sp),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxWidth = constraints.maxWidth;
+
+        if (maxWidth < mobileMaxWidth) {
+          return mobile ?? const SizedBox();
+        } else if (maxWidth < webMaxWidth) {
+          return tablet ?? const SizedBox();
+        }
+
+        return web ?? const SizedBox();
+      },
+    );
+  }
+}

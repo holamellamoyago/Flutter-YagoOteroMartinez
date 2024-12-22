@@ -1,7 +1,5 @@
-import 'package:english_by_holamellamoyago/config/Sizer/sizer.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
-import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "/";
@@ -9,7 +7,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _future = Supabase.instance.client.from('Jugador');
+    final future = Supabase.instance.client.from('Jugador');
 
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -44,7 +42,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder(
-              future: _future.select(),
+              future: future.select(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -70,13 +68,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  crearUsuario(){
-    try {
-      
-    } catch (e) {
-      print(e);
-    }
-  }
+
 }
 
 class EnglishAnimatedContainer extends StatefulWidget {
@@ -113,7 +105,7 @@ class _EnglishAnimatedContainerState extends State<EnglishAnimatedContainer> {
       },
       child: LayoutBuilder(
         builder: (context, constraints) => GestureDetector(
-          onTap: () => context.push('/' + widget.navegacion),
+          onTap: () => context.push('/${widget.navegacion}'),
           child: HoverAnimatedContainer(
               width: size.width * 0.1,
               height: size.height * 0.12,

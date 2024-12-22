@@ -1,16 +1,18 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables
+
 class Jugador {
   var nickname;
   var contrasena;
   var puntosTotales;
   var puntosMensuales;
-  var created_at;
+  var createdAt;
 
   Jugador({
     required this.nickname,
     required this.contrasena,
     required this.puntosTotales,
     required this.puntosMensuales,
-    required this.created_at,
+    required this.createdAt,
   });
 
 

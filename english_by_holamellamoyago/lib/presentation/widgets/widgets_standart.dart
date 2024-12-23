@@ -17,7 +17,7 @@ class TitleLargeCustom extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       return Text(
         titulo,
-        style: GoogleFonts.silkscreen(
+        style: GoogleFonts.josefinSans(
             fontSize: calcularTamanhoLetra(TipoFuente.large, constraints)),
         textAlign: align,
       );
@@ -67,10 +67,11 @@ class TitleSmallcustom extends StatelessWidget {
 }
 
 class BodyCustom extends StatelessWidget {
-  const BodyCustom({super.key, required this.titulo, this.align});
+  const BodyCustom({super.key, required this.titulo, this.align, this.weight});
 
   final String titulo;
   final TextAlign? align;
+  final FontWeight? weight;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +79,7 @@ class BodyCustom extends StatelessWidget {
       builder: (context, constraints) => Text(
         titulo,
         style: TextStyle(
+          fontWeight: weight,
           fontSize: calcularTamanhoLetra(TipoFuente.body, constraints),
         ),
         textAlign: align,
@@ -180,4 +182,17 @@ class ResponsiveWidget extends StatelessWidget {
       },
     );
   }
+}
+
+
+void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(fontSize: 4.sp),
+      ),
+      duration: const Duration(seconds: 2),
+    ),
+  );
 }

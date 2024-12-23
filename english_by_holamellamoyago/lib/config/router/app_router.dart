@@ -2,7 +2,7 @@
 
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/', routes: [
+final appRouter = GoRouter(initialLocation: '/VIrregulares', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.routeName,

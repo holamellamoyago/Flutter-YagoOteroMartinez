@@ -67,11 +67,12 @@ class TitleSmallcustom extends StatelessWidget {
 }
 
 class BodyCustom extends StatelessWidget {
-  const BodyCustom({super.key, required this.titulo, this.align, this.weight});
+  const BodyCustom({super.key, required this.titulo, this.align, this.weight, this.color});
 
   final String titulo;
   final TextAlign? align;
   final FontWeight? weight;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class BodyCustom extends StatelessWidget {
         titulo,
         style: TextStyle(
           fontWeight: weight,
+          color: color,
           fontSize: calcularTamanhoLetra(TipoFuente.body, constraints),
         ),
         textAlign: align,
@@ -140,14 +142,17 @@ class PaddingCustom extends StatelessWidget {
   const PaddingCustom({
     super.key,
     this.height = 0,
-    this.width = 0,
+    this.width = 0, this.child,
   });
+
+  final Widget? child; 
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
       width: width,
+      child: child,
     );
   }
 }

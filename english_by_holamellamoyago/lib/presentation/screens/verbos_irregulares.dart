@@ -1,18 +1,12 @@
 import 'dart:math';
 
-import 'package:english_by_holamellamoyago/config/constants/Verbo.dart';
+import 'package:english_by_holamellamoyago/config/constants/verbo.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
-import 'package:flutter/rendering.dart';
 
-class VerbosIrregules extends StatefulWidget {
+class VerbosIrregules extends StatelessWidget {
   static const routename = '/VIrregulares';
   const VerbosIrregules({super.key});
 
-  @override
-  State<VerbosIrregules> createState() => _VerbosIrregulesState();
-}
-
-class _VerbosIrregulesState extends State<VerbosIrregules> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,38 +17,10 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
     ));
   }
 
-  Future<bool> _seleccionarRandom() async {
-    try {
-      final future = Supabase.instance.client.from('Verbo');
-
-      FutureBuilder(
-        future: future.select(),
-        builder: (context, snapshot) {
-          final data = snapshot.data!;
-
-          final verbo = Verbo.fromJson(data[0]);
-
-          Verbo(
-            idVerbo: verbo.idVerbo,
-            infinitivo: verbo.infinitivo,
-            pasadoSimple: verbo.pasadoSimple,
-            pasadoParticipio: verbo.pasadoParticipio,
-            traduccion: verbo.traduccion,
-          );
-
-          print(verbo.traduccion);
-          return Placeholder();
-        },
-      );
-    } catch (e) {}
-
-    return false;
-  }
-
   _web() {
     final future = Supabase.instance.client.from('Verbo');
     TextEditingController verboController = TextEditingController();
-    int containerHeight = 10;
+    int widthContainer = 10;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -69,7 +35,9 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
             titulo: "Level 1 of XX, 1 de 99 ",
             weight: FontWeight.bold,
           ),
-          AnimatedContainerTest(),
+          AnimatedContainerTest(
+            widthContainer: widthContainer,
+          ),
           TitleLargeCustom(titulo: "Write the past simple of the verb"),
           PaddingCustom(
             height: 0.2.h,
@@ -83,19 +51,21 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  final jugadores = snapshot.data!;
+                  final verbos = snapshot.data!;
                   return ListView.builder(
-                    itemCount: jugadores.length,
+                    itemCount: verbos.length,
                     itemBuilder: (context, index) {
-                      int n = Random().nextInt(jugadores.length);
+                      int n = Random().nextInt(verbos.length);
 
-                      final jugador = jugadores[n];
+                      final verbo = verbos[n];
 
                       return Column(
                         children: [
                           AnimatedContainerVerb(
-                              jugador: jugador,
-                              verboController: verboController),
+                            jugador: verbo,
+                            verboController: verboController,
+                            widthtContainer: widthContainer,
+                          ),
                         ],
                       );
                     },
@@ -111,21 +81,25 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
 }
 
 class AnimatedContainerVerb extends StatefulWidget {
-  const AnimatedContainerVerb({
-    super.key,
-    required this.jugador,
-    required this.verboController,
-  });
+  AnimatedContainerVerb(
+      {super.key,
+      required this.jugador,
+      required this.verboController,
+      required this.widthtContainer});
 
   final PostgrestMap jugador;
   final TextEditingController verboController;
+  int widthtContainer;
 
   @override
   State<AnimatedContainerVerb> createState() => _AnimatedContainerVerbState();
 }
 
 class _AnimatedContainerVerbState extends State<AnimatedContainerVerb> {
-    int containerHeight = 10;
+  int containerHeight = 10;
+
+  Respuesta estadoRespuesta = Respuesta.sinContestar;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -136,58 +110,96 @@ class _AnimatedContainerVerbState extends State<AnimatedContainerVerb> {
         color: Colors.blue[200],
       ),
       duration: Durations.medium1,
-      child: Center(
-        child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.1.w, vertical: 0.1.h),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  BodyCustom(
-                    titulo: widget.jugador['infinitivo'] + ': ',
-                    weight: FontWeight.bold,
-                  ),
-                  SizedBox(
-                      width: 20.w,
-                      child: TextField(controller: widget.verboController)),
-                  IconButton.filled(onPressed: () {
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BodyCustom(
+                titulo: widget.jugador['infinitivo'] + ': ',
+                weight: FontWeight.bold,
+              ),
+              SizedBox(
+                  width: 20.w,
+                  child: TextField(controller: widget.verboController)),
+              IconButton.filled(
+                  onPressed: () {
+                    if (widget.verboController.text ==
+                        widget.jugador['pasadoSimple']) {
+                      estadoRespuesta = Respuesta.acertado;
+
+                      setState(() {
+                        widget.widthtContainer = 40;
+                      });
+                    } else {
+                      estadoRespuesta = Respuesta.fallido;
+                    }
+
                     setState(() {
                       containerHeight = 20;
                     });
-                  }, icon: const Icon(Icons.send))
-                ],
-              ),
-            )),
+                  },
+                  icon: const Icon(Icons.send))
+            ],
+          ),
+          estadoRespuesta == Respuesta.acertado
+              ? SizedBox(
+                  height: 10.h,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const BodyCustom(titulo: "Congratulations you "),
+                      BodyCustom(
+                          titulo: "won! ",
+                          weight: FontWeight.bold,
+                          color: Colors.green[600])
+                    ],
+                  ),
+                )
+              : estadoRespuesta == Respuesta.fallido? SizedBox(
+                  height: 10.h,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const BodyCustom(titulo: "Oh sorry ... "),
+                      BodyCustom(
+                        titulo: "you fail",
+                        weight: FontWeight.bold,
+                        color: Colors.red[600],
+                      )
+                    ],
+                  ),
+                ) : SizedBox()
+        ],
       ),
     );
   }
 }
 
 class AnimatedContainerTest extends StatefulWidget {
-  const AnimatedContainerTest({
+  AnimatedContainerTest({
     super.key,
+    required this.widthContainer,
   });
+
+  int widthContainer;
 
   @override
   State<AnimatedContainerTest> createState() => _AnimatedContainerTestState();
 }
 
 class _AnimatedContainerTestState extends State<AnimatedContainerTest> {
-  int widthContainer = 10;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
           setState(() {
-            widthContainer += 10;
-            print(widthContainer);
+            widget.widthContainer += 10;
           });
         },
         child: AnimatedContainer(
           duration: Durations.long1,
-          width: widthContainer.w,
+          width: widget.widthContainer.w,
           color: Colors.blue,
           height: 1.h,
         ));

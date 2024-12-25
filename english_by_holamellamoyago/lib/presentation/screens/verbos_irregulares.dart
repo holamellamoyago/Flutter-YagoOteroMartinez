@@ -3,10 +3,15 @@ import 'dart:math';
 import 'package:english_by_holamellamoyago/config/constants/verbo.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
-class VerbosIrregules extends StatelessWidget {
+class VerbosIrregules extends StatefulWidget {
   static const routename = '/VIrregulares';
   const VerbosIrregules({super.key});
 
+  @override
+  State<VerbosIrregules> createState() => _VerbosIrregulesState();
+}
+
+class _VerbosIrregulesState extends State<VerbosIrregules> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,15 +21,20 @@ class VerbosIrregules extends StatelessWidget {
       web: _web(),
     ));
   }
+    int widthContainer = 1;
+    int contadorRecompensa = 0;
+    int containerHeight = 10;
+    TextEditingController verboController = TextEditingController();
+    Respuesta estadoRespuesta = Respuesta.sinContestar;
 
   _web() {
     final future = Supabase.instance.client.from('Verbo');
-    TextEditingController verboController = TextEditingController();
-    int widthContainer = 10;
+
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PaddingCustom(
@@ -32,11 +42,14 @@ class VerbosIrregules extends StatelessWidget {
           ),
           // TODO Arreglar el contador
           BodyCustom(
-            titulo: "Level 1 of XX, 1 de 99 ",
+            titulo: "Points ${contadorRecompensa} of 10 ",
             weight: FontWeight.bold,
           ),
-          AnimatedContainerTest(
-            widthContainer: widthContainer,
+          AnimatedContainer(
+            duration: Durations.long1,
+            width: widthContainer.w,
+            color: Colors.blue,
+            height: 1.h,
           ),
           TitleLargeCustom(titulo: "Write the past simple of the verb"),
           PaddingCustom(
@@ -56,16 +69,94 @@ class VerbosIrregules extends StatelessWidget {
                     itemCount: verbos.length,
                     itemBuilder: (context, index) {
                       int n = Random().nextInt(verbos.length);
-
+      
                       final verbo = verbos[n];
-
+      
                       return Column(
                         children: [
-                          AnimatedContainerVerb(
-                            jugador: verbo,
-                            verboController: verboController,
-                            widthtContainer: widthContainer,
-                          ),
+                          AnimatedContainer(
+                            height: containerHeight.h,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blue[200],
+                            ),
+                            duration: Durations.medium1,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    BodyCustom(
+                                      titulo: verbo['infinitivo'] + ': ',
+                                      weight: FontWeight.bold,
+                                    ),
+                                    SizedBox(
+                                        width: 20.w,
+                                        child: TextField(
+                                            controller: verboController)),
+                                    IconButton.filled(
+                                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black)),
+                                        onPressed: () {
+                                          if (verboController.text ==
+                                              verbo['pasadoSimple']) {
+      
+                                            setState(() {
+                                            estadoRespuesta =
+                                                Respuesta.acertado;
+                                              widthContainer += 6;
+                                              contadorRecompensa++;
+                                              containerHeight = 20;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              
+                                            containerHeight = 20;
+                                            estadoRespuesta = Respuesta.fallido;
+                                            });
+                                          }
+                                        },
+                                        icon: const Icon(Icons.send))
+                                  ],
+                                ),
+                                estadoRespuesta == Respuesta.acertado
+                                    ? SizedBox(
+                                        height: 10.h,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const BodyCustom(
+                                                titulo: "Congratulations you "),
+                                            BodyCustom(
+                                                titulo: "won! ",
+                                                weight: FontWeight.bold,
+                                                color: Colors.green[600])
+                                          ],
+                                        ),
+                                      )
+                                    : estadoRespuesta == Respuesta.fallido
+                                        ? SizedBox(
+                                            height: 10.h,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const BodyCustom(
+                                                    titulo: "Oh sorry ... "),
+                                                BodyCustom(
+                                                  titulo: "you fail",
+                                                  weight: FontWeight.bold,
+                                                  color: Colors.red[600],
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        : SizedBox()
+                              ],
+                            ),
+                          )
                         ],
                       );
                     },
@@ -156,52 +247,54 @@ class _AnimatedContainerVerbState extends State<AnimatedContainerVerb> {
                     ],
                   ),
                 )
-              : estadoRespuesta == Respuesta.fallido? SizedBox(
-                  height: 10.h,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const BodyCustom(titulo: "Oh sorry ... "),
-                      BodyCustom(
-                        titulo: "you fail",
-                        weight: FontWeight.bold,
-                        color: Colors.red[600],
-                      )
-                    ],
-                  ),
-                ) : SizedBox()
+              : estadoRespuesta == Respuesta.fallido
+                  ? SizedBox(
+                      height: 10.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const BodyCustom(titulo: "Oh sorry ... "),
+                          BodyCustom(
+                            titulo: "you fail",
+                            weight: FontWeight.bold,
+                            color: Colors.red[600],
+                          )
+                        ],
+                      ),
+                    )
+                  : SizedBox()
         ],
       ),
     );
   }
 }
 
-class AnimatedContainerTest extends StatefulWidget {
-  AnimatedContainerTest({
-    super.key,
-    required this.widthContainer,
-  });
+// class AnimatedContainerTest extends StatefulWidget {
+//   AnimatedContainerTest({
+//     super.key,
+//     required this.widthContainer,
+//   });
 
-  int widthContainer;
+//   int widthContainer;
 
-  @override
-  State<AnimatedContainerTest> createState() => _AnimatedContainerTestState();
-}
+//   @override
+//   State<AnimatedContainerTest> createState() => _AnimatedContainerTestState();
+// }
 
-class _AnimatedContainerTestState extends State<AnimatedContainerTest> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          setState(() {
-            widget.widthContainer += 10;
-          });
-        },
-        child: AnimatedContainer(
-          duration: Durations.long1,
-          width: widget.widthContainer.w,
-          color: Colors.blue,
-          height: 1.h,
-        ));
-  }
-}
+// class _AnimatedContainerTestState extends State<AnimatedContainerTest> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//         onTap: () {
+//           setState(() {
+//             widthContainer += 10;
+//           });
+//         },
+//         child: AnimatedContainer(
+//           duration: Durations.long1,
+//           width: widthContainer.w,
+//           color: Colors.blue,
+//           height: 1.h,
+//         ));
+//   }
+// }

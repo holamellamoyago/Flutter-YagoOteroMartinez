@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:english_by_holamellamoyago/config/constants/verbo.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
 class VerbosIrregules extends StatefulWidget {
@@ -21,15 +20,16 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
       web: _web(),
     ));
   }
-    int widthContainer = 1;
-    int contadorRecompensa = 0;
-    int containerHeight = 10;
-    TextEditingController verboController = TextEditingController();
-    Respuesta estadoRespuesta = Respuesta.sinContestar;
+
+  int widthContainer = 1;
+  int contadorRecompensa = 0;
+  int containerHeight = 10;
+  TextEditingController verboController = TextEditingController();
+  CarouselSliderController carouselController = CarouselSliderController();
+  Respuesta estadoRespuesta = Respuesta.sinContestar;
 
   _web() {
     final future = Supabase.instance.client.from('Verbo');
-
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
@@ -55,6 +55,7 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
           PaddingCustom(
             height: 0.2.h,
           ),
+
           Expanded(
             child: FutureBuilder(
               future: future.select(),
@@ -65,101 +66,150 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
                   );
                 } else {
                   final verbos = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: verbos.length,
-                    itemBuilder: (context, index) {
-                      int n = Random().nextInt(verbos.length);
-      
-                      final verbo = verbos[n];
-      
-                      return Column(
-                        children: [
-                          AnimatedContainer(
-                            height: containerHeight.h,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.blue[200],
-                            ),
-                            duration: Durations.medium1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    BodyCustom(
-                                      titulo: verbo['infinitivo'] + ': ',
-                                      weight: FontWeight.bold,
-                                    ),
-                                    SizedBox(
-                                        width: 20.w,
-                                        child: TextField(
-                                            controller: verboController)),
-                                    IconButton.filled(
-                                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black)),
-                                        onPressed: () {
-                                          if (verboController.text ==
-                                              verbo['pasadoSimple']) {
-      
-                                            setState(() {
-                                            estadoRespuesta =
-                                                Respuesta.acertado;
-                                              widthContainer += 6;
-                                              contadorRecompensa++;
-                                              containerHeight = 20;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              
-                                            containerHeight = 20;
-                                            estadoRespuesta = Respuesta.fallido;
-                                            });
-                                          }
-                                        },
-                                        icon: const Icon(Icons.send))
-                                  ],
-                                ),
-                                estadoRespuesta == Respuesta.acertado
-                                    ? SizedBox(
-                                        height: 10.h,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const BodyCustom(
-                                                titulo: "Congratulations you "),
-                                            BodyCustom(
-                                                titulo: "won! ",
-                                                weight: FontWeight.bold,
-                                                color: Colors.green[600])
-                                          ],
-                                        ),
-                                      )
-                                    : estadoRespuesta == Respuesta.fallido
-                                        ? SizedBox(
-                                            height: 10.h,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                const BodyCustom(
-                                                    titulo: "Oh sorry ... "),
-                                                BodyCustom(
-                                                  titulo: "you fail",
-                                                  weight: FontWeight.bold,
-                                                  color: Colors.red[600],
+                  return SizedBox(
+                    width: double.infinity,
+                    height: containerHeight.h,
+                    child: CarouselSlider.builder(
+                        carouselController: carouselController,
+                        disableGesture: false,
+                        itemCount: verbos.length,
+                        itemBuilder: (context, index, realIndex) {
+                          int n = Random().nextInt(verbos.length);
+
+                          final verbo = verbos[n];
+
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AnimatedContainer(
+                                  height: containerHeight.h,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.blue[200],
+                                  ),
+                                  duration: Durations.medium1,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          BodyCustom(
+                                            titulo: verbo['infinitivo'] + ': ',
+                                            weight: FontWeight.bold,
+                                          ),
+                                          SizedBox(
+                                              width: 20.w,
+                                              child: TextField(
+                                                  controller: verboController)),
+                                          IconButton.filled(
+                                              style: const ButtonStyle(
+                                                  backgroundColor:
+                                                      WidgetStatePropertyAll(
+                                                          Colors.black)),
+                                              onPressed: () {
+                                                // if (verboController.text ==
+                                                //     verbo['pasadoSimple']) {
+                                                //   setState(() {
+                                                //     estadoRespuesta =
+                                                //         Respuesta.acertado;
+                                                //     widthContainer += 6;
+                                                //     contadorRecompensa++;
+                                                //     containerHeight = 20;
+                                                //     carouselController.nextPage(duration: const Duration(seconds: 1, milliseconds: 500), curve: const ElasticInCurve());
+                                                //     verboController.text = '';
+                                                //     // carouselController.jumpToPage(1);
+                                                //   });
+
+                                                //   Future.delayed(const Duration(seconds: 2)).then((value) {
+                                                //     setState(() {
+                                                //       containerHeight = 10;
+                                                //       estadoRespuesta = Respuesta.sinContestar;
+                                                //     });
+                                                //   },);
+                                                // } else {
+                                                //   setState(() {
+                                                //     containerHeight = 20;
+                                                //     estadoRespuesta =
+                                                //         Respuesta.fallido;
+                                                //   });
+                                                // }
+
+                                                  setState(() {
+                                                containerHeight = 20;
+                                                estadoRespuesta =
+                                                    Respuesta.fallido;
+                                                    
+                                                  });
+
+                                              },
+                                              icon: const Icon(Icons.send))
+                                        ],
+                                      ),
+                                      estadoRespuesta == Respuesta.acertado
+                                          ? SizedBox(
+                                              height: 10.h,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const BodyCustom(
+                                                      titulo:
+                                                          "Congratulations you "),
+                                                  BodyCustom(
+                                                      titulo: "won! ",
+                                                      weight: FontWeight.bold,
+                                                      color: Colors.green[600])
+                                                ],
+                                              ),
+                                            )
+                                          : estadoRespuesta == Respuesta.fallido
+                                              ? SizedBox(
+                                                  height: 10.h,
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          const BodyCustom(
+                                                              titulo:
+                                                                  "Oh sorry ... "),
+                                                          BodyCustom(
+                                                            titulo: "you fail",
+                                                            weight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.red[600],
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          BodyCustom(
+                                                            titulo:
+                                                                'The correct form of the verb is ${verbo['pasadoSimple']}',
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 )
-                                              ],
-                                            ),
-                                          )
-                                        : SizedBox()
-                              ],
-                            ),
-                          )
-                        ],
-                      );
-                    },
+                                              : SizedBox()
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        options: CarouselOptions(
+                          autoPlay: false,
+                        )),
                   );
                 }
               },

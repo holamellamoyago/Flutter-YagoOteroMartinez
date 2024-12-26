@@ -20,3 +20,9 @@ export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:supabase_flutter/supabase_flutter.dart';
 export 'package:english_by_holamellamoyago/config/constants/Environment.dart';
 
+export 'package:carousel_slider/carousel_controller.dart';
+export 'package:english_by_holamellamoyago/config/constants/verbo.dart';
+export 'package:carousel_slider/carousel_slider.dart';
+
+
+

@@ -1,8 +1,9 @@
 
 
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
+import 'package:english_by_holamellamoyago/presentation/screens/fail_screen.dart';
 
-final appRouter = GoRouter(initialLocation: '/VIrregulares', routes: [
+final appRouter = GoRouter(initialLocation: '/failScreen', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.routeName,
@@ -17,5 +18,10 @@ final appRouter = GoRouter(initialLocation: '/VIrregulares', routes: [
     path: '/VRegulares',
     name: VerbosRegulares.routename,
     builder: (context, state) => const VerbosRegulares(),
+  ),
+  GoRoute(
+    path: '/failScreen',
+    name: FailScreen.routename,
+    builder: (context, state) => const FailScreen(),
   )
 ]);

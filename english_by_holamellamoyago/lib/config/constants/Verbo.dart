@@ -1,30 +1,46 @@
-
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_typing_uninitialized_final Stringiables
 
-enum Respuesta {sinContestar, fallido, acertado}
+import 'package:shared_preferences/shared_preferences.dart';
+
+enum Respuesta { sinContestar, fallido, acertado }
 
 class Verbo {
-  final int idVerbo;
-  final String infinitivo;
-  final String pasadoSimple;
-  final String pasadoParticipio;
-  final String traduccion;
+  static late SharedPreferences verbo;
 
-  Verbo({
-    required this.idVerbo,
-    required this.infinitivo,
-    required this.pasadoSimple,
-    required this.pasadoParticipio,
-    required this.traduccion,
-  });
-  factory Verbo.fromJson(Map<String, dynamic> json) {
-    return Verbo(
-      idVerbo: json[3],
-      infinitivo: json['infinitivo'],
-      pasadoSimple: json['pasadoSimple'],
-      pasadoParticipio: json['pasadoParticipio'],
-      traduccion: json['traduccion'],
-    );
+  static Future init() async {
+    return verbo = await SharedPreferences.getInstance();
+  }
+
+    String get verboInfinitivo {
+      return verbo.getString('verboInfinitivo') ?? 'No verbo configurado';
+    }
+
+    set verboInfinitivo(String value) {
+      verbo.setString('verboInfinitivo', value);
+    }
+
+  String get pasadoSimple {
+    return verbo.getString('pasadoSimple') ?? 'No verbo configurado';
+  }
+
+  set pasadoSimple(String value) {
+    verbo.setString('pasadoSimple', value);
+  }
+
+  String get pasadoParticipio {
+    return verbo.getString('pasadoParticipio') ?? 'No verbo configurado';
+  }
+
+  set pasadoParticipio(String value) {
+    verbo.setString('pasadoParticipio ', value);
+  }
+
+  String get traduccion {
+    return verbo.getString('traduccion') ?? 'No verbo configurado';
+  }
+
+  set traduccion(String value) {
+    verbo.setString('traduccion', value);
   }
 }

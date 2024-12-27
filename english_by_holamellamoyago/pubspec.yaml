@@ -8,6 +8,7 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  animated_loading_border: ^0.0.2
   carousel_slider: ^5.0.0
   flutter:
     sdk: flutter
@@ -15,6 +16,7 @@ dependencies:
   go_router: ^14.6.2
   google_fonts: ^6.2.1
   hovering: ^1.0.4
+  shared_preferences: ^2.3.3
   sizer: ^2.0.15
   supabase_flutter: ^2.8.2
 

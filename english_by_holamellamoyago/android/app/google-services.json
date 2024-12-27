@@ -1,0 +1,251 @@
+{
+  "project_info": {
+    "project_number": "1050588380052",
+    "firebase_url": "https://hiitgym-2ae99-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "hiitgym-2ae99",
+    "storage_bucket": "hiitgym-2ae99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050588380052:android:2cfbf923aa512d6783ed81",
+        "android_client_info": {
+          "package_name": "com.holamellamoyago.chandomonte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yFF7CNh-xPouXaAa44uDD9eVZmOQTfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1050588380052-028n60n4p0jqj3ldu97m5qqgtek3j75a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newhiitgymfirebase2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050588380052:android:7b3fb765cca82ec883ed81",
+        "android_client_info": {
+          "package_name": "com.holamellamoyago.curriculum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yFF7CNh-xPouXaAa44uDD9eVZmOQTfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1050588380052-028n60n4p0jqj3ldu97m5qqgtek3j75a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newhiitgymfirebase2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050588380052:android:783ce4ac43aac8fb83ed81",
+        "android_client_info": {
+          "package_name": "com.holamellamoyago.dgaep.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050588380052-8flukv65cqqc33bt35ber98j92b7eh89.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.holamellamoyago.dgaep.android",
+            "certificate_hash": "355c2c30b74ed56fa058a60eab663f805d48e1a7"
+          }
+        },
+        {
+          "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yFF7CNh-xPouXaAa44uDD9eVZmOQTfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1050588380052-028n60n4p0jqj3ldu97m5qqgtek3j75a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newhiitgymfirebase2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050588380052:android:9210a1dff69519a983ed81",
+        "android_client_info": {
+          "package_name": "com.holamellamoyago.english"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yFF7CNh-xPouXaAa44uDD9eVZmOQTfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1050588380052-028n60n4p0jqj3ldu97m5qqgtek3j75a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newhiitgymfirebase2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050588380052:android:9594b2fa567deb6c83ed81",
+        "android_client_info": {
+          "package_name": "com.holamellamoyago.hiitgym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050588380052-37oag1gu9s9in7bupgon7od7n2id33cg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.holamellamoyago.hiitgym",
+            "certificate_hash": "71b3be6320f0226feb121c865ef193afa5388ab2"
+          }
+        },
+        {
+          "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yFF7CNh-xPouXaAa44uDD9eVZmOQTfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1050588380052-028n60n4p0jqj3ldu97m5qqgtek3j75a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newhiitgymfirebase2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050588380052:android:fddb1ea12d699a8f83ed81",
+        "android_client_info": {
+          "package_name": "com.holamellamoyago.hiitgym10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050588380052-fikriq7pd1it93do8t41f1ol7bcrug1s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.holamellamoyago.hiitgym10",
+            "certificate_hash": "355c2c30b74ed56fa058a60eab663f805d48e1a7"
+          }
+        },
+        {
+          "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4yFF7CNh-xPouXaAa44uDD9eVZmOQTfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050588380052-gkckkn92mo57u2i3dstaqgevcpr5b1v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1050588380052-028n60n4p0jqj3ldu97m5qqgtek3j75a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newhiitgymfirebase2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.example.english_by_holamellamoyago
+package com.holamellamoyago.englishbyyago
 
 import io.flutter.embedding.android.FlutterActivity
 

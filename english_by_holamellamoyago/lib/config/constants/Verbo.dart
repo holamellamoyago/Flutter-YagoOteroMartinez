@@ -28,13 +28,19 @@ class Verbo {
     verbo.setString('pasadoSimple', value);
   }
 
-  String get pasadoParticipio {
-    return verbo.getString('pasadoParticipio') ?? 'No verbo configurado';
-  }
 
-  set pasadoParticipio(String value) {
-    verbo.setString('pasadoParticipio ', value);
-  }
+
+    String get pasadoParticipio {
+      return verbo.getString('pasadoParticipio') ?? 'No verbo configurado';
+    }
+
+    set pasadoParticipio(String value) {
+      verbo.setString('pasadoParticipio', value);
+    }
+
+
+
+
 
   String get traduccion {
     return verbo.getString('traduccion') ?? 'No verbo configurado';

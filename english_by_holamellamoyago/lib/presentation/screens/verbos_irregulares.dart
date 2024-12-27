@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:english_by_holamellamoyago/config/functions/comprobarAcierto.dart';
+import 'package:english_by_holamellamoyago/config/constants/Colors.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
 class VerbosIrregules extends StatefulWidget {
@@ -37,8 +36,8 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.grey[300],
-            boxShadow: [BoxShadow(offset: Offset(6, 6))],
+            color: ColorsCustom.primario,
+            boxShadow: const [BoxShadow(offset: Offset(6, 6))],
             border: Border.all()),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
@@ -222,6 +221,9 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
         },
       );
     } else {
+      contadorRecompensa = 0;
+      widthContainer = 1;
+      verboController.text = '';
       v.verboInfinitivo = verbo['infinitivo'];
       v.pasadoSimple = verbo['pasadoSimple'];
       v.pasadoParticipio = verbo['pasadoParticipio'];

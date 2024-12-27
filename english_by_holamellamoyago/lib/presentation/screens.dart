@@ -24,6 +24,10 @@ export 'package:carousel_slider/carousel_controller.dart';
 export 'package:english_by_holamellamoyago/config/constants/verbo.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:english_by_holamellamoyago/config/constants/Partida.dart';
+export 'package:animated_loading_border/animated_loading_border.dart';
+export 'package:english_by_holamellamoyago/presentation/screens/auth/register_screen.dart';
+export 'package:english_by_holamellamoyago/presentation/screens/fail_screen.dart';
+
 
 
 

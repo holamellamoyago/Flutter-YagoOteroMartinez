@@ -1,5 +1,3 @@
-import 'package:animated_loading_border/animated_loading_border.dart';
-import 'package:english_by_holamellamoyago/config/constants/Partida.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
 class FailScreen extends StatelessWidget {
@@ -92,21 +90,24 @@ class BotonReintentar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        
-        border: Border.all(),
-        color: Colors.blue[200]
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-          children: [
-            Icon(Icons.refresh, color: Colors.white,),
-            PaddingCustom(width: 1.w,),
-            BodyCustom(titulo: 'Reintentar', color: Colors.white, weight: FontWeight.bold,)
-          ],
+    return GestureDetector(
+      onTap: () => context.go('/VIrregulares'),
+      child: Container(
+        decoration: BoxDecoration(
+          
+          border: Border.all(),
+          color: Colors.blue[200]
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+            children: [
+              Icon(Icons.refresh, color: Colors.white,),
+              PaddingCustom(width: 1.w,),
+              BodyCustom(titulo: 'Reintentar', color: Colors.white, weight: FontWeight.bold,)
+            ],
+          ),
         ),
       ),
     );

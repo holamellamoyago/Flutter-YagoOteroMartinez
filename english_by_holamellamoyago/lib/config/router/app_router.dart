@@ -1,13 +1,18 @@
 
 
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
-import 'package:english_by_holamellamoyago/presentation/screens/fail_screen.dart';
 
-final appRouter = GoRouter(initialLocation: '/failScreen', routes: [
+
+final appRouter = GoRouter(initialLocation: '/register', routes: [
   GoRoute(
     path: '/',
     name: HomeScreen.routeName,
     builder: (context, state) => const HomeScreen(),
+  ),
+  GoRoute(
+    path: '/register',
+    name: RegisterScreen.routename,
+    builder: (context, state) => const RegisterScreen(),
   ),
   GoRoute(
     path: '/VIrregulares',

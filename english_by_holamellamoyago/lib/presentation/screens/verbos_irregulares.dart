@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:english_by_holamellamoyago/config/functions/comprobarAcierto.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
 class VerbosIrregules extends StatefulWidget {
@@ -27,197 +28,209 @@ class _VerbosIrregulesState extends State<VerbosIrregules> {
   TextEditingController verboController = TextEditingController();
   CarouselSliderController carouselController = CarouselSliderController();
   Respuesta estadoRespuesta = Respuesta.sinContestar;
+  final v = Verbo();
+  final p = Partida();
+  final future = Supabase.instance.client.from('Verbo');
 
   _web() {
-    final future = Supabase.instance.client.from('Verbo');
-
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PaddingCustom(
-            height: 1.h,
-          ),
-          // TODO Arreglar el contador
-          BodyCustom(
-            titulo: "Points ${contadorRecompensa} of 10 ",
-            weight: FontWeight.bold,
-          ),
-          AnimatedContainer(
-            duration: Durations.long1,
-            width: widthContainer.w,
-            color: Colors.blue,
-            height: 1.h,
-          ),
-          TitleLargeCustom(titulo: "Write the past simple of the verb"),
-          PaddingCustom(
-            height: 0.2.h,
-          ),
+      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.grey[300],
+            boxShadow: [BoxShadow(offset: Offset(6, 6))],
+            border: Border.all()),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PaddingCustom(
+                height: 4.h,
+              ),
+              // TODO Arreglar el contador
+              BodyCustom(
+                titulo: "Points ${contadorRecompensa} of 10 ",
+                weight: FontWeight.bold,
+              ),
+              AnimatedContainer(
+                duration: Durations.long1,
+                width: widthContainer.w,
+                color: Colors.blue,
+                height: 1.h,
+              ),
+              PaddingCustom(
+                height: 8.h,
+              ),
+              TitleLargeCustom(titulo: "Write the past simple of the verb"),
+              PaddingCustom(
+                height: 0.2.h,
+              ),
 
-          Expanded(
-            child: FutureBuilder(
-              future: future.select(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  final verbos = snapshot.data!;
-                  return SizedBox(
-                    width: double.infinity,
-                    height: containerHeight.h,
-                    child: CarouselSlider.builder(
-                        carouselController: carouselController,
-                        disableGesture: false,
-                        itemCount: verbos.length,
-                        itemBuilder: (context, index, realIndex) {
-                          int n = Random().nextInt(verbos.length);
+              Expanded(child: _verbo())
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                          final verbo = verbos[n];
+  _verbo() {
+    return FutureBuilder(
+      future: future.select(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          final verbos = snapshot.data!;
+          return SizedBox(
+            width: double.infinity,
+            height: containerHeight.h,
+            child: CarouselSlider.builder(
+                carouselController: carouselController,
+                disableGesture: false,
+                itemCount: verbos.length,
+                itemBuilder: (context, index, realIndex) {
+                  int n = Random().nextInt(verbos.length);
+                  final verbo = verbos[n];
 
-                          return Column(
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AnimatedContainer(
+                          height: containerHeight.h,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.blue[200],
+                          ),
+                          duration: Durations.medium1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: AnimatedContainer(
-                                  height: containerHeight.h,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.blue[200],
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BodyCustom(
+                                    titulo: verbo['infinitivo'] + ': ',
+                                    weight: FontWeight.bold,
                                   ),
-                                  duration: Durations.medium1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
+                                  SizedBox(
+                                      width: 20.w,
+                                      child: TextField(
+                                          autofocus: true,
+                                          onSubmitted: (value) => setState(() {
+                                                comprobarAcierto(context, verbo);
+                                              }),
+                                          controller: verboController)),
+                                  IconButton.filled(
+                                      style: const ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll(
+                                                  Colors.black)),
+                                      onPressed: () {
+                                        comprobarAcierto(context, verbo);
+                                      },
+                                      icon: const Icon(Icons.send))
+                                ],
+                              ),
+                              estadoRespuesta == Respuesta.acertado
+                                  ? SizedBox(
+                                      height: 10.h,
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
+                                          const BodyCustom(
+                                              titulo: "Congratulations you "),
                                           BodyCustom(
-                                            titulo: verbo['infinitivo'] + ': ',
-                                            weight: FontWeight.bold,
-                                          ),
-                                          SizedBox(
-                                              width: 20.w,
-                                              child: TextField(
-                                                  controller: verboController)),
-                                          IconButton.filled(
-                                              style: const ButtonStyle(
-                                                  backgroundColor:
-                                                      WidgetStatePropertyAll(
-                                                          Colors.black)),
-                                              onPressed: () {
-                                                // if (verboController.text ==
-                                                //     verbo['pasadoSimple']) {
-                                                //   setState(() {
-                                                //     estadoRespuesta =
-                                                //         Respuesta.acertado;
-                                                //     widthContainer += 6;
-                                                //     contadorRecompensa++;
-                                                //     containerHeight = 20;
-                                                //     carouselController.nextPage(duration: const Duration(seconds: 1, milliseconds: 500), curve: const ElasticInCurve());
-                                                //     verboController.text = '';
-                                                //     // carouselController.jumpToPage(1);
-                                                //   });
-
-                                                //   Future.delayed(const Duration(seconds: 2)).then((value) {
-                                                //     setState(() {
-                                                //       containerHeight = 10;
-                                                //       estadoRespuesta = Respuesta.sinContestar;
-                                                //     });
-                                                //   },);
-                                                // } else {
-                                                //   setState(() {
-                                                //     containerHeight = 20;
-                                                //     estadoRespuesta =
-                                                //         Respuesta.fallido;
-                                                //   });
-                                                // }
-
-                                                  setState(() {
-                                                containerHeight = 20;
-                                                estadoRespuesta =
-                                                    Respuesta.fallido;
-                                                    
-                                                  });
-
-                                              },
-                                              icon: const Icon(Icons.send))
+                                              titulo: "won! ",
+                                              weight: FontWeight.bold,
+                                              color: Colors.green[600])
                                         ],
                                       ),
-                                      estadoRespuesta == Respuesta.acertado
-                                          ? SizedBox(
-                                              height: 10.h,
-                                              child: Row(
+                                    )
+                                  : estadoRespuesta == Respuesta.fallido
+                                      ? SizedBox(
+                                          height: 10.h,
+                                          child: Column(
+                                            children: [
+                                              Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   const BodyCustom(
-                                                      titulo:
-                                                          "Congratulations you "),
+                                                      titulo: "Oh sorry ... "),
                                                   BodyCustom(
-                                                      titulo: "won! ",
-                                                      weight: FontWeight.bold,
-                                                      color: Colors.green[600])
+                                                    titulo: "you fail",
+                                                    weight: FontWeight.bold,
+                                                    color: Colors.red[600],
+                                                  )
                                                 ],
                                               ),
-                                            )
-                                          : estadoRespuesta == Respuesta.fallido
-                                              ? SizedBox(
-                                                  height: 10.h,
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          const BodyCustom(
-                                                              titulo:
-                                                                  "Oh sorry ... "),
-                                                          BodyCustom(
-                                                            titulo: "you fail",
-                                                            weight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.red[600],
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          BodyCustom(
-                                                            titulo:
-                                                                'The correct form of the verb is ${verbo['pasadoSimple']}',
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
+                                              Row(
+                                                children: [
+                                                  BodyCustom(
+                                                    titulo:
+                                                        'The correct form of the verb is ${verbo['pasadoSimple']}',
                                                   ),
-                                                )
-                                              : SizedBox()
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : SizedBox()
                             ],
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                        )),
+                          ),
+                        ),
+                      ),
+                    ],
                   );
-                }
-              },
-            ),
-          )
-        ],
-      ),
+                },
+                options: CarouselOptions(
+                  autoPlay: false,
+                )),
+          );
+        }
+      },
     );
+  }
+
+  comprobarAcierto(BuildContext context, verbo) async {
+    if (verboController.text == verbo['pasadoSimple']) {
+      setState(() {
+        estadoRespuesta = Respuesta.acertado;
+        widthContainer += 6;
+        contadorRecompensa++;
+        containerHeight = 20;
+        carouselController.nextPage(
+            duration: const Duration(seconds: 1, milliseconds: 500),
+            curve: const ElasticInCurve());
+        verboController.text = '';
+      });
+
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) {
+          setState(() {
+            containerHeight = 10;
+            estadoRespuesta = Respuesta.sinContestar;
+          });
+        },
+      );
+    } else {
+      v.verboInfinitivo = verbo['infinitivo'];
+      v.pasadoSimple = verbo['pasadoSimple'];
+      v.pasadoParticipio = verbo['pasadoParticipio'];
+      v.traduccion = verbo['traduccion'];
+
+      p.contadorPartida = contadorRecompensa;
+
+      context.push('/failScreen');
+    }
   }
 }
 

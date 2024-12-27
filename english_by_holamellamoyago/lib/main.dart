@@ -7,6 +7,8 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: ".env");
+  await Verbo.init();
+  await Partida.init();
 
   await Supabase.initialize(
     url: Environment.supabaseUrl,

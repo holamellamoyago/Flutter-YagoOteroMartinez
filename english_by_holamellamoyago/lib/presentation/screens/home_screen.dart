@@ -1,5 +1,5 @@
+import 'package:english_by_holamellamoyago/config/Auth/Auth.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
-
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "/";
@@ -35,8 +35,14 @@ class HomeScreen extends StatelessWidget {
                   texto: "Verbos\nirregulares",
                   navegacion: 'VIrregulares',
                 ),
-                EnglishAnimatedContainer(texto: "Verbos\nregulares", navegacion: 'VRegulares',),
-                EnglishAnimatedContainer(texto: "Frases\nhechas", navegacion: 'FrasesHechas',)
+                EnglishAnimatedContainer(
+                  texto: "Verbos\nregulares",
+                  navegacion: 'VRegulares',
+                ),
+                EnglishAnimatedContainer(
+                  texto: "Frases\nhechas",
+                  navegacion: 'FrasesHechas',
+                )
               ],
             ),
           ),
@@ -62,13 +68,11 @@ class HomeScreen extends StatelessWidget {
                 }
               },
             ),
-          ) 
+          )
         ],
       ),
     );
   }
-
-
 }
 
 class EnglishAnimatedContainer extends StatefulWidget {
@@ -87,12 +91,10 @@ class EnglishAnimatedContainer extends StatefulWidget {
 }
 
 class _EnglishAnimatedContainerState extends State<EnglishAnimatedContainer> {
+  final FirebaseauthService auth = FirebaseauthService();
   bool selected = false;
 
   void seleccionado() {
-    setState(() {
-      selected = !selected;
-    });
   }
 
   @override
@@ -101,7 +103,6 @@ class _EnglishAnimatedContainerState extends State<EnglishAnimatedContainer> {
     return GestureDetector(
       onTap: () {
         seleccionado();
-
       },
       child: LayoutBuilder(
         builder: (context, constraints) => GestureDetector(
@@ -126,7 +127,8 @@ class _EnglishAnimatedContainerState extends State<EnglishAnimatedContainer> {
               child: Text(
                 widget.texto,
                 style: TextStyle(
-                    fontSize: calcularTamanhoLetra(TipoFuente.body, constraints)),
+                    fontSize:
+                        calcularTamanhoLetra(TipoFuente.body, constraints)),
               )),
         ),
       ),

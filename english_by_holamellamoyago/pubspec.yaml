@@ -8,6 +8,7 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  animated_icon_button: ^1.0.2
   animated_loading_border: ^0.0.2
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
@@ -16,7 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.2.1
-  flutter_form_builder: 
+  flutter_form_builder: null
   go_router: ^14.6.2
   google_fonts: ^6.2.1
   google_sign_in: ^6.2.2

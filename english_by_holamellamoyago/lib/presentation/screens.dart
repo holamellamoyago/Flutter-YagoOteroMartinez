@@ -29,6 +29,14 @@ export 'package:english_by_holamellamoyago/presentation/screens/auth/register_sc
 export 'package:english_by_holamellamoyago/presentation/screens/fail_screen.dart';
 
 
+export 'package:animated_icon_button/animated_icon_button.dart';
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:english_by_holamellamoyago/config/Auth/Auth.dart';
+export 'package:english_by_holamellamoyago/config/constants/Colors.dart';
+export 'package:flutter/widgets.dart';
+export 'package:flutter_form_builder/flutter_form_builder.dart';
+
+
 
 
 

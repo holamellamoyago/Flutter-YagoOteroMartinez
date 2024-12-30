@@ -190,32 +190,6 @@ class ResponsiveWidget extends StatelessWidget {
 }
 
 
-// class TextFieldCustom extends StatelessWidget {
-//   const TextFieldCustom(
-//       {super.key,
-//       required this.label,
-//       required this.controller,
-//       this.fontSize});
-
-//   final String label;
-//   final TextEditingController controller;
-//   final double? fontSize;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextField(
-//       style: TextStyle(fontSize: fontSize ?? 4.sp),
-//       controller: controller,
-//       decoration: InputDecoration(
-//           border: const OutlineInputBorder(),
-//           label: Text(
-//             label,
-//             style: TextStyle(fontSize: fontSize ?? 4.sp),
-//           )),
-//     );
-//   }
-// }
-
 void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -227,4 +201,61 @@ void showSnackBar(BuildContext context, String message) {
       duration: const Duration(seconds: 2),
     ),
   );
+}
+
+
+
+
+
+class TextFieldCustom extends StatefulWidget {
+  const TextFieldCustom({
+    super.key,
+    required this.controller,
+    required this.label,
+    this.fontsize,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final double? fontsize;
+
+  @override
+  State<TextFieldCustom> createState() => _TextFieldCustomState();
+}
+
+class _TextFieldCustomState extends State<TextFieldCustom> {
+  
+
+  bool ocultacion = true;
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderTextField(
+      name: '${widget.controller}',
+      obscureText: widget.label == 'Email' ? false : ocultacion,
+      controller: widget.controller,
+      style: TextStyle(fontSize: widget.fontsize ?? 4.sp),
+      decoration: InputDecoration(
+        filled: true,
+        suffixIcon: widget.label == 'password' || widget.label == 'confirm password' ? Padding(
+          padding: EdgeInsets.symmetric(horizontal: 1.w),
+          child: AnimatedIconButton(
+            onPressed: () {
+              setState(() {
+                ocultacion =! ocultacion;
+              });
+            },
+            icons: [
+            AnimatedIconItem(icon: Icon(Icons.visibility)),
+            AnimatedIconItem(icon: Icon(Icons.visibility_off)),
+          ])
+        ) : SizedBox(),
+        constraints: BoxConstraints(maxWidth: 40.w),
+        border: const OutlineInputBorder(),
+        label: Text(
+          widget.label,
+          style: TextStyle(fontSize: widget.fontsize ?? 4.sp),
+        ),
+      ),
+    );
+  }
 }

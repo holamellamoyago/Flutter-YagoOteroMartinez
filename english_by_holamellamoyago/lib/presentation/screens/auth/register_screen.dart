@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:english_by_holamellamoyago/config/Auth/Auth.dart';
-import 'package:english_by_holamellamoyago/config/constants/Colors.dart';
+
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-export 'package:supabase_flutter/supabase_flutter.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   static const routename = '/register';
@@ -20,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 15.h),
           child: Container(
             decoration: BoxDecoration(
                 color: ColorsCustom.primario,
@@ -31,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TitleLargeCustom(titulo: 'Sign up'),
+                  TitleLargeCustom(titulo: 'Create new account'),
                   BodyCustom(
                     titulo:
                         'Sign up in our website to save all your\nscores and points to fight with others',
@@ -41,13 +38,20 @@ class RegisterScreen extends StatelessWidget {
                     controller: emailController,
                     label: 'Email',
                   ),
-                  PaddingCustom(height: 1.h,),
+                  PaddingCustom(
+                    height: 1.h,
+                  ),
                   TextFieldCustom(
                       controller: passwordController, label: 'password'),
-                      PaddingCustom(height: 1.h,),
+                  PaddingCustom(
+                    height: 1.h,
+                  ),
                   TextFieldCustom(
                       controller: password2Controller,
                       label: 'confirm password'),
+                  PaddingCustom(
+                    height: 2.h,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -72,14 +76,25 @@ class RegisterScreen extends StatelessWidget {
                             // TODO Hacer que se ponga en rojo
                           }
                         },
-                        child: BodyCustom(titulo: 'Sign up'), // Registrarse
+                        child: BodyCustom(titulo: 'Create new account'), // Registrarse
+                      ),
+                      PaddingCustom(
+                        width: 1.w,
+                      ),
+                                            BodyCustom(titulo: ' or '),
+                      PaddingCustom(
+                        width: 1.w,
                       ),
                       FilledButton(
                         onPressed: () {
-                          print(emailController.text);
+                          context.go('/login');
                         },
-                        child: BodyCustom(titulo: 'Login in'),
+                        child: BodyCustom(titulo: 'Login'),
                       ),
+                      PaddingCustom(
+                        height: 1.h,
+                      ),
+                      
                     ],
                   ),
                   Row(
@@ -98,28 +113,10 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  // TODO Hacer el inicio de sesión con google
                   GestureDetector(
-                    onTap: () async {
-                      try {
-                        final future = Supabase.instance.client.from('Jugador');
-                        final user = await FirebaseauthService().loginGoogle();
-
-                        final FirebaseAuth _auth = FirebaseAuth.instance;
-                        if (user != null) {
-                          print(_auth.currentUser?.displayName);
-                          try {
-                            await future.insert({
-                              'nickname': '${user.displayName}',
-                              'contrasena': '${user.uid}'
-                            });
-                          } catch (e) {
-                            print(e);
-                          }
-                        }
-                      } on Exception catch (e) {
-                        print(e);
-                        print('Fallo al iniciar sesion con googole');
-                      }
+                    onTap: () {
+                      SupabaseAuth().createAccountEmailPassword();
                     },
                     child: Container(
                         decoration: BoxDecoration(
@@ -140,33 +137,4 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
-class TextFieldCustom extends StatelessWidget {
-  const TextFieldCustom({
-    super.key,
-    required this.controller,
-    required this.label,
-    this.fontsize,
-  });
 
-  final TextEditingController controller;
-  final String label;
-  final double? fontsize;
-
-  @override
-  Widget build(BuildContext context) {
-    return FormBuilderTextField(
-      name: '$controller',
-      controller: controller,
-      style: TextStyle(fontSize: fontsize ?? 4.sp),
-      decoration: InputDecoration(
-        filled: true,
-        constraints: BoxConstraints(maxWidth: 40.w),
-        border: OutlineInputBorder(),
-        label: Text(
-          label,
-          style: TextStyle(fontSize: fontsize ?? 4.sp),
-        ),
-      ),
-    );
-  }
-}

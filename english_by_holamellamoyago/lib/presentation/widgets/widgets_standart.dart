@@ -190,31 +190,31 @@ class ResponsiveWidget extends StatelessWidget {
 }
 
 
-class TextFieldCustom extends StatelessWidget {
-  const TextFieldCustom(
-      {super.key,
-      required this.label,
-      required this.controller,
-      this.fontSize});
+// class TextFieldCustom extends StatelessWidget {
+//   const TextFieldCustom(
+//       {super.key,
+//       required this.label,
+//       required this.controller,
+//       this.fontSize});
 
-  final String label;
-  final TextEditingController controller;
-  final double? fontSize;
+//   final String label;
+//   final TextEditingController controller;
+//   final double? fontSize;
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      style: TextStyle(fontSize: fontSize ?? 4.sp),
-      controller: controller,
-      decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          label: Text(
-            label,
-            style: TextStyle(fontSize: fontSize ?? 4.sp),
-          )),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextField(
+//       style: TextStyle(fontSize: fontSize ?? 4.sp),
+//       controller: controller,
+//       decoration: InputDecoration(
+//           border: const OutlineInputBorder(),
+//           label: Text(
+//             label,
+//             style: TextStyle(fontSize: fontSize ?? 4.sp),
+//           )),
+//     );
+//   }
+// }
 
 void showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -222,6 +222,7 @@ void showSnackBar(BuildContext context, String message) {
       content: Text(
         message,
         style: TextStyle(fontSize: 4.sp),
+        
       ),
       duration: const Duration(seconds: 2),
     ),

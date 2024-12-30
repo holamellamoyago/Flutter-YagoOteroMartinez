@@ -3,12 +3,11 @@ import 'package:english_by_holamellamoyago/config/Auth/Auth.dart';
 import 'package:english_by_holamellamoyago/config/constants/Colors.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 export 'package:supabase_flutter/supabase_flutter.dart';
 
-class RegisterScreen extends StatelessWidget {
-  static const routename = '/register';
-  const RegisterScreen({super.key});
+class LogInScreen extends StatelessWidget {
+  static const routename = '/logIn';
+  const LogInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,52 +30,43 @@ class RegisterScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TitleLargeCustom(titulo: 'Sign up'),
+                  TitleLargeCustom(titulo: 'Log in'),
                   BodyCustom(
                     titulo:
-                        'Sign up in our website to save all your\nscores and points to fight with others',
+                        'Log in our website to save all your\nscores and points to fight with others',
                     align: TextAlign.center,
                   ),
                   TextFieldCustom(
-                    controller: emailController,
-                    label: 'Email',
-                  ),
-                  PaddingCustom(height: 1.h,),
+                      label: 'Introduce tu mail', controller: emailController),
                   TextFieldCustom(
-                      controller: passwordController, label: 'password'),
-                      PaddingCustom(height: 1.h,),
-                  TextFieldCustom(
-                      controller: password2Controller,
-                      label: 'confirm password'),
+                      label: 'Introduce la contraseña',
+                      controller: passwordController),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FilledButton(
-                        onPressed: () async {
-                          if (passwordController.text ==
-                              password2Controller.text) {
-                            try {
-                              await supabase.auth.signUp(
-                                  password: passwordController.text,
-                                  email: emailController.text);
-                              if (context.mounted) {
-                                showSnackBar(context, 'Creado');
-                              }
-                            } catch (e) {
-                              print(e);
-                              if (context.mounted) {
-                                showSnackBar(context, 'Error');
-                              }
-                            }
-                          } else {
-                            // TODO Hacer que se ponga en rojo
-                          }
-                        },
-                        child: BodyCustom(titulo: 'Sign up'), // Registrarse
+                        onPressed: () async {},
+                        child: BodyCustom(
+                            titulo:
+                                'You don´t have account? Sign up'), // Registrarse
                       ),
                       FilledButton(
-                        onPressed: () {
-                          print(emailController.text);
+                        onPressed: () async {
+                          try {
+                            await supabase.auth.signInWithPassword(
+                                
+                                password: passwordController.text,
+                                email: emailController.text);
+                            if (context.mounted) {
+                              showSnackBar(context, 'Sesión iniciada');
+                            }
+                            context.go('/');
+                          } catch (e) {
+                            print(e);
+                            if (context.mounted) {
+                              showSnackBar(context, 'Error');
+                            }
+                          }
                         },
                         child: BodyCustom(titulo: 'Login in'),
                       ),
@@ -134,37 +124,6 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class TextFieldCustom extends StatelessWidget {
-  const TextFieldCustom({
-    super.key,
-    required this.controller,
-    required this.label,
-    this.fontsize,
-  });
-
-  final TextEditingController controller;
-  final String label;
-  final double? fontsize;
-
-  @override
-  Widget build(BuildContext context) {
-    return FormBuilderTextField(
-      name: '$controller',
-      controller: controller,
-      style: TextStyle(fontSize: fontsize ?? 4.sp),
-      decoration: InputDecoration(
-        filled: true,
-        constraints: BoxConstraints(maxWidth: 40.w),
-        border: OutlineInputBorder(),
-        label: Text(
-          label,
-          style: TextStyle(fontSize: fontsize ?? 4.sp),
         ),
       ),
     );

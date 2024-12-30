@@ -1,6 +1,7 @@
 
 
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
+import 'package:english_by_holamellamoyago/presentation/screens/auth/logIn_screen.dart';
 
 
 final appRouter = GoRouter(initialLocation: '/register', routes: [
@@ -13,6 +14,11 @@ final appRouter = GoRouter(initialLocation: '/register', routes: [
     path: '/register',
     name: RegisterScreen.routename,
     builder: (context, state) => const RegisterScreen(),
+  ),
+  GoRoute(
+    path: '/logIn',
+    name: LogInScreen.routename,
+    builder: (context, state) => const LogInScreen(),
   ),
   GoRoute(
     path: '/VIrregulares',

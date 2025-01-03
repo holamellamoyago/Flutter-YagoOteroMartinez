@@ -1,4 +1,3 @@
-import 'package:english_by_holamellamoyago/config/Auth/Auth.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -91,7 +90,7 @@ class EnglishAnimatedContainer extends StatefulWidget {
 }
 
 class _EnglishAnimatedContainerState extends State<EnglishAnimatedContainer> {
-  final FirebaseauthService auth = FirebaseauthService();
+  // final FirebaseauthService auth = FirebaseauthService();
   bool selected = false;
 
   void seleccionado() {

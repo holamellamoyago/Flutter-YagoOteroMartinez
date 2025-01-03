@@ -53,11 +53,7 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       FilledButton(
                         onPressed: () async {
-                          await SupabaseAuth().createAccountEmailPassword(
-                                  context,
-                                  emailController,
-                                  passwordController,
-                                  password2Controller)
+                          await SupabaseAuth().createAccountEmailPassword(context, emailController, passwordController, password2Controller)
                               ? context.go('/')
                               : showSnackBar(context, 'Eror');
                         },

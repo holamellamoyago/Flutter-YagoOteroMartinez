@@ -38,4 +38,14 @@ class Jugador {
   set logueado(bool value) {
     jugador.setBool('logueado', value);
   }
+  
+  // Email
+
+    String get email {
+    return jugador.getString('email') ?? 'No nickname';
+  }
+
+  set email(String value) {
+    jugador.setString('email', value);
+  }
 }

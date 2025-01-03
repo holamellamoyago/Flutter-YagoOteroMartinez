@@ -1,5 +1,6 @@
 
 
+import 'package:english_by_holamellamoyago/config/constants/Jugador.dart';
 import 'package:english_by_holamellamoyago/firebase_options.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await Verbo.init();
   await Partida.init();
+  await Jugador.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

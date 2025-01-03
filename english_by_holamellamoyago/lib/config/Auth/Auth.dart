@@ -1,3 +1,4 @@
+import 'package:english_by_holamellamoyago/config/constants/Jugador.dart';
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as s;
@@ -35,17 +36,25 @@ class FirebaseauthService {
         email: emailController.text,
         password: passwordController.text,
       );
+
+      final user = f.FirebaseAuth.instance.currentUser?.email;
+      showSnackBar(context, user!);
+
+      // await setJugador(credential.user!.displayName, credential.user!.email, credential.user!.uid);
+      
+      print(Jugador().email);
       return true;
     } on f.FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        showSnackBar(context, 'The password provided is too weak.');
         return false;
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        showSnackBar(context, 'The account already exists for that email.');
       }
       return false;
     } catch (e) {
-      print(e);
+      showSnackBar(context, e.toString());
       return false;
     }
   }
@@ -142,3 +151,11 @@ class SupabaseAuth {
 }
 
 
+setJugador(nickname, email, uid){
+  final j = Jugador();
+
+  j.nickname = nickname;
+  j.email = email;
+  j.uid = uid;
+  j.logueado = true;
+}

@@ -15,7 +15,7 @@ class LogInScreen extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
     TextEditingController password2Controller = TextEditingController();
     final SupabaseClient supabase = Supabase.instance.client;
-    final FirebaseauthService auth = FirebaseauthService();
+    
     return Scaffold(
       body: Center(
         child: Padding(
@@ -52,23 +52,10 @@ class LogInScreen extends StatelessWidget {
                       ),
                       FilledButton(
                         onPressed: () async {
-                          try {
-                            await supabase.auth.signInWithPassword(
-                                
-                                password: passwordController.text,
-                                email: emailController.text);
-                            if (context.mounted) {
-                              showSnackBar(context, 'Sesión iniciada');
-                            }
-                            context.go('/');
-                          } catch (e) {
-                            print(e);
-                            if (context.mounted) {
-                              showSnackBar(context, 'Error');
-                            }
-                          }
+                          // await SupabaseAuth().sigInInEmailPassword(context, emailController, passwordController);
+                          context.go('/');
                         },
-                        child: BodyCustom(titulo: 'Login in'),
+                        child: BodyCustom(titulo: 'Sign in'),
                       ),
                     ],
                   ),
@@ -90,26 +77,28 @@ class LogInScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      try {
-                        final future = Supabase.instance.client.from('Jugador');
-                        final user = await FirebaseauthService().loginGoogle();
+                      showSnackBar(context, 'Falta hacer la sesión de Google');
+                      // try {
+                      //   final future = Supabase.instance.client.from('Jugador');
+                      //   final user = await FirebaseauthService().loginGoogle();
 
-                        final FirebaseAuth _auth = FirebaseAuth.instance;
-                        if (user != null) {
-                          print(_auth.currentUser?.displayName);
-                          try {
-                            await future.insert({
-                              'nickname': '${user.displayName}',
-                              'contrasena': '${user.uid}'
-                            });
-                          } catch (e) {
-                            print(e);
-                          }
-                        }
-                      } on Exception catch (e) {
-                        print(e);
-                        print('Fallo al iniciar sesion con googole');
-                      }
+                      //   final FirebaseAuth _auth = FirebaseAuth.instance;
+                      //   if (user != null) {
+                      //     print(_auth.currentUser?.displayName);
+
+                      //     try {
+                      //       await future.insert({
+                      //         'nickname': '${user.displayName}',
+                      //         'contrasena': '${user.uid}'
+                      //       });
+                      //     } catch (e) {
+                      //       print(e);
+                      //     }
+                      //   }
+                      // } on Exception catch (e) {
+                      //   print(e);
+                      //   print('Fallo al iniciar sesion con googole');
+                      // }
                     },
                     child: Container(
                         decoration: BoxDecoration(

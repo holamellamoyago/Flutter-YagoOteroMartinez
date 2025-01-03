@@ -1,7 +1,4 @@
-
 import 'package:english_by_holamellamoyago/presentation/screens.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 
 class RegisterScreen extends StatelessWidget {
   static const routename = '/register';
@@ -12,8 +9,7 @@ class RegisterScreen extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     TextEditingController password2Controller = TextEditingController();
-    final SupabaseClient supabase = Supabase.instance.client;
-    final FirebaseauthService auth = FirebaseauthService();
+    // final FirebaseauthService auth = FirebaseauthService();
     return Scaffold(
       body: Center(
         child: Padding(
@@ -57,31 +53,21 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       FilledButton(
                         onPressed: () async {
-                          if (passwordController.text ==
-                              password2Controller.text) {
-                            try {
-                              await supabase.auth.signUp(
-                                  password: passwordController.text,
-                                  email: emailController.text);
-                              if (context.mounted) {
-                                showSnackBar(context, 'Creado');
-                              }
-                            } catch (e) {
-                              print(e);
-                              if (context.mounted) {
-                                showSnackBar(context, 'Error');
-                              }
-                            }
-                          } else {
-                            // TODO Hacer que se ponga en rojo
-                          }
+                          await SupabaseAuth().createAccountEmailPassword(
+                                  context,
+                                  emailController,
+                                  passwordController,
+                                  password2Controller)
+                              ? context.go('/')
+                              : showSnackBar(context, 'Eror');
                         },
-                        child: BodyCustom(titulo: 'Create new account'), // Registrarse
+                        child: const BodyCustom(
+                            titulo: 'Create new account'), // Registrarse
                       ),
-                      PaddingCustom(
+                      PaddingCustom( 
                         width: 1.w,
                       ),
-                                            BodyCustom(titulo: ' or '),
+                      const BodyCustom(titulo: ' or '),
                       PaddingCustom(
                         width: 1.w,
                       ),
@@ -89,12 +75,11 @@ class RegisterScreen extends StatelessWidget {
                         onPressed: () {
                           context.go('/login');
                         },
-                        child: BodyCustom(titulo: 'Login'),
+                        child: const BodyCustom(titulo: 'Login'),
                       ),
                       PaddingCustom(
                         height: 1.h,
                       ),
-                      
                     ],
                   ),
                   Row(
@@ -105,7 +90,7 @@ class RegisterScreen extends StatelessWidget {
                         width: 20.w,
                         color: Colors.black,
                       ),
-                      BodyCustom(titulo: ' or '),
+                      const BodyCustom(titulo: ' or '),
                       Container(
                         height: 1,
                         width: 20.w,
@@ -115,9 +100,7 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   // TODO Hacer el inicio de sesión con google
                   GestureDetector(
-                    onTap: () {
-                      SupabaseAuth().createAccountEmailPassword();
-                    },
+                    onTap: () {},
                     child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(),
@@ -136,5 +119,3 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
-
-

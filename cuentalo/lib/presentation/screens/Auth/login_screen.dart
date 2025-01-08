@@ -1,14 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuentalo/config/auth/auth.dart';
-import 'package:cuentalo/config/preferences/pref_usuarios.dart';
-import 'package:cuentalo/presentation/widgets/widgets_standart.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:cuentalo/presentation/screens.dart';
+
 
 class LoginPage extends StatefulWidget {
   static const name = '/login';

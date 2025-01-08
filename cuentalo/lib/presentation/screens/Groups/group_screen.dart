@@ -1,13 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuentalo/config/preferences/pref_usuarios.dart';
-import 'package:cuentalo/presentation/screens/home_screen.dart';
-import 'package:cuentalo/presentation/widgets/widgets_standart.dart';
-import 'package:custom_clippers/custom_clippers.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cuentalo/presentation/screens.dart';
+
 
 
 class GroupScreen extends StatelessWidget {

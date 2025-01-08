@@ -1,9 +1,6 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cuentalo/config/preferences/pref_usuarios.dart';
-import 'package:cuentalo/presentation/widgets/widgets_standart.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:cuentalo/presentation/screens.dart';
+
 
 class JoinScreen extends StatefulWidget {
   static const routename = '/join';

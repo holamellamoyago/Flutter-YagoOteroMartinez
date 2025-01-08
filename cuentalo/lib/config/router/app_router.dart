@@ -1,14 +1,9 @@
 
 
-import 'package:cuentalo/presentation/screens/login_screen.dart';
-import 'package:cuentalo/presentation/screens/group_screen.dart';
-import 'package:cuentalo/presentation/screens/home_screen.dart';
-import 'package:cuentalo/presentation/screens/join2_group.dart.dart';
-import 'package:cuentalo/presentation/screens/join_group_screen.dart';
-import 'package:cuentalo/presentation/screens/new_group_screen.dart';
-import 'package:cuentalo/presentation/screens/tutorial_screen.dart';
-import 'package:go_router/go_router.dart';
 
+
+
+import 'package:cuentalo/presentation/screens.dart';
 
 final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(

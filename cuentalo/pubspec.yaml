@@ -1,5 +1,5 @@
 name: cuentalo
-description: "A new Flutter project."
+description: "Aplicacion cuentalo hecha por @holamellamoyago"
 publish_to: 'none'
 version: 0.1.0
 
@@ -7,13 +7,36 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  animate_do: ^3.3.4
+  animated_gradient: ^0.0.3
+  animated_icon_button: ^1.0.2
+  animated_loading_border: ^0.0.2
+  carousel_slider: ^5.0.0
+  cloud_firestore: ^5.6.0
+  custom_clippers: ^2.0.0
+  firebase_auth: ^5.3.4
+  firebase_core: ^3.9.0
+  firebase_messaging: ^15.1.6
   flutter:
     sdk: flutter
+  flutter_expandable_fab: ^2.3.0
+  flutter_form_builder: null
+  go_router: ^14.6.2
+  google_fonts: null
+  google_sign_in: null
+  google_sign_in_web_redirect: ^0.0.1
+  page_view_indicators: ^2.0.0
+  shared_preferences: null
+  sizer: ^2.0.15
 
 dev_dependencies:
+  change_app_package_name: ^1.4.0
+  flutter_lints: ^3.0.0
+
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

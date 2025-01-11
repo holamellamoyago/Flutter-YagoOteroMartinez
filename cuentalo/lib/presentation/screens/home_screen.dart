@@ -33,37 +33,18 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BodyCustom(titulo: '¿Todavía no tienes ningún grupo añadido? '),
-            ListaGrupos()
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AppBarCustom extends StatelessWidget {
-  const AppBarCustom({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
+      body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
-          child: AppBar(
-            centerTitle: true,
-            title: const TitleLargeCustom(titulo: 'Cuéntalo'),
-            actions: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.person_2_outlined))
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Text('Tus grupos', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),)
+                ],
+              ),
+              ListaGrupos()
             ],
           ),
         ),
@@ -72,14 +53,15 @@ class AppBarCustom extends StatelessWidget {
   }
 }
 
+
+
 class ListaGrupos extends StatelessWidget {
   const ListaGrupos({super.key});
 
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance.currentUser!;
-    return SizedBox(
-      height: 40.h,
+    return Expanded(
       child: FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('Cuentalo')
@@ -89,32 +71,40 @@ class ListaGrupos extends StatelessWidget {
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text("Error al cargar los datos"));
+            return const Center(child: Text("Error al cargar los datos"));
           }
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return Center(child: Text("El documento no existe"));
+            return const Center(child: Text("El documento no existe"));
           }
       
           final data = snapshot.data!.data() as Map<String, dynamic>;
       
           return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 1.h),
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final fieldName = data.keys.elementAt(index);
                 // final fieldValue = data[fieldName];
       
-                return fieldName == 'a' ? SizedBox() : ListTile(
-                  onTap: () {
-                    var prefs = PreferenciasUsuario();
-                    prefs.nombreGrupo = fieldName;
-                    showSnackBar(context, prefs.nombreGrupo);
-                    context.push('/group');
-                  },
-                  title: Text(fieldName),
-                  leading: Icon(Icons.label),
+                return fieldName == 'a' ? const SizedBox() : Container(
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.h),
+                    onTap: () {
+                      var prefs = PreferenciasUsuario();
+                      prefs.nombreGrupo = fieldName;
+                      showSnackBar(context, prefs.nombreGrupo);
+                      context.push('/group');
+                    },
+                    title: Text(fieldName),
+                    leading: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(100)),
+                      child: Image.asset('assets/logo(2).jpg'),),
+                    trailing: const Icon(Icons.arrow_forward_outlined),
+                  ),
                 );
               });
         },

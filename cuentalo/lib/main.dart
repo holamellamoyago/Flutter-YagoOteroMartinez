@@ -1,3 +1,4 @@
+import 'package:cuentalo/config/preferences/pref_password.dart';
 import 'package:cuentalo/config/preferences/pref_usuarios.dart';
 import 'package:cuentalo/config/router/app_router.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
   await PreferenciasUsuario.init();
+  await PreferenciasPassword.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-enum TipoFuente { large, medium, small, body }
+enum TipoFuente { large, medium, small, body, textField }
 
 double calcularTamanhoLetra(tipoFuente, BoxConstraints constraints) {
   double tamanhoFinalLetra = 3.sp;
@@ -27,9 +27,29 @@ double calcularTamanhoLetra(tipoFuente, BoxConstraints constraints) {
     case TipoFuente.body:
       tamanhoFinalLetra = spBody(constraints);
       break;
+
+    case TipoFuente.textField:
+      tamanhoFinalLetra = spTextField(constraints);
+      break;
   }
 
   return tamanhoFinalLetra.sp;
+}
+
+double spTextField(BoxConstraints constraints) {
+    const mobileMaxWidth = 500;
+  const webMaxWidth = 900;
+  final maxWidth = constraints.maxWidth;
+
+
+
+  if (maxWidth < mobileMaxWidth) { //Movil
+    return 14;
+  } else if (maxWidth < webMaxWidth) { // Tablet
+    return 20;
+  } else {
+    return 10;
+  }
 }
 
 double spLarge(BoxConstraints constraints) {
@@ -58,11 +78,11 @@ double spMedium(BoxConstraints constraints) {
 
 
   if (maxWidth < mobileMaxWidth) {
-    return 28; // Movil 
+    return 24; // Movil 
   } else if (maxWidth < webMaxWidth) {
-    return 18;
+    return 14;
   } else {
-    return 8;
+    return 4;
   }
 
 
@@ -76,11 +96,11 @@ double spSmall(BoxConstraints constraints) {
 
 
   if (maxWidth < mobileMaxWidth) {
-    return 26;
+    return 20;
   } else if (maxWidth < webMaxWidth) {
-    return 16;
+    return 10;
   } else {
-    return 6;
+    return 1;
   }
 
 
@@ -94,11 +114,11 @@ double spBody(BoxConstraints constraints) {
 
 
   if (maxWidth < mobileMaxWidth) {
-    return 24;
-  } else if (maxWidth < webMaxWidth) {
     return 14;
+  } else if (maxWidth < webMaxWidth) {
+    return 4; //TODO Corregir
   } else {
-    return 4.5;
+    return 3.5;
   }
 
 

@@ -49,7 +49,7 @@ class _JoinScreenState extends State<JoinScreen> {
 
     final DocumentSnapshot future = await firestore
         .collection('Cuentalo')
-        .doc('Gruoups')
+        .doc('Groups')
         .collection(nameController.text)
         .doc('Info')
         .get();

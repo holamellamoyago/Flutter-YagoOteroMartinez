@@ -1,4 +1,5 @@
 
+import 'package:cuentalo/config/Group/group_auth.dart';
 import 'package:cuentalo/presentation/screens.dart';
 
 
@@ -32,8 +33,8 @@ class _JoinScreenState extends State<JoinScreen> {
               ocultacion: false),
           FilledButton(
               onPressed: () async {
-                print('1'+nameController.text);
-                await buscarGrupo(context, nameController);
+                print(nameController.text);
+                GroupAuth().buscarGrupo(context, nameController);
               },
               child: Icon(Icons.arrow_right_alt))
         ],
@@ -41,26 +42,5 @@ class _JoinScreenState extends State<JoinScreen> {
     );
   }
 
-  buscarGrupo(BuildContext context, nameController) async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final prefs = PreferenciasUsuario();
 
-    prefs.ultimaPagina = nameController.text;
-
-    final DocumentSnapshot future = await firestore
-        .collection('Cuentalo')
-        .doc('Groups')
-        .collection(nameController.text)
-        .doc('Info')
-        .get();
-
-        if (future.exists) {
-          context.push('/joinPassword');
-          
-        } else{ 
-          showSnackBar(context, 'No se encontro el grupo');
-        }
-
-    
-  }
 }

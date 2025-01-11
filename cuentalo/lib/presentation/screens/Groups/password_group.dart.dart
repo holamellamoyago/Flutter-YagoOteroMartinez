@@ -1,7 +1,7 @@
-
 import 'package:cuentalo/config/Group/group_auth.dart';
 import 'package:cuentalo/config/preferences/pref_password.dart';
 import 'package:cuentalo/presentation/screens.dart';
+import 'package:flutter/gestures.dart';
 
 class JoinPassword extends StatefulWidget {
   static const routename = '/joinPassword';
@@ -12,94 +12,21 @@ class JoinPassword extends StatefulWidget {
 }
 
 class _JoinPasswordState extends State<JoinPassword> {
-  TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final password = PreferenciasPassword();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const TitleLargeCustom(titulo: 'Cuéntalo'),
-      ),
-      body: PanelPassword()
-    );
+        appBar: AppBar(
+          centerTitle: true,
+          title: const TitleLargeCustom(titulo: 'Cuéntalo'),
+        ),
+        body: const PanelPassword());
   }
 
 
-
-  comprobarContrasena(nameController, passwordController) async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final prefs = PreferenciasUsuario();
-
-    try {
-      final DocumentSnapshot future = await firestore
-          .collection('Cuentalo')
-          .doc('Gruoups')
-          .collection(prefs.ultimaPagina)
-          .doc('Info')
-          .get();
-
-      if (future.exists) {
-        final String password = future['password'];
-
-        if (passwordController.text == password) {
-          try {
-            await firestore
-                .collection('Cuentalo')
-                .doc('Users')
-                .collection(auth.currentUser!.email!)
-                .doc('Groups')
-                .update({prefs.ultimaPagina: passwordController.text});
-            context.pushReplacement('/');
-          } catch (e) {
-            showSnackBar(context, 'Error con el inicio sesion');
-          }
-        }
-      } else {
-        showSnackBar(context, 'No se encontro el grupo');
-      }
-    } catch (e) {
-      showSnackBar(context, 'Error en el primer try');
-    }
-  }
-
-
-
 }
-
-
-
-class CirculoPequeno extends StatefulWidget {
-  const CirculoPequeno({
-    super.key,
-    required this.numero,
-  });
-
-  final int numero;
-
-  @override
-  State<CirculoPequeno> createState() => _CirculoPequenoState();
-}
-
-class _CirculoPequenoState extends State<CirculoPequeno> {
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      height: 2.h,
-      width: 2.h,
-      duration: Durations.extralong1,
-      decoration: BoxDecoration(
-          border: Border.all(),
-          color: widget.numero != -1 ? Colors.grey : Colors.transparent,
-          borderRadius: BorderRadius.circular(100)),
-    );
-  }
-}
-
-
 
 class PanelPassword extends StatefulWidget {
   const PanelPassword({super.key});
@@ -109,30 +36,60 @@ class PanelPassword extends StatefulWidget {
 }
 
 class _PanelPasswordState extends State<PanelPassword> {
-    final password = PreferenciasPassword();
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  final password = PreferenciasPassword();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TitleLargeCustom(titulo: 'Contraseña del grupo'),
+          PaddingCustom(
+            height: 2.h,
+          ),
+          const TitleMediumCustom(
+            titulo: 'Contraseña del grupo',
+            align: TextAlign.start,
+          ),
+          const BodyCustom(
+              titulo: 'Debes introducir una contraseña para el grupo'),
+          PaddingCustom(
+            height: 2.h,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CirculoPequeno(
-                numero: password.n1,
+              circleSmall(
+                password.n1,
               ),
-              CirculoPequeno(
-                numero: password.n2,
+              PaddingCustom(
+                width: 1.w,
               ),
-              CirculoPequeno(
-                numero: password.n3,
+              circleSmall(
+                password.n2,
               ),
-              CirculoPequeno(
-                numero: password.n4,
+              PaddingCustom(
+                width: 1.w,
+              ),
+              circleSmall(
+                password.n3,
+              ),
+              PaddingCustom(
+                width: 1.w,
+              ),
+              circleSmall(
+                password.n4,
               ),
             ],
+          ),
+          PaddingCustom(
+            height: 2.h,
           ),
           SizedBox(
             child: GridView.count(
@@ -140,38 +97,48 @@ class _PanelPasswordState extends State<PanelPassword> {
               crossAxisCount: 3,
               mainAxisSpacing: 2.h,
               crossAxisSpacing: 2.w,
-              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 20.w),
+              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 10.w),
               children: [
+                numberGroupPassword(1),
+                numberGroupPassword(2),
+                numberGroupPassword(3),
+                numberGroupPassword(4),
+                numberGroupPassword(5),
+                numberGroupPassword(6),
+                numberGroupPassword(7),
+                numberGroupPassword(8),
+                numberGroupPassword(9),
                 const ClipRRect(),
-                numberGroupPassword(
-                   0,
-                ),
+                numberGroupPassword(0),
                 const ClipRRect()
               ],
             ),
           ),
+          PaddingCustom(
+            height: 4.h,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              GestureDetector(onTap: () => setState(() {
-                GroupAuth().borrarnumero();
-              }), child: const Text('Borrar', textAlign: TextAlign.end,)),
+              GestureDetector(
+                  onTap: () => setState(() {
+                        GroupAuth().borrarnumero();
+                      }),
+                  child: const Text(
+                    'Borrar',
+                    textAlign: TextAlign.end,
+                  )),
             ],
           ),
-          // FilledButton(
-          //     onPressed: () async {
-          //       print('1' + nameController.text);
-          //       comprobarContrasena(nameController, passwordController);
-          //     },
-          //     child: const Icon(Icons.arrow_right_alt))
         ],
-      );
+      ),
+    );
   }
 
-  Widget numberGroupPassword(valor){
+  Widget numberGroupPassword(valor) {
     return GestureDetector(
       onTap: () => setState(() {
-        GroupAuth().sumarContador(valor);
+        GroupAuth().sumarContador(context, valor);
       }),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(100)),
@@ -183,5 +150,16 @@ class _PanelPasswordState extends State<PanelPassword> {
       ),
     );
   }
-}
 
+  Widget circleSmall(numero) {
+    return AnimatedContainer(
+      height: 2.h,
+      width: 2.h,
+      duration: Durations.extralong1,
+      decoration: BoxDecoration(
+          border: Border.all(),
+          color: numero != -1 ? Colors.grey : Colors.transparent,
+          borderRadius: BorderRadius.circular(100)),
+    );
+  }
+}

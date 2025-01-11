@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:animated_icon_button/animated_icon_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cuentalo/config/Sizer/sizer.dart';
@@ -241,31 +243,33 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderTextField(
-      name: '${widget.controller}',
-      obscureText: widget.controller == 'nameController' ? false : widget.ocultacion,
-      controller: widget.controller,
-      style: TextStyle(fontSize: widget.fontsize ?? 4.sp),
-      decoration: InputDecoration(
-        filled: true,
-        suffixIcon: widget.controller == 'passwordController' || widget.label == 'confirm password' ? Padding(
-          padding: EdgeInsets.symmetric(horizontal: 1.w),
-          child: AnimatedIconButton(
-            onPressed: () {
-              setState(() {
-                widget.ocultacion =! widget.ocultacion;
-              });
-            },
-            icons: [
-            AnimatedIconItem(icon: Icon(Icons.visibility)),
-            AnimatedIconItem(icon: Icon(Icons.visibility_off)),
-          ])
-        ) : SizedBox(),
-        constraints: BoxConstraints(),
-        border: const OutlineInputBorder(),
-        label: Text(
-          widget.label,
-          style: TextStyle(fontSize: widget.fontsize ?? 8.sp),
+    return LayoutBuilder(
+      builder: (context, constraints) => FormBuilderTextField(
+        name: '${widget.controller}',
+        obscureText: widget.controller == 'nameController' ? false : widget.ocultacion,
+        controller: widget.controller,
+        
+        style: TextStyle(fontSize: calcularTamanhoLetra(TipoFuente.textField, constraints)),
+        decoration: InputDecoration(
+          filled: true,
+          suffixIcon: widget.controller == 'passwordController' || widget.label == 'confirm password' ? Padding(
+            padding: EdgeInsets.symmetric(horizontal: 1.w),
+            child: AnimatedIconButton(
+              onPressed: () {
+                setState(() {
+                  widget.ocultacion =! widget.ocultacion;
+                });
+              },
+              icons: [
+              AnimatedIconItem(icon: Icon(Icons.visibility)),
+              AnimatedIconItem(icon: Icon(Icons.visibility_off)),
+            ])
+          ) : SizedBox(),
+          border: const OutlineInputBorder(),
+          label: Text(
+            widget.label,
+            style: TextStyle(fontSize: widget.fontsize ?? 8.sp),
+          ),
         ),
       ),
     );

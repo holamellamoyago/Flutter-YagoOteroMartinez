@@ -5,7 +5,7 @@
 
 import 'package:cuentalo/presentation/screens.dart';
 
-final appRouter = GoRouter(initialLocation: '/', routes: [
+final appRouter = GoRouter(initialLocation: '/joinPassword', routes: [
   GoRoute(
     path: '/login',
     name: LoginPage.name,
@@ -15,6 +15,11 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
     path: '/tutorial',
     name: TutorialScreen.routename,
     builder: (context, state) => const TutorialScreen(),
+  ),
+    GoRoute(
+    path: '/settings',
+    name: SettingsScreen.routename,
+    builder: (context, state) => const SettingsScreen(),
   ),
   GoRoute(
     path: '/',

@@ -44,7 +44,7 @@ TextEditingController passwordController = TextEditingController();
     final firestore = FirebaseFirestore.instance;
     final FirebaseAuth auth = FirebaseAuth.instance;
     if (nameController.text != '' && passwordController.text != '') {
-      await firestore.collection('Cuentalo').doc('Gruoups').collection(nameController.text).doc('Info').set({
+      await firestore.collection('Cuentalo').doc('Groups').collection(nameController.text).doc('Info').set({
         'name' : nameController.text,
         'password': passwordController.text
       });

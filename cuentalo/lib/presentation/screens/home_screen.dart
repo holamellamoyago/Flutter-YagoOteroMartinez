@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:cuentalo/presentation/screens.dart';
 
 
@@ -44,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                   Text('Tus grupos', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),)
                 ],
               ),
-              ListaGrupos()
+              const ListaGrupos()
             ],
           ),
         ),
@@ -90,20 +92,26 @@ class ListaGrupos extends StatelessWidget {
                 // final fieldValue = data[fieldName];
       
                 return fieldName == 'a' ? const SizedBox() : Container(
-                  decoration: BoxDecoration(border: Border(bottom: BorderSide())),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.h),
-                    onTap: () {
-                      var prefs = PreferenciasUsuario();
-                      prefs.nombreGrupo = fieldName;
-                      showSnackBar(context, prefs.nombreGrupo);
-                      context.push('/group');
-                    },
-                    title: Text(fieldName),
-                    leading: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(100)),
-                      child: Image.asset('assets/logo(2).jpg'),),
-                    trailing: const Icon(Icons.arrow_forward_outlined),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1.h),
+                    child: Container(
+                      decoration: BoxDecoration(color: Colors.grey[400],borderRadius: BorderRadius.all(Radius.circular(10)) , boxShadow: [BoxShadow(offset: Offset(4, 4))]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          onTap: () {
+                            var prefs = PreferenciasUsuario();
+                            prefs.nombreGrupo = fieldName;
+                            context.push('/group');
+                          },
+                          title: Text(fieldName),
+                          leading: ClipRRect(
+                            borderRadius: const BorderRadius.all(Radius.circular(100)),
+                            child: Image.asset('assets/logo.png'),),
+                          trailing: const Icon(Icons.arrow_forward_outlined),
+                        ),
+                      ),
+                    ),
                   ),
                 );
               });

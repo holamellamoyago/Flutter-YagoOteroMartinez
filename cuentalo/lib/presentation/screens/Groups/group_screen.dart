@@ -2,8 +2,6 @@
 
 import 'package:cuentalo/presentation/screens.dart';
 
-
-
 class GroupScreen extends StatelessWidget {
   static const routename = '/grupo';
   const GroupScreen({
@@ -34,72 +32,92 @@ class GroupScreen extends StatelessWidget {
   envioMensaje(context, nameController, messageController) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.w),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 1.w),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    border: Border.all(),
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(100),
-                        topLeft: Radius.circular(100))),
-                child: Row(
-                  children: [
-                    PaddingCustom(width: 2.w,),
-                    Expanded(
-                        child: TextField(
-                      controller: messageController,
-                      decoration: const InputDecoration(
-                        
-                        border: InputBorder.none,
-                          label: Text('Introduce tu mensaje')),
-                    )),
-                  ],
+          Row(
+            children: [
+              ButtonMessage(
+                funcion: ()=>  Messages.sendPapel(context),
+                urlImagen: 'assets/papel.png',
+              ),
+              ButtonMessage(
+                funcion: () {},
+                urlImagen: 'assets/preservativo.png',
+              ),
+              ButtonMessage(
+                funcion: () {},
+                urlImagen: 'assets/cerveza.png',
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 1.w),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                        border: Border.all(),
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(100),
+                            topLeft: Radius.circular(100))),
+                    child: Row(
+                      children: [
+                        PaddingCustom(
+                          width: 2.w,
+                        ),
+                        Expanded(
+                            child: TextField(
+                          controller: messageController,
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              label: Text('Introduce tu mensaje')),
+                        )),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+              FilledButton.icon(
+                onPressed: () async {
+                  await Messages.sendMessage(context, messageController);
+                  messageController.text = '';
+                },
+                label: const Icon(Icons.send),
+                style: ButtonStyle(
+                    minimumSize: WidgetStatePropertyAll(Size(8.w, 8.h)),
+                    iconColor: WidgetStatePropertyAll(Colors.grey[200]),
+                    backgroundColor: WidgetStatePropertyAll(
+                      Colors.grey[700],
+                    )),
+              )
+            ],
           ),
-          FilledButton.icon(
-            onPressed: ()async{
-
-              await sendMessage(context, messageController);
-
-            },
-            label: const Icon(Icons.send),
-            style: ButtonStyle(
-              minimumSize: WidgetStatePropertyAll(Size(8.w, 8.h)),
-              iconColor: WidgetStatePropertyAll(Colors.grey[200]),
-                backgroundColor: WidgetStatePropertyAll(
-              Colors.grey[700],
-            )),
-          )
         ],
       ),
     );
   }
+}
 
-  sendMessage(BuildContext  context, messageController) async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final prefs = PreferenciasUsuario();
+class ButtonMessage extends StatelessWidget {
+  const ButtonMessage({
+    super.key,
+    required this.funcion,
+    required this.urlImagen,
+  });
 
+  final VoidCallback funcion;
+  final String urlImagen;
 
-    final id2 = prefs.id +1;
-    showSnackBar(context, id2.toString());
-
-
-    try {
-      await firestore.collection('Cuentalo').doc('Gruoups').collection(prefs.nombreGrupo).doc(id2.toString()).set({
-        'Nombre' : auth.currentUser!.displayName!,
-        'Mensaje' : messageController.text,
-        'id': 33
-      });
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+        onPressed: funcion,
+        child: Image.asset(
+          urlImagen,
+          height: 6.h,
+        ));
   }
 }
 
@@ -138,7 +156,7 @@ class _ListaMensajesState extends State<ListaMensajes> {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('Cuentalo')
-            .doc('Gruoups')
+            .doc('Groups')
             .collection(prefs.nombreGrupo)
             .orderBy('id') // Ordenar por el campo "id"
             .snapshots(),
@@ -152,13 +170,15 @@ class _ListaMensajesState extends State<ListaMensajes> {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            prefs.id = 1;
             return const Center(child: Text('No hay datos disponibles'));
           }
 
           final documents = snapshot.data!.docs;
 
           // Desplazar automáticamente al final cuando hay nuevos datos
-          WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+          WidgetsBinding.instance
+              .addPostFrameCallback((_) => _scrollToBottom());
 
           return GestureDetector(
             onVerticalDragUpdate: (details) {
@@ -174,7 +194,8 @@ class _ListaMensajesState extends State<ListaMensajes> {
                 final doc = documents[index];
                 final mensaje = doc['Mensaje'] ?? 'Sin mensaje';
                 final nombre = doc['Nombre'] ?? 'Sin nombre';
-                prefs.id = documents.length;
+                prefs.id = documents.length + 1;
+                print('Yago ' + prefs.id.toString());
 
                 return auth.displayName == nombre
                     ? GloboEmisor(mensaje: mensaje)
@@ -187,7 +208,6 @@ class _ListaMensajesState extends State<ListaMensajes> {
     );
   }
 }
-
 
 class GloboEmisor extends StatelessWidget {
   const GloboEmisor({
@@ -203,17 +223,22 @@ class GloboEmisor extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
-          padding:  EdgeInsets.symmetric(vertical: 1.h),
+          padding: EdgeInsets.symmetric(vertical: 1.h),
           child: ClipPath(
-            clipper: UpperNipMessageClipperTwo(MessageType.send, nipWidth: 14,nipHeight: 10,nipRadius: -10),
+            clipper: UpperNipMessageClipperTwo(MessageType.send,
+                nipWidth: 14, nipHeight: 10, nipRadius: -10),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 1.w),
               child: Container(
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
-                  child: Text(mensaje, style: TextStyle(fontSize: 14.sp),),
-                )),
+                  color: Colors.grey,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+                    child: Text(
+                      mensaje,
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
+                  )),
             ),
           ),
         ),
@@ -221,6 +246,7 @@ class GloboEmisor extends StatelessWidget {
     );
   }
 }
+
 class GloboRemitente extends StatelessWidget {
   const GloboRemitente({
     super.key,
@@ -235,17 +261,22 @@ class GloboRemitente extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding:  EdgeInsets.symmetric(vertical: 1.h),
+          padding: EdgeInsets.symmetric(vertical: 1.h),
           child: ClipPath(
-            clipper: UpperNipMessageClipperTwo(MessageType.receive, nipWidth: 14,nipHeight: 10,nipRadius: -10),
+            clipper: UpperNipMessageClipperTwo(MessageType.receive,
+                nipWidth: 14, nipHeight: 10, nipRadius: -10),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 1.w),
               child: Container(
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
-                  child: Text(mensaje, style: TextStyle(fontSize: 14.sp),),
-                )),
+                  color: Colors.grey,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
+                    child: Text(
+                      mensaje,
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
+                  )),
             ),
           ),
         ),

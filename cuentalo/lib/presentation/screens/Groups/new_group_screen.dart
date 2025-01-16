@@ -9,61 +9,49 @@ class CreadorGrupos extends StatefulWidget {
 }
 
 class _CreadorGruposState extends State<CreadorGrupos> {
-TextEditingController nameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
-TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Center(
-      child: Form(
-        child: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TitleLargeCustom(titulo: 'Crea un nuevo grupo', align: TextAlign.center,),
-              TextFieldCustom(controller: nameController, label: 'Nombre del grupo', ocultacion: false,),
-              PaddingCustom(height: 2.h,),
-              TextFieldCustom(controller: passwordController, label: 'Contraseña del grupo', ocultacion: true,),
-              PaddingCustom(height: 2.h,),
-              FilledButton(onPressed: () async {
-                await crearGrupo(nameController, passwordController);
-              }, child: Text('Crear grupo'))
-            ],
+        child: Form(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const TitleLargeCustom(
+                  titulo: 'Crea un nuevo grupo',
+                  align: TextAlign.center,
+                ),
+                TextFieldCustom(
+                  controller: nameController,
+                  label: 'Nombre del grupo',
+                  ocultacion: false,
+                ),
+                PaddingCustom(
+                  height: 2.h,
+                ),
+                FilledButton(
+                    onPressed: () async {
+                      PreferenciasUsuario().ultimaPagina = nameController.text;
+                      if (nameController.text != '') {
+                        GroupAuth().cleanPassword();
+                        context.push('/createGroupPassword');
+                      } else {
+                        showSnackBar(context, 'Introduce un nombre de grupo');
+                      }
+                    },
+                    child: const Text('Pasar a la contraseña'))
+              ],
+            ),
           ),
         ),
       ),
-    ),
     );
-  }
-  crearGrupo(nameController , passwordController) async {
-    final firestore = FirebaseFirestore.instance;
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    if (nameController.text != '' && passwordController.text != '') {
-      await firestore.collection('Cuentalo').doc('Groups').collection(nameController.text).doc('Info').set({
-        'name' : nameController.text,
-        'password': passwordController.text
-      });
-
-
-      if (auth != null) {
-      await firestore.collection('Cuentalo').doc('Users').collection(auth.currentUser!.email!).doc('Groups').update({
-        nameController.text : passwordController.text
-      });
-
-      context.pushReplacement('/');
-        
-      }
-
-
-
-    } else {
-
-      showSnackBar(context, 'No debes dejar nada vacio');
-    }
   }
 }

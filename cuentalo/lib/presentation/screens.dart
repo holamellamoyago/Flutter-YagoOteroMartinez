@@ -65,6 +65,8 @@ export 'package:cuentalo/presentation/widgets/widgets_standart.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:flutter/material.dart';
 export 'package:go_router/go_router.dart';
+export 'package:cuentalo/presentation/screens/Groups/new_group_password_screen.dart';
+
 
 
 
@@ -77,3 +79,10 @@ export 'package:cuentalo/presentation/screens/Groups/new_group_screen.dart';
 export 'package:cuentalo/presentation/screens/Tutorial/tutorial_screen.dart';
 export 'package:go_router/go_router.dart';
 export 'package:cuentalo/presentation/screens/Settings/settings_screen.dart';
+
+export 'package:cuentalo/config/preferences/pref_password.dart';
+export 'package:cuentalo/config/Group/group_auth.dart';
+export 'package:cuentalo/config/Group/send_message.dart';
+
+
+

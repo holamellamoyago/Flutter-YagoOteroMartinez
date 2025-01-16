@@ -29,93 +29,72 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
+      appBar: AppBar(
+              centerTitle: true,
+                  title: const TitleLargeCustom(titulo: 'Cuéntalo'),),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+        Image.asset(
+          'assets/logo.png',
+          height: 40.h,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset(
-              'assets/logo(1).jpg',
-              height: 200,
-            ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                OutlinedButton(
-                    onPressed: () {
-                      context.push('/register_screen');
-                    },
-                    child: const Text('Crear cuenta')),
-                FilledButton(
-                    onPressed: () {
-                      _sigIn();
-                    },
-                    child: const Text('Iniciar sesion')),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  width: 50,
-                  height: 2,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(100),
-                    ),
-                    color: colors.primary,
-                  ),
+            Container(
+              width: 50,
+              height: 2,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(100),
                 ),
-                const Text('O mejor inicia sesión como '),
-                Container(
-                  width: 50,
-                  height: 2,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(100),
-                    ),
-                    color: colors.primary,
-                  ),
+                color: colors.primary,
+              ),
+            ),
+            const Text('Inicia sesión con los siguientes métodos' ),
+                            Container(
+              width: 50,
+              height: 2,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(100),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            GestureDetector(
-              onTap: () async {
-                try {
-                  final user = await _auth.signInWithGoogle();
-                  if (user != null) {
-                    _signInGoogle();
-                    context.go('/');
-                  }
-                } on FirebaseAuthException {
-                  return;
-                  // showSnackBar(context, e.message?? 'Algo salio mal');
-                }
-
-              },
-              child: Container(
-                padding: const EdgeInsets.all(40),
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(100),
-                    image: const DecorationImage(
-                        image: AssetImage('assets/google.png'))),
+                color: colors.primary,
               ),
             ),
           ],
-        )),
+        ),
+        PaddingCustom(height: 4.h,),
+        GestureDetector(
+          onTap: () async {
+            try {
+              final user = await _auth.signInWithGoogle();
+              if (user != null) {
+                _signInGoogle();
+                context.go('/');
+              }
+            } on FirebaseAuthException {
+              return;
+              // showSnackBar(context, e.message?? 'Algo salio mal');
+            }
+        
+          },
+          child: Container(
+            padding: const EdgeInsets.all(40),
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(100),
+                image: const DecorationImage(
+                    image: AssetImage('assets/google.png'))),
+          ),
+        ),
+                  ],
+                ),
       ),
     );
   }

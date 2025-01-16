@@ -23,7 +23,7 @@ final slides = <SlideInfo>[
       'assets/presentacion1.png',
       1),
   SlideInfo(
-      'Eres de los que mas f*ollas ?!',
+      'Eres de los que mas f*llas ?!',
       'CUENTALO',
       'assets/presentacion2.png',
       2),

@@ -32,6 +32,11 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
     builder: (context, state) => const CreadorGrupos(),
   ),
   GoRoute(
+    path: '/createGroupPassword',
+    name: CreateGroupPasswordScreen.routename,
+    builder: (context, state) => const CreateGroupPasswordScreen(),
+  ),
+  GoRoute(
     path: '/group',
     name: GroupScreen.routename,
     builder: (context, state) => const GroupScreen(),

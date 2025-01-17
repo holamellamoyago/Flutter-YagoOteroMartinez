@@ -12,24 +12,157 @@ class GroupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
     TextEditingController messageController = TextEditingController();
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 11.h),
-        child: const AppBarCustom(),
-      ),
-      body: Column(
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(tabs: [
+              Tab(
+                  icon: Icon(Icons.chat),
+                  child: Text(
+                    'Ganadores',
+                    style: TextStyle(fontSize: 16.sp),
+                  )),
+              Tab(
+                  icon: Icon(Icons.emoji_events_outlined),
+                  child: Text(
+                    'Posiciones',
+                    style: TextStyle(fontSize: 16.sp),
+                  ))
+            ]),
+            centerTitle: true,
+            title: const TitleLargeCustom(titulo: 'Cuéntalo'),
+            actions: [
+              PopupMenuButton(
+                icon: Icon(Icons.person_2_outlined),
+                itemBuilder: (context) => <PopupMenuEntry<ListTile>>[
+                  PopupMenuItem<ListTile>(
+                    onTap: () {
+                      context.push('/settings');
+                    },
+                    value: ListTile(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Ajustes'),
+                        PaddingCustom(
+                          width: 0.5.w,
+                        ),
+                        Icon(Icons.settings),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem<ListTile>(
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      context.go('/login');
+                    },
+                    value: ListTile(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Cerrar sesión'),
+                        PaddingCustom(
+                          width: 0.5.w,
+                        ),
+                        Icon(Icons.logout_outlined),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: TabBarView(children: [
+            ganadores(context, nameController, messageController),
+            posiciones()
+          ])),
+    );
+  }
+
+  Widget ganadores(context, nameController, messageController) {
+    return Column(
+      children: [
+        const ListaMensajes(),
+        envioMensaje(context, nameController, messageController),
+        PaddingCustom(
+          height: 1.h,
+        )
+      ],
+    );
+  }
+
+  Widget posiciones() {
+    return Column(
+      children: [
+        categorias(),
+      ],
+    );
+  }
+
+  Widget categorias() {
+    return Padding(
+      padding:  EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ListaMensajes(),
-          envioMensaje(context, nameController, messageController),
-          PaddingCustom(
-            height: 1.h,
-          )
+          Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Container(
+                    height: 6.h,
+                    width: 6.h,
+                    color: Colors.grey[300],
+                    child: Icon(Icons.code)),
+              ),
+              PaddingCustom(
+                width: 2.w,
+              ),
+              Text(
+                "Top Cerveceros",
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+          PaddingCustom(height: 1.h,),
+          const BodyCustom(
+            titulo: "Comúnmente conocidos por su barriga cervecera",
+            align: TextAlign.start,
+          ),
+          PaddingCustom(height: 4.h,),
+          Row(
+            children: [
+              Icon(Icons.workspace_premium_outlined, size: 4.5.h,color: Colors.amber[500],), 
+              PaddingCustom(width: 2.w,),
+              Container(
+                height: 8.h,
+                width: 8.h,
+                // color: Colors.red,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(color: Colors.amber[600]!, width: 4)
+                ),
+              ), 
+              PaddingCustom(width: 4.w,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('John Smith',style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),),
+                  Text("143 contribuciones", style:  TextStyle(fontSize: 10.sp),)
+                ],
+              ),
+            ],
+          ),
+          PaddingCustom(height: 4.h,),
+              Container(height: 1, color: Colors.grey, width: double.infinity,)
         ],
       ),
     );
   }
 
-  envioMensaje(context, nameController, messageController) {
+  envioMensaje(BuildContext context, nameController, messageController) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.w),
       child: Column(
@@ -37,12 +170,20 @@ class GroupScreen extends StatelessWidget {
           Row(
             children: [
               ButtonMessage(
-                funcion: ()=>  Messages.sendPapel(context),
+                funcion: () {
+                    Messages.sendPapel(context );
+                },
                 urlImagen: 'assets/papel.png',
+              ),
+              PaddingCustom(
+                width: 4.w,
               ),
               ButtonMessage(
                 funcion: () {},
                 urlImagen: 'assets/preservativo.png',
+              ),
+              PaddingCustom(
+                width: 4.w,
               ),
               ButtonMessage(
                 funcion: () {},
@@ -114,9 +255,12 @@ class ButtonMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
         onPressed: funcion,
-        child: Image.asset(
-          urlImagen,
-          height: 6.h,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            urlImagen,
+            height: 4.h,
+          ),
         ));
   }
 }

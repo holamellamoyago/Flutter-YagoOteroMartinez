@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:ffi';
+
+import 'package:cuentalo/config/Firestore/Categorias.dart';
 import 'package:cuentalo/presentation/screens.dart';
 
 class GroupScreen extends StatelessWidget {
@@ -76,7 +79,7 @@ class GroupScreen extends StatelessWidget {
           ),
           body: TabBarView(children: [
             ganadores(context, nameController, messageController),
-            posiciones()
+            posiciones(context)
           ])),
     );
   }
@@ -93,72 +96,117 @@ class GroupScreen extends StatelessWidget {
     );
   }
 
-  Widget posiciones() {
+  Widget posiciones(BuildContext context) {
     return Column(
       children: [
-        categorias(),
+        Expanded(
+          child: FutureBuilder(
+            future: FirestoreService().getCategories(context),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                final documentNames = snapshot.data!;
+                return ListView.builder(
+                  itemCount: documentNames.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Container(
+                                    height: 6.h,
+                                    width: 6.h,
+                                    color: Colors.grey[300],
+                                    child: Icon(Icons.code)),
+                              ),
+                              PaddingCustom(
+                                width: 2.w,
+                              ),
+                              Text(
+                                "Top ${documentNames[index]}",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          PaddingCustom(
+                            height: 1.h,
+                          ),
+                          const BodyCustom(
+                            titulo:
+                                "Comúnmente conocidos por su barriga cervecera",
+                            align: TextAlign.start,
+                          ),
+                          PaddingCustom(
+                            height: 4.h,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.workspace_premium_outlined,
+                                size: 4.5.h,
+                                color: Colors.amber[500],
+                              ),
+                              PaddingCustom(
+                                width: 2.w,
+                              ),
+                              Container(
+                                height: 8.h,
+                                width: 8.h,
+                                // color: Colors.red,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    border: Border.all(
+                                        color: Colors.amber[600]!, width: 4)),
+                              ),
+                              PaddingCustom(
+                                width: 4.w,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'John Smith',
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "143 contribuciones",
+                                    style: TextStyle(fontSize: 10.sp),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          PaddingCustom(
+                            height: 4.h,
+                          ),
+                          Container(
+                            height: 1,
+                            color: Colors.grey,
+                            width: double.infinity,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          ),
+        )
       ],
-    );
-  }
-
-  Widget categorias() {
-    return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Container(
-                    height: 6.h,
-                    width: 6.h,
-                    color: Colors.grey[300],
-                    child: Icon(Icons.code)),
-              ),
-              PaddingCustom(
-                width: 2.w,
-              ),
-              Text(
-                "Top Cerveceros",
-                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
-          PaddingCustom(height: 1.h,),
-          const BodyCustom(
-            titulo: "Comúnmente conocidos por su barriga cervecera",
-            align: TextAlign.start,
-          ),
-          PaddingCustom(height: 4.h,),
-          Row(
-            children: [
-              Icon(Icons.workspace_premium_outlined, size: 4.5.h,color: Colors.amber[500],), 
-              PaddingCustom(width: 2.w,),
-              Container(
-                height: 8.h,
-                width: 8.h,
-                // color: Colors.red,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(color: Colors.amber[600]!, width: 4)
-                ),
-              ), 
-              PaddingCustom(width: 4.w,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('John Smith',style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),),
-                  Text("143 contribuciones", style:  TextStyle(fontSize: 10.sp),)
-                ],
-              ),
-            ],
-          ),
-          PaddingCustom(height: 4.h,),
-              Container(height: 1, color: Colors.grey, width: double.infinity,)
-        ],
-      ),
     );
   }
 
@@ -171,7 +219,7 @@ class GroupScreen extends StatelessWidget {
             children: [
               ButtonMessage(
                 funcion: () {
-                    Messages.sendPapel(context );
+                  Messages.sendPapel(context);
                 },
                 urlImagen: 'assets/papel.png',
               ),
@@ -227,7 +275,6 @@ class GroupScreen extends StatelessWidget {
                 },
                 label: const Icon(Icons.send),
                 style: ButtonStyle(
-                    minimumSize: WidgetStatePropertyAll(Size(8.w, 8.h)),
                     iconColor: WidgetStatePropertyAll(Colors.grey[200]),
                     backgroundColor: WidgetStatePropertyAll(
                       Colors.grey[700],

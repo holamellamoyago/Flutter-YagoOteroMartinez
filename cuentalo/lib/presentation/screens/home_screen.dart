@@ -1,9 +1,5 @@
 
-import 'dart:math';
-
 import 'package:cuentalo/presentation/screens.dart';
-
-
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/';
@@ -43,7 +39,11 @@ class HomeScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text('Tus grupos', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),)
+                  Text(
+                    'Tus grupos',
+                    style:
+                        TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
               const ListaGrupos()
@@ -54,8 +54,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
 
 class ListaGrupos extends StatelessWidget {
   const ListaGrupos({super.key});
@@ -81,39 +79,48 @@ class ListaGrupos extends StatelessWidget {
           if (!snapshot.hasData || !snapshot.data!.exists) {
             return const Center(child: Text("El documento no existe"));
           }
-      
+
           final data = snapshot.data!.data() as Map<String, dynamic>;
-      
+
           return ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
+              padding: EdgeInsets.symmetric(vertical: 1.h),
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final fieldName = data.keys.elementAt(index);
                 // final fieldValue = data[fieldName];
-      
-                return fieldName == 'a' ? const SizedBox() : Container(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1.h),
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.grey[400],borderRadius: BorderRadius.all(Radius.circular(10)) , boxShadow: [BoxShadow(offset: Offset(4, 4))]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          onTap: () {
-                            var prefs = PreferenciasUsuario();
-                            prefs.nombreGrupo = fieldName;
-                            context.push('/group');
-                          },
-                          title: Text(fieldName),
-                          leading: ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(100)),
-                            child: Image.asset('assets/logo.png'),),
-                          trailing: const Icon(Icons.arrow_forward_outlined),
+
+                return fieldName == 'a'
+                    ? const SizedBox()
+                    : Container(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 1.h),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                boxShadow: [BoxShadow(offset: Offset(4, 4))]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                onTap: () {
+                                  var prefs = PreferenciasUsuario();
+                                  prefs.nombreGrupo = fieldName;  
+                                  context.push('/group');
+                                },
+                                title: Text(fieldName),
+                                leading: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(100)),
+                                  child: Image.asset('assets/logo.png'),
+                                ),
+                                trailing:
+                                    const Icon(Icons.arrow_forward_outlined),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                );
+                      );
               });
         },
       ),

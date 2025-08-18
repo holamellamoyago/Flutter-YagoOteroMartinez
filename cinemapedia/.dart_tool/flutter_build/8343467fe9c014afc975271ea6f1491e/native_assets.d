@@ -1,1 +1,0 @@
- C:\\Users\\yago8\\Documents\\AA\ Programacion\\general\\cinemapedia\\.dart_tool\\flutter_build\\8343467fe9c014afc975271ea6f1491e\\native_assets.yaml: 

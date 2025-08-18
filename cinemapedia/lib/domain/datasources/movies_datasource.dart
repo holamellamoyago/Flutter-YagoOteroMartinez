@@ -9,6 +9,6 @@ import 'package:cinemapedia/domain/entities/movie.dart';
   esa y que requiere un número de página que por defecto será de 1 
 */  
 
-abstract class MovieDataSource {
+abstract class MoviesDataSource {
   Future<List<Movie>>getNowPlaying({int page = 1});
 }

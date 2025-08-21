@@ -1,0 +1,32 @@
+name: toktik
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  animate_do: ^3.0.2
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
+  intl: ^0.18.0
+  provider: ^6.0.5
+  video_player: ^2.5.1
+  
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/videos/

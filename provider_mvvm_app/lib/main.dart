@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_mvvm_app/viewmodel/apptheme_viewmodel.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppthemeViewmodel()),
+      ],
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -9,11 +18,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    AppthemeViewmodel apptheme = Provider.of<AppthemeViewmodel>(context);
+    return MaterialApp(
+      theme: apptheme.appTheme,
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        appBar: AppBar(
+          actions: [
+            IconButton.filled(
+              icon: Icon(Icons.mode_night_outlined),
+              onPressed: () => apptheme.changeTheme(),
+            ),
+          ],
         ),
+        body: Center(child: Text('Hello World!')),
       ),
     );
   }

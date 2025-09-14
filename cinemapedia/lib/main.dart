@@ -9,6 +9,9 @@ Future main() async {
   runApp(ProviderScope(child: MainApp()));
 }
 
+// Quedo en el capítulo 181 : vuelvo hacia atrás para volver a quedarme con 
+// ciertos conceptos
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 

@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_mvvm_app/data/datasources/local_user_datasource.dart';
+import 'package:provider_mvvm_app/data/repositories/user_repository.dart';
+import 'package:provider_mvvm_app/view/list_users.dart';
 import 'package:provider_mvvm_app/viewmodel/apptheme_viewmodel.dart';
+import 'package:provider_mvvm_app/viewmodel/users_viewmodel.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AppthemeViewmodel()),
+        ChangeNotifierProvider(
+          create: (context) => UsersViewmodel(
+            UserRepositoryImplementation(InMemoryDatasource()),
+          ),
+        ),
       ],
       child: MainApp(),
     ),
@@ -30,7 +39,7 @@ class MainApp extends StatelessWidget {
             ),
           ],
         ),
-        body: Center(child: Text('Hello World!')),
+        body: Column(children: [Expanded(child: UsersList())]),
       ),
     );
   }

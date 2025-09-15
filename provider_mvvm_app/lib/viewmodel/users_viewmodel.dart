@@ -1,11 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider_mvvm_app/data/repositories/user_repository.dart';
-import 'package:provider_mvvm_app/models/user.dart';
+import 'package:provider_mvvm_app/domain/entities/user.dart';
+import 'package:provider_mvvm_app/domain/repositories/user_repository.dart';
+import 'package:provider_mvvm_app/domain/usecases/get_users.dart';
 
 class UsersViewmodel extends ChangeNotifier {
-  UserRepository repository;
+  GetUsers getUsers;
   
-  UsersViewmodel(this.repository){
+  UsersViewmodel(this.getUsers){
     loadUsers();
   }
 
@@ -21,12 +22,13 @@ class UsersViewmodel extends ChangeNotifier {
       3. notify para que se recargue el Widget y salga el Circular.. 
     
     */
+
     loading = true;
     error = null;
     notifyListeners();
 
     try {
-      users = await repository.getUsers();
+      users = await getUsers();
     } catch (e) {
       error = e.toString();
     } finally {
@@ -35,19 +37,19 @@ class UsersViewmodel extends ChangeNotifier {
     }
   }
 
-  Future<void> addUser(User user) async {
-    loading = true;
-    error = null;
-    notifyListeners();
+  // Future<void> addUser(User user) async {
+  //   loading = true;
+  //   error = null;
+  //   notifyListeners();
 
-    try {
-      await repository.addUser(user);
-      users = await repository.getUsers();
-    } catch (e) {
-      error = e.toString();
-    } finally {
-      loading = false;
-      notifyListeners();
-    }
-  }
+  //   try {
+  //     await getUsers.addUser(user);
+  //     users = await getUsers.getUsers();
+  //   } catch (e) {
+  //     error = e.toString();
+  //   } finally {
+  //     loading = false;
+  //     notifyListeners();
+  //   }
+  // }
 }

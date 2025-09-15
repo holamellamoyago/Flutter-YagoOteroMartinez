@@ -14,6 +14,13 @@ class UsersViewmodel extends ChangeNotifier {
   String? error;
 
   Future<void> loadUsers() async {
+
+    /* 
+      1. En este trozo de código hago que el loading se active para el Circular
+      2. Pongo error a null para eliminar posibles anteriores errores
+      3. notify para que se recargue el Widget y salga el Circular.. 
+    
+    */
     loading = true;
     error = null;
     notifyListeners();
@@ -43,6 +50,4 @@ class UsersViewmodel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  // Future<List<User>> get _users => users.getUsers();
 }

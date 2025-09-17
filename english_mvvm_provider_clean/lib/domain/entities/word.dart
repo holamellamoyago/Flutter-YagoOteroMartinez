@@ -28,7 +28,7 @@ class Word {
     'english': english,
     'corrects': corrects,
     'errors': errors,
-    'category': category,
+    'category': category.name,
   };
 
   factory Word.fromJson(Map<String, dynamic> json) => Word(

@@ -2,8 +2,8 @@ import 'package:english_mvvm_provider_clean/data/datasources/local_words_datasou
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/words_repository.dart';
 
-class LocalWordRepositoryImpl extends WordsRepository {
-  LocalWordsDatasource datasource;
+class LocalWordRepositoryImpl implements WordsRepository {
+  final LocalWordsDatasource datasource;
   LocalWordRepositoryImpl(this.datasource);
 
   @override

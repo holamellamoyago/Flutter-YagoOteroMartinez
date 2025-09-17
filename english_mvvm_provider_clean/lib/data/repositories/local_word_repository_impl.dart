@@ -1,25 +1,23 @@
-import 'dart:io';
-
 import 'package:english_mvvm_provider_clean/data/datasources/local_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
+import 'package:english_mvvm_provider_clean/domain/repositories/words_repository.dart';
 
-class FileWordsDatasource implements LocalWordsDatasource {
-  
-  List<Word> words = [];
+class LocalWordRepositoryImpl extends WordsRepository {
+  LocalWordsDatasource datasource;
+  LocalWordRepositoryImpl(this.datasource);
 
   @override
   Future<List<Word>> getWords() {
-    throw UnimplementedError();
+    return datasource.getWords();
   }
-  
+
   @override
   Future<void> saveWords(List<Word> words) async {
-    // TODO
-    
+    datasource.saveWords(words);
   }
-  
+
   @override
   Future<void> saveOneWord(Word word) async {
-    // TODO 
+    datasource.saveOneWord(word);
   }
 }

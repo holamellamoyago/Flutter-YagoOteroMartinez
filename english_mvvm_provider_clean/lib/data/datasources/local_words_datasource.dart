@@ -5,4 +5,5 @@ import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 abstract class LocalWordsDatasource {
   Future<List<Word>> getWords();
   Future<void> saveWords(List<Word> words);
+  Future<void> saveOneWord(Word word);
 }

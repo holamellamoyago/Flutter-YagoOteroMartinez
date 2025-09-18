@@ -1,1 +1,23 @@
-{"spanish":"a","english":"a","corrects":0,"errors":0,"category":"noun"}
+[
+    {
+        "spanish": "a",
+        "english": "a",
+        "corrects": 0,
+        "errors": 0,
+        "category": "noun"
+    },
+    {
+        "spanish": "a",
+        "english": "c",
+        "corrects": 0,
+        "errors": 0,
+        "category": "noun"
+    },
+    {
+        "spanish": "a",
+        "english": "b",
+        "corrects": 0,
+        "errors": 0,
+        "category": "noun"
+    }
+]

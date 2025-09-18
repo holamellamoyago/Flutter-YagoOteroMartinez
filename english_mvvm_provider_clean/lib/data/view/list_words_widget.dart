@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ListWordsWidget extends StatelessWidget {
@@ -22,12 +24,11 @@ class ListWordsWidget extends StatelessWidget {
     //   ),
     // );
 
-    return Expanded(
-      child: CarouselSlider.builder(
-        itemCount: provider.words!.length,
-        itemBuilder: (context, index, realIndex) => GridTestWidget(words: provider.words!, index: index),
-        options: CarouselOptions(enlargeCenterPage: true),
-      ),
+    return CarouselSlider.builder(
+      itemCount: provider.words!.length,
+      itemBuilder: (context, index, realIndex) =>
+          GridTestWidget(words: provider.words!, index: index),
+      options: CarouselOptions(enlargeCenterPage: true),
     );
   }
 }
@@ -42,6 +43,7 @@ class GridTestWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var word = words.elementAt(index);
     var random = Random();
+    var strings = AppStrings();
 
     final answers = List<String>.generate(
       4,
@@ -49,38 +51,40 @@ class GridTestWidget extends StatelessWidget {
     );
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("What does ${word.english} mean?"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _colorContainer(answers[0], Colors.redAccent),
-            _colorContainer(answers[1], Colors.blueAccent),
-          ],
+        Text(strings.question_1 + word.english + strings.question_2),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _colorContainer(answers[0], Colors.redAccent),
+              SizedBox(width: 16),
+              _colorContainer(answers[1], Colors.blueAccent),
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _colorContainer(answers[2], Colors.yellowAccent),
-            _colorContainer(answers[3], Colors.greenAccent),
-          ],
+        SizedBox(height: 16),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _colorContainer(answers[2], Colors.yellowAccent),
+              SizedBox(width: 16),
+              _colorContainer(answers[3], Colors.greenAccent),
+            ],
+          ),
         ),
       ],
     );
   }
-
-  // String randomAnswer() {
-  //   var rdm = Random().nextInt(words.length);
-  //   return words.elementAt(rdm).spanish;
-  // }
 
   Widget _colorContainer(String text, Color color) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey, width: 2),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Center(child: Text(text)),
       ),

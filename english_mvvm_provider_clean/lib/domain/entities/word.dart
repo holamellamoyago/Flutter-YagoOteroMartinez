@@ -36,6 +36,9 @@ class Word {
     english: json['english'],
     corrects: json['corrects'],
     errors: json['errors'],
-    category: json['category'],
+    category: Wordcategory.values.firstWhere(
+      (e) => e.name == json['category'],
+      orElse: () => Wordcategory.noun, // Valor por defecto si no encuentra
+    ),
   );
 }

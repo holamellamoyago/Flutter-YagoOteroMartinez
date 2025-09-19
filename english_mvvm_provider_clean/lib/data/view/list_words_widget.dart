@@ -17,22 +17,23 @@ class ListWordsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final wordsProvider = context.watch<WordsViewModel>();
     final carouselProvider = context.watch<CarouselViewmodel>();
+    double screenHeight = MediaQuery.of(context).size.height;
 
-    // return Expanded(
-    //   child: ListView.builder(
-    //     scrollDirection: Axis.horizontal,
-    //     itemCount: provider.words!.length,
-    //     itemBuilder: (context, index) =>
-    //         Text(provider.words!.elementAt(index).english),
-    //   ),
-    // );
-
-    return CarouselSlider.builder(
-      carouselController: carouselProvider.controller,
-      itemCount: wordsProvider.words!.length,
-      itemBuilder: (context, index, realIndex) =>
-          GridTestWidget(words: wordsProvider.words!, index: index, carouselProvider: carouselProvider.controller,),
-      options: CarouselOptions(enlargeCenterPage: true),
+    return Expanded(
+      child: CarouselSlider.builder(
+        disableGesture: true,
+        carouselController: carouselProvider.controller,
+        itemCount: wordsProvider.words!.length,
+        itemBuilder: (context, index, realIndex) => GridTestWidget(
+          words: wordsProvider.words!,
+          index: index,
+          carouselProvider: carouselProvider.controller,
+        ),
+        options: CarouselOptions(
+          enlargeCenterPage: true,
+          height: screenHeight * 0.36,
+        ),
+      ),
     );
   }
 }
@@ -42,7 +43,12 @@ class GridTestWidget extends StatelessWidget {
   final int index;
   final CarouselSliderController carouselProvider;
 
-  const GridTestWidget({super.key, required this.words, required this.index, required this.carouselProvider});
+  const GridTestWidget({
+    super.key,
+    required this.words,
+    required this.index,
+    required this.carouselProvider,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +62,11 @@ class GridTestWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Text(strings.question_1 + word.english + strings.question_2, style: Theme.of(context).textTheme.headlineLarge,),
+        Text(
+          strings.question_1 + word.english + strings.question_2,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+        SizedBox(height: 16),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

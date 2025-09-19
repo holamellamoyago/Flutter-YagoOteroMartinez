@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [ListWordsWidget()],
+          children: [ListWordsWidget(), ],
         ),
       ),
     );

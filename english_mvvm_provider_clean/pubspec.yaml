@@ -20,3 +20,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+fonts:
+  - family: Comic Relief
+    fonts:
+      - asset: assets/fonts/ComicRelief-Regular.ttf
+      - asset: assets/fonts/ComicRelief-Bold.ttf
+        weight: 700

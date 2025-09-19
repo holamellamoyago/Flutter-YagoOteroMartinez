@@ -56,7 +56,7 @@ class GridTestWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Text(strings.question_1 + word.english + strings.question_2),
+        Text(strings.question_1 + word.english + strings.question_2, style: Theme.of(context).textTheme.headlineLarge,),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -2,6 +2,7 @@ import 'package:english_mvvm_provider_clean/data/datasources/file_words_datasour
 import 'package:english_mvvm_provider_clean/data/repositories/local_word_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/view/list_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/view/save_word_widget.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
@@ -22,6 +23,7 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => WordsViewModel(getWords, saveWord, saveWords),
         ),
+        ChangeNotifierProvider(create: (context) => CarouselViewmodel(),)
       ],
       child: MainApp(),
     ),

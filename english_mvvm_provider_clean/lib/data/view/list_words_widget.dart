@@ -5,6 +5,7 @@ import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -45,10 +46,9 @@ class GridTestWidget extends StatelessWidget {
     var random = Random();
     var strings = AppStrings();
 
-    final answers = List<String>.generate(
-      4,
-      (index) => words[random.nextInt(words.length)].spanish,
-    );
+    var answers = _generateUniqueRandomNumber();
+
+    answers[random.nextInt(answers.length - 1)] = word.spanish;
 
     return Column(
       children: [
@@ -80,14 +80,38 @@ class GridTestWidget extends StatelessWidget {
 
   Widget _colorContainer(String text, Color color) {
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: Colors.grey, width: 2),
-          borderRadius: BorderRadius.circular(8),
+      child: GestureDetector(
+        onTap: () => _checkAnswer(text),
+        child: Container(
+          decoration: BoxDecoration(
+            color: color,
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(child: Text(text)),
         ),
-        child: Center(child: Text(text)),
       ),
     );
   }
+
+  List<String> _generateUniqueRandomNumber() {
+    var rdm = Random();
+    List<int> numerosSeleccionados = [index];
+    List<String> l = [];
+
+    for (var i = 0; i < 4; i++) {
+      var numRandom = rdm.nextInt(words.length);
+
+      while (numerosSeleccionados.contains(numRandom)) {
+        numRandom = rdm.nextInt(words.length);
+      }
+
+      numerosSeleccionados.add(numRandom);
+      l.add(words[numRandom].spanish);
+    }
+
+    return l;
+  }
+
+
 }

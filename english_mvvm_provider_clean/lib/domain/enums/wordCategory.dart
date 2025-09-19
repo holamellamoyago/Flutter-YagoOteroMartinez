@@ -2,5 +2,5 @@
 
 enum Wordcategory {
   noun,
-  phrasalVerb
+  phrasalverb
 }

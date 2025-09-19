@@ -1,23 +1,72 @@
 [
     {
-        "spanish": "a",
-        "english": "a",
+        "spanish": "pelearse con",
+        "english": "fall out with",
         "corrects": 0,
         "errors": 0,
-        "category": "noun"
+        "category": "phrasalverb"
     },
     {
-        "spanish": "a",
-        "english": "c",
+        "spanish": "enamorarse",
+        "english": "fall for",
         "corrects": 0,
         "errors": 0,
-        "category": "noun"
+        "category": "phrasalverb"
     },
     {
-        "spanish": "a",
-        "english": "b",
+        "spanish": "llevarse bien con alguien",
+        "english": "get on well with",
         "corrects": 0,
         "errors": 0,
-        "category": "noun"
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "escaparse sin castigo",
+        "english": "get away with",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "tomar el pelo",
+        "english": "have someone on",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "hacer buenos amigos desde el principio",
+        "english": "hit it off",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "meter la pata",
+        "english": "mess things up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "posponer",
+        "english": "put off",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "enfrentarse a algo",
+        "english": "stand up to",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "parecerse a alguien",
+        "english": "take after",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
     }
 ]

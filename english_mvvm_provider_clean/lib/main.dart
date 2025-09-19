@@ -3,6 +3,7 @@ import 'package:english_mvvm_provider_clean/data/repositories/local_word_reposit
 import 'package:english_mvvm_provider_clean/data/view/list_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/view/save_word_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
@@ -23,7 +24,8 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => WordsViewModel(getWords, saveWord, saveWords),
         ),
-        ChangeNotifierProvider(create: (context) => CarouselViewmodel(),)
+        ChangeNotifierProvider(create: (context) => CarouselViewmodel(),),
+        ChangeNotifierProvider(create: (context) => ThemedataViewmodel(),)
       ],
       child: MainApp(),
     ),
@@ -35,11 +37,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+
+    var themeProvider = context.watch<ThemedataViewmodel>();
+
+    return MaterialApp(
+      theme: themeProvider.themeDataLight,
       home: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [ListWordsWidget(), SaveWordWidget()],
+          children: [ListWordsWidget()],
         ),
       ),
     );

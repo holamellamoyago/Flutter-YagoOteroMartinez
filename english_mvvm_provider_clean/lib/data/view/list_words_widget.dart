@@ -6,8 +6,6 @@ import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.da
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ListWordsWidget extends StatelessWidget {
@@ -19,20 +17,20 @@ class ListWordsWidget extends StatelessWidget {
     final carouselProvider = context.watch<CarouselViewmodel>();
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Expanded(
-      child: CarouselSlider.builder(
-        disableGesture: true,
-        carouselController: carouselProvider.controller,
-        itemCount: wordsProvider.words!.length,
-        itemBuilder: (context, index, realIndex) => GridTestWidget(
-          words: wordsProvider.words!,
-          index: index,
-          carouselProvider: carouselProvider.controller,
-        ),
-        options: CarouselOptions(
-          enlargeCenterPage: true,
-          height: screenHeight * 0.36,
-        ),
+    // return Text("a");
+
+    return CarouselSlider.builder(
+      disableGesture: true,
+      carouselController: carouselProvider.controller,
+      itemCount: wordsProvider.words!.length,
+      itemBuilder: (context, index, realIndex) => GridTestWidget(
+        words: wordsProvider.words!,
+        index: index,
+        carouselProvider: carouselProvider.controller,
+      ),
+      options: CarouselOptions(
+        enlargeCenterPage: true,
+        height: screenHeight * 0.36,
       ),
     );
   }
@@ -101,17 +99,15 @@ class GridTestWidget extends StatelessWidget {
     String text,
     Color color,
   ) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => _checkAnswer(carouselProvider, text),
-        child: Container(
-          decoration: BoxDecoration(
-            color: color,
-            border: Border.all(color: Colors.grey, width: 2),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Center(child: Text(text)),
+    return GestureDetector(
+      onTap: () => _checkAnswer(carouselProvider, text),
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: Colors.grey, width: 2),
+          borderRadius: BorderRadius.circular(8),
         ),
+        child: Center(child: Text(text)),
       ),
     );
   }

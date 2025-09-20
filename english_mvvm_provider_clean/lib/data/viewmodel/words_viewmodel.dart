@@ -1,7 +1,5 @@
-import 'package:english_mvvm_provider_clean/domain/enums/WordCategory.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
-import 'package:english_mvvm_provider_clean/domain/repositories/Words_repository.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_words_usecase.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,7 @@ class WordsViewModel extends ChangeNotifier {
   GetWords getWords;
   SaveWordUsecase saveWord;
   SaveWordsUsecase savewords;
-  
+
   WordsViewModel(this.getWords, this.saveWord, this.savewords) {
     loadWords();
   }
@@ -29,6 +27,7 @@ class WordsViewModel extends ChangeNotifier {
       words = await getWords();
     } catch (e) {
       error = e.toString();
+      print(error);
     } finally {
       loading = false;
       notifyListeners();

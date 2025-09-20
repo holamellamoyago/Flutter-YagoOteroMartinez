@@ -3,17 +3,26 @@ import 'dart:io';
 
 import 'package:english_mvvm_provider_clean/data/datasources/local_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
+import 'package:english_mvvm_provider_clean/domain/enums/WordCategory.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class FileWordsDatasource implements LocalWordsDatasource {
   List<Word> words = [];
-  final String filePath = 'words.json';
 
   @override
   Future<List<Word>> getWords() async {
+    final filePath = await getLocalFilePath();
     final file = File(filePath);
 
     if (!await file.exists()) {
-      return [];
+      var w = Word.smart(
+        spanish: "no creado",
+        english: "no creado",
+        category: Wordcategory.noun
+      );
+      print("añadir w");
+      return [w];
     }
 
     final jsonString = await file.readAsString();
@@ -24,7 +33,7 @@ class FileWordsDatasource implements LocalWordsDatasource {
 
   @override
   Future<void> saveWords(List<Word> words) async {
-    final file = File(filePath);
+    final file = File(await getLocalFilePath());
     final json = words.map((e) => e.toJson()).toList();
     final jsonString = jsonEncode(json);
     await file.writeAsString(jsonString);
@@ -32,9 +41,22 @@ class FileWordsDatasource implements LocalWordsDatasource {
 
   @override
   Future<void> saveOneWord(Word word) async {
-    final file = File(filePath);
+    final file = File(await getLocalFilePath());
     final json = word.toJson();
     final jsonString = jsonEncode(json);
     await file.writeAsString(jsonString);
+  }
+
+  Future<String> getLocalFilePath() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final path = '${dir.path}/words.json';
+
+    // Copiar solo si no existe
+    final file = File(path);
+    if (!await file.exists()) {
+      final data = await rootBundle.loadString('assets/files/words.json');
+      await file.writeAsString(data);
+    }
+    return path;
   }
 }

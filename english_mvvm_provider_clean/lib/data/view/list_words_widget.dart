@@ -29,8 +29,10 @@ class ListWordsWidget extends StatelessWidget {
         carouselProvider: carouselProvider.controller,
       ),
       options: CarouselOptions(
-        enlargeCenterPage: true,
+        enlargeCenterPage: false,
         height: screenHeight * 0.36,
+        viewportFraction: 1,
+        scrollPhysics: NeverScrollableScrollPhysics(),
       ),
     );
   }
@@ -55,53 +57,79 @@ class GridTestWidget extends StatelessWidget {
     var strings = AppStrings();
 
     var answers = _generateUniqueRandomNumber();
-
     answers[random.nextInt(answers.length - 1)] = word.spanish;
 
-    return Column(
-      children: [
-        Text(
-          strings.question_1 + word.english + strings.question_2,
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-        SizedBox(height: 16),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _colorContainer(carouselProvider, answers[0], Colors.redAccent),
-              SizedBox(width: 16),
-              _colorContainer(carouselProvider, answers[1], Colors.blueAccent),
-            ],
+    final width = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          Text(
+            strings.question_1 + word.english + strings.question_2,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
-        ),
-        SizedBox(height: 16),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _colorContainer(
-                carouselProvider,
-                answers[2],
-                Colors.yellowAccent,
-              ),
-              SizedBox(width: 16),
-              _colorContainer(carouselProvider, answers[3], Colors.greenAccent),
-            ],
+          SizedBox(height: 16),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _colorContainer(
+                  context,
+                  carouselProvider,
+                  answers[0],
+                  Colors.redAccent,
+                ),
+                SizedBox(width: 16),
+                _colorContainer(
+                  context,
+                  carouselProvider,
+                  answers[1],
+                  Colors.blueAccent,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          SizedBox(height: 16),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _colorContainer(
+                  context,
+                  carouselProvider,
+                  answers[2],
+                  Colors.yellowAccent,
+                ),
+                SizedBox(width: 16),
+                _colorContainer(
+                  context,
+                  carouselProvider,
+                  answers[3],
+                  Colors.greenAccent,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _colorContainer(
+    BuildContext context,
     CarouselSliderController carouselProvider,
     String text,
     Color color,
   ) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () => _checkAnswer(carouselProvider, text),
       child: Container(
+        height: screenHeight * 0.1,
+        width: screenWidth * 0.4,
         decoration: BoxDecoration(
           color: color,
           border: Border.all(color: Colors.grey, width: 2),

@@ -10,7 +10,7 @@ dependencies:
   carousel_slider: ^5.1.1
   flutter:
     sdk: flutter
-  flutter_screenutil: ^5.9.3
+  path_provider: ^2.1.5
   provider: ^6.1.5+1
 
 dev_dependencies:
@@ -20,10 +20,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/files/words.json
 
-fonts:
-  - family: Comic Relief
-    fonts:
-      - asset: assets/fonts/ComicRelief-Regular.ttf
-      - asset: assets/fonts/ComicRelief-Bold.ttf
-        weight: 700
+  fonts:
+    - family: Comic Relief
+      fonts:
+        - asset: assets/fonts/ComicRelief-Regular.ttf
+        - asset: assets/fonts/ComicRelief-Bold.ttf
+          weight: 700

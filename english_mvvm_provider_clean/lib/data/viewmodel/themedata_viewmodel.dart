@@ -9,12 +9,13 @@ class ThemedataViewmodel extends ChangeNotifier {
     fontFamily: "Comic Relief",
     textTheme: TextTheme(
       headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       bodyMedium: TextStyle(
         fontSize: 16,
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
-      
+      labelMedium: TextStyle(fontSize: 16, color: Colors.grey),
     ),
   );
 }

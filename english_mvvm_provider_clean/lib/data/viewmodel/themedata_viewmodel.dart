@@ -6,7 +6,7 @@ class ThemedataViewmodel extends ChangeNotifier {
   ThemeData get() => isLight ? themeDataLight : ThemeData.dark();
 
   ThemeData themeDataLight = ThemeData(
-    // fontFamily: "Comic Relief",
+    fontFamily: "Comic Relief",
     textTheme: TextTheme(
       headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       bodyMedium: TextStyle(
@@ -14,6 +14,7 @@ class ThemedataViewmodel extends ChangeNotifier {
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
+      
     ),
   );
 }

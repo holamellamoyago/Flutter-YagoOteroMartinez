@@ -1,6 +1,6 @@
 import 'package:english_mvvm_provider_clean/data/datasources/file_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/local_word_repository_impl.dart';
-import 'package:english_mvvm_provider_clean/data/view/list_words_widget.dart';
+import 'package:english_mvvm_provider_clean/data/view/game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
@@ -23,22 +23,24 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => WordsViewModel(getWords, saveWord, saveWords),
         ),
-        ChangeNotifierProvider(create: (context) => CarouselViewmodel(),),
-        ChangeNotifierProvider(create: (context) => ThemedataViewmodel(),)
+        ChangeNotifierProvider(create: (context) => CarouselViewmodel()),
+        ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),
       ],
       child: MainApp(),
     ),
   );
 }
 
-
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: ListWordsWidget())),
+    var themeData = context.watch<ThemedataViewmodel>();
+
+    return MaterialApp(
+      theme: themeData.get(),
+      home: Scaffold(body: SafeArea(child: GameWordsWidget())),
     );
   }
 }

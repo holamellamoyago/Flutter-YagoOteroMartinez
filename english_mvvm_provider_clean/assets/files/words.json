@@ -68,5 +68,292 @@
         "corrects": 0,
         "errors": 0,
         "category": "phrasalverb"
+    },
+        {
+        "spanish": "buscar información",
+        "english": "look up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "apagar (un aparato)",
+        "english": "turn off",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "encender (un aparato)",
+        "english": "turn on",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "probarse (ropa)",
+        "english": "try on",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "llenar (un formulario)",
+        "english": "fill in",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "devolver (algo)",
+        "english": "give back",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "recoger (a alguien)",
+        "english": "pick up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "dejar de hacer algo",
+        "english": "give up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "cuidar de",
+        "english": "look after",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "llevar puesto",
+        "english": "put on",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "levantarse",
+        "english": "get up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "esperar con ilusión",
+        "english": "look forward to",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "terminar (algo, como existencias)",
+        "english": "run out of",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "investigar, averiguar",
+        "english": "find out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "continuar (haciendo algo)",
+        "english": "carry on",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "llegar (a un lugar)",
+        "english": "show up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "salir (a divertirse)",
+        "english": "go out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "dejar (algo o a alguien en un lugar)",
+        "english": "drop off",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "organizar, resolver",
+        "english": "sort out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "esperar (a alguien o algo)",
+        "english": "wait for",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "quitarse (ropa)",
+        "english": "take off",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "crecer, ser criado",
+        "english": "grow up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "apagar (un cigarrillo, fuego)",
+        "english": "put out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "subir (el volumen, temperatura)",
+        "english": "turn up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "bajar (el volumen, temperatura)",
+        "english": "turn down",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "encontrarse con (alguien por casualidad)",
+        "english": "run into",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "terminar (una relación, trabajo)",
+        "english": "break up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "intentar buscar, solicitar",
+        "english": "look for",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "llegar (a un lugar)",
+        "english": "get to",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "regresar, volver",
+        "english": "come back",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+        {
+        "spanish": "mencionar un tema",
+        "english": "bring up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "idear, proponer",
+        "english": "come up with",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "montar, organizar",
+        "english": "set up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "rendirse",
+        "english": "give in",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "entregar (por ejemplo un examen)",
+        "english": "hand in",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "resolver / hacer ejercicio",
+        "english": "work out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "registrarse en un hotel",
+        "english": "check in",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "dejar un hotel",
+        "english": "check out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "investigar",
+        "english": "look into",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "llevar a cabo",
+        "english": "carry out",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
+    },
+    {
+        "spanish": "empezar una actividad nueva",
+        "english": "take up",
+        "corrects": 0,
+        "errors": 0,
+        "category": "phrasalverb"
     }
 ]

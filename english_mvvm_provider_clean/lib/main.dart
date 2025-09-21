@@ -2,6 +2,7 @@ import 'package:english_mvvm_provider_clean/data/datasources/file_words_datasour
 import 'package:english_mvvm_provider_clean/data/repositories/local_word_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/view/game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
@@ -25,6 +26,7 @@ void main() {
         ),
         ChangeNotifierProvider(create: (context) => CarouselViewmodel()),
         ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),
+        ChangeNotifierProvider(create: (context) => ClockViewmodel(),)
       ],
       child: MainApp(),
     ),

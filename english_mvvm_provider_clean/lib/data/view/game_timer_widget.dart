@@ -10,24 +10,18 @@ class GameTimerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var clockProvider = context.watch<ClockViewmodel>();
 
-    return Row(
-      children: [
-        CircularCountDownTimer(
-          controller: clockProvider.countDownController,
-          onComplete: () => clockProvider.openDialog(context),
-          onChange: (value) => clockProvider.onChangeCountdowm(value),
-          width: 50,
-          height: 50,
-          duration: 1,
-          fillColor: clockProvider.fillColor,
-          ringColor: clockProvider.ringColor,
-          isReverse: true,
-          isReverseAnimation: true,
-          strokeCap: StrokeCap.butt,
-        ),
-        FilledButton(onPressed: () => 
-        clockProvider.openDialog(context), child: Text(""))
-      ],
+    return CircularCountDownTimer(
+      controller: clockProvider.countDownController,
+      onComplete: () => clockProvider.openDialog(context),
+      onChange: (value) => clockProvider.onChangeCountdowm(value),
+      width: 50,
+      height: 50,
+      duration: clockProvider.segundos,
+      fillColor: clockProvider.fillColor,
+      ringColor: clockProvider.ringColor,
+      isReverse: true,
+      isReverseAnimation: true,
+      strokeCap: StrokeCap.butt,
     );
   }
 }

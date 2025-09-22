@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:english_mvvm_provider_clean/data/view/grid_answers.dart';
-import 'package:english_mvvm_provider_clean/data/view/header_game_words_widget.dart';
+import 'package:english_mvvm_provider_clean/data/view/game_screen/body_game/grid_answers.dart';
+import 'package:english_mvvm_provider_clean/data/view/game_screen/header_game/header_game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class GameWordsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wordsProvider = context.watch<WordsViewModel>();
-    final carouselProvider = context.watch<CarouselViewmodel>();
+    final  CarouselViewmodel carouselProvider = context.watch<CarouselViewmodel>();
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Column(
@@ -26,7 +26,7 @@ class GameWordsWidget extends StatelessWidget {
           itemBuilder: (context, index, realIndex) => GridTestWidget(
             words: wordsProvider.words!,
             index: index,
-            carouselProvider: carouselProvider.controller,
+            carouselProvider: carouselProvider,
           ),
           options: CarouselOptions(
             enlargeCenterPage: false,

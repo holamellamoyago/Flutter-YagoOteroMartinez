@@ -1,15 +1,17 @@
-import 'package:english_mvvm_provider_clean/data/view/answer_button.dart';
+import 'package:english_mvvm_provider_clean/data/view/game_screen/body_game/answer_button.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
+import 'package:provider/provider.dart';
 
 class GridTestWidget extends StatelessWidget {
   final List<Word> words;
   final int index;
-  final CarouselSliderController carouselProvider;
+  final CarouselViewmodel carouselProvider;
 
   const GridTestWidget({
     super.key,
@@ -23,6 +25,11 @@ class GridTestWidget extends StatelessWidget {
     var word = words.elementAt(index);
     var random = Random();
     var strings = AppStrings();
+
+    ClockViewmodel clockProvider = Provider.of<ClockViewmodel>(
+      context,
+      listen: false,
+    );
 
     var answers = _generateUniqueRandomNumber();
     answers[random.nextInt(answers.length - 1)] = word.spanish;
@@ -43,13 +50,15 @@ class GridTestWidget extends StatelessWidget {
                 AnswerButton(
                   text: answers[0],
                   color: Colors.red,
-                  onTap: () => _checkAnswer(carouselProvider, answers[0]),
+                  onTap: () =>
+                      _checkAnswer(carouselProvider, clockProvider, answers[0]),
                 ),
                 SizedBox(width: 16),
                 AnswerButton(
                   text: answers[1],
                   color: Colors.blue,
-                  onTap: () => _checkAnswer(carouselProvider, answers[1]),
+                  onTap: () =>
+                      _checkAnswer(carouselProvider, clockProvider, answers[1]),
                 ),
               ],
             ),
@@ -62,13 +71,15 @@ class GridTestWidget extends StatelessWidget {
                 AnswerButton(
                   text: answers[2],
                   color: Colors.orange,
-                  onTap: () => _checkAnswer(carouselProvider, answers[2]),
+                  onTap: () =>
+                      _checkAnswer(carouselProvider, clockProvider, answers[2]),
                 ),
                 SizedBox(width: 16),
                 AnswerButton(
                   text: answers[3],
                   color: Colors.green,
-                  onTap: () => _checkAnswer(carouselProvider, answers[3]),
+                  onTap: () =>
+                      _checkAnswer(carouselProvider, clockProvider, answers[3]),
                 ),
               ],
             ),
@@ -97,9 +108,14 @@ class GridTestWidget extends StatelessWidget {
     return l;
   }
 
-  void _checkAnswer(CarouselSliderController carouselProvider, String text) {
+  void _checkAnswer(
+    CarouselViewmodel carouselProvider,
+    ClockViewmodel clockProvider,
+    String text,
+  ) {
     if (text == words.elementAt(index).spanish) {
-      carouselProvider.nextPage();
+      carouselProvider.addPoints();
+      clockProvider.countDownController.restart();
     } else {
       print("Fallo");
     }

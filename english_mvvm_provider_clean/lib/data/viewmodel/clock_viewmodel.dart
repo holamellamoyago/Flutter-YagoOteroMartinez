@@ -31,7 +31,7 @@ class ClockViewmodel extends ChangeNotifier {
 
   void openDialog(BuildContext context) {
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       context: context,
       builder: (context) => DialogTimerWidget(),
     );

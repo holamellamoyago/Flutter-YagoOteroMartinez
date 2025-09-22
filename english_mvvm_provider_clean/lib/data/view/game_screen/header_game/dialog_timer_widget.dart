@@ -1,6 +1,7 @@
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class DialogTimerWidget extends StatelessWidget {
@@ -69,7 +70,8 @@ class DialogTimerWidget extends StatelessWidget {
       actions: [
         FilledButton.icon(
           icon: Icon(Icons.refresh),
-          onPressed: () => {},
+          // TODO 
+          onPressed: () => context.go('/'),
           label: Text(AppStrings.textButtonDialog),
         ),
       ],

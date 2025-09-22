@@ -1,3 +1,4 @@
+import 'package:english_mvvm_provider_clean/config/app_router.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/file_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/local_word_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/view/game_screen/game_words_widget.dart';
@@ -40,9 +41,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeData = context.watch<ThemedataViewmodel>();
 
-    return MaterialApp(
+    return MaterialApp.router(
       theme: themeData.get(),
-      home: Scaffold(body: SafeArea(child: GameWordsWidget())),
+      routerConfig: AppRouter().router,
     );
   }
 }

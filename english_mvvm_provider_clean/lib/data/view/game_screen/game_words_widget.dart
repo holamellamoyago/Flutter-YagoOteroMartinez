@@ -6,8 +6,8 @@ import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class GameWordsWidget extends StatelessWidget {
-  const GameWordsWidget({super.key});
+class GameScreen extends StatelessWidget {
+  const GameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

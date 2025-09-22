@@ -1,3 +1,4 @@
+import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ThemedataViewmodel extends ChangeNotifier {
@@ -6,6 +7,7 @@ class ThemedataViewmodel extends ChangeNotifier {
   ThemeData get() => isLight ? themeDataLight : ThemeData.dark();
 
   ThemeData themeDataLight = ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
     fontFamily: "Comic Relief",
     textTheme: TextTheme(
       headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),

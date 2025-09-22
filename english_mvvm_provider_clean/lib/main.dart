@@ -1,6 +1,6 @@
 import 'package:english_mvvm_provider_clean/data/datasources/file_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/local_word_repository_impl.dart';
-import 'package:english_mvvm_provider_clean/data/view/game_words_widget.dart';
+import 'package:english_mvvm_provider_clean/data/view/game_screen/game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';

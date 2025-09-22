@@ -1,5 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:english_mvvm_provider_clean/data/view/game_timer_widget.dart';
+import 'package:english_mvvm_provider_clean/data/view/game_screen/header_game/game_timer_widget.dart';
 import 'package:flutter/material.dart';
 
 class HeaderGameWidget extends StatelessWidget {
@@ -18,7 +18,5 @@ class HeaderGameWidget extends StatelessWidget {
     );
   }
 
-  void _onChangeCountdowm(){
 
-  }
 }

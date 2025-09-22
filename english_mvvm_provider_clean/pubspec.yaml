@@ -11,6 +11,7 @@ dependencies:
   circular_countdown_timer: ^0.2.4
   flutter:
     sdk: flutter
+  go_router: ^16.2.2
   path_provider: ^2.1.5
   provider: ^6.1.5+1
 

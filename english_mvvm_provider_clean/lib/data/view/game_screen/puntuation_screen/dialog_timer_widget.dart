@@ -1,3 +1,4 @@
+import 'package:english_mvvm_provider_clean/config/app_shadows.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +24,7 @@ class DialogTimerWidget extends StatelessWidget {
               color: Color(0xFFDAA520),
               size: screenHeight * 0.1,
               shadows: [
-                Shadow(
-                  offset: Offset(4, 4),
-                  color: Colors.grey,
-                  blurRadius: 10,
-                ),
+                AppShadows.shadow
               ],
             ),
             SizedBox(height: 16),

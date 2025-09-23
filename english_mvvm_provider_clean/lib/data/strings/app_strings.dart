@@ -11,4 +11,7 @@ class AppStrings {
 
   static final cardTitleNew = "New puntuation";
   static final cardTitleTotal = "Total puntuation";
+
+  // home screen
+  static final appTitle = "Phrasal Quest";
 }

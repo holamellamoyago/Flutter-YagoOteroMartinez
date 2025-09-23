@@ -15,28 +15,32 @@ class GameScreen extends StatelessWidget {
     final  CarouselViewmodel carouselProvider = context.watch<CarouselViewmodel>();
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        HeaderGameWidget(screenHeight: screenHeight),
-        CarouselSlider.builder(
-          disableGesture: true,
-          carouselController: carouselProvider.controller,
-          itemCount: wordsProvider.words!.length,
-          itemBuilder: (context, index, realIndex) => GridTestWidget(
-            words: wordsProvider.words!,
-            index: index,
-            carouselProvider: carouselProvider,
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          HeaderGameWidget(screenHeight: screenHeight),
+          CarouselSlider.builder(
+            disableGesture: true,
+            carouselController: carouselProvider.controller,
+            itemCount: wordsProvider.words!.length,
+            itemBuilder: (context, index, realIndex) => GridTestWidget(
+              words: wordsProvider.words!,
+              index: index,
+              carouselProvider: carouselProvider,
+            ),
+            options: CarouselOptions(
+              enlargeCenterPage: false,
+              height: screenHeight * 0.36,
+              viewportFraction: 1,
+              scrollPhysics: NeverScrollableScrollPhysics(),
+            ),
           ),
-          options: CarouselOptions(
-            enlargeCenterPage: false,
-            height: screenHeight * 0.36,
-            viewportFraction: 1,
-            scrollPhysics: NeverScrollableScrollPhysics(),
-          ),
-        ),
-        SizedBox(height: screenHeight * 0.2),
-      ],
+          SizedBox(height: screenHeight * 0.2),
+        ],
+            ),
+      ),
     );
   }
 }

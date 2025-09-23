@@ -23,14 +23,12 @@ class DialogTimerWidget extends StatelessWidget {
               Icons.emoji_events_outlined,
               color: Color(0xFFDAA520),
               size: screenHeight * 0.1,
-              shadows: [
-                AppShadows.shadow
-              ],
+              shadows: [AppShadows.shadow],
             ),
             SizedBox(height: 16),
             Text(
               AppStrings.headLineDialogTime,
-              style: Theme.of(context).textTheme.headlineLarge,
+              style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 16),
@@ -67,7 +65,7 @@ class DialogTimerWidget extends StatelessWidget {
       actions: [
         FilledButton.icon(
           icon: Icon(Icons.refresh),
-          // TODO 
+          // TODO
           onPressed: () => context.go('/'),
           label: Text(AppStrings.textButtonDialog),
         ),

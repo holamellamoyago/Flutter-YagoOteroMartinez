@@ -40,7 +40,7 @@ class GridTestWidget extends StatelessWidget {
         children: [
           Text(
             strings.question_1 + word.english + strings.question_2,
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
           SizedBox(height: 16),
           Expanded(

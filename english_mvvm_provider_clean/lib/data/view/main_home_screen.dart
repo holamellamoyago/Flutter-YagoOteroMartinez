@@ -32,7 +32,7 @@ class MainHomeScreen extends StatelessWidget {
             topRight: Radius.circular(16),
           ),
           child: BottomNavigationBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             selectedIconTheme: selectedIconThemeData,

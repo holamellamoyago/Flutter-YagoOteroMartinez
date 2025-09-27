@@ -9,6 +9,7 @@ environment:
 dependencies:
   carousel_slider: ^5.1.1
   circular_countdown_timer: ^0.2.4
+  firebase_core: ^4.1.1
   flutter:
     sdk: flutter
   go_router: ^16.2.2

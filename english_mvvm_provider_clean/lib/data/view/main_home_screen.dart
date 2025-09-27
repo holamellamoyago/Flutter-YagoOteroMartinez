@@ -1,3 +1,4 @@
+import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/config/app_shadows.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/bottombar_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class MainHomeScreen extends StatelessWidget {
     return Scaffold(
       body: provider.screens.elementAt(provider.selectedIndex),
       bottomNavigationBar: Container(
-        color: primaryColor,
+        color: AppColors.primaryColor,
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.only(
             topLeft: Radius.circular(16),

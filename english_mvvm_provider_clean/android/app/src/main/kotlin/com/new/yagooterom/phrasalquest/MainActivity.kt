@@ -1,4 +1,4 @@
-package com.example.english_mvvm_provider_clean
+package com.new.yagooterom.phrasalquest
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -9,15 +9,19 @@ import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_words_usecase.dart';
+import 'package:english_mvvm_provider_clean/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   final wordDatasource = FileWordsDatasource();
   final wordRepository = LocalWordRepositoryImpl(wordDatasource);
   final getWords = GetWords(wordRepository);
   final saveWord = SaveWordUsecase(wordRepository);
   final saveWords = SaveWordsUsecase(wordRepository);
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
     MultiProvider(
@@ -27,8 +31,12 @@ void main() {
         ),
         ChangeNotifierProvider(create: (context) => CarouselViewmodel()),
         ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),
-        ChangeNotifierProvider(create: (context) => ClockViewmodel(),), 
-        ChangeNotifierProvider(create: (context) => BottombarViewmodel(),)
+        ChangeNotifierProvider(
+          create: (context) => ClockViewmodel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BottombarViewmodel(),
+        )
       ],
       child: MainApp(),
     ),

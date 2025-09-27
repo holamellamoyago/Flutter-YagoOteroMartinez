@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122440637695",
+    "project_id": "pharsal-quest",
+    "storage_bucket": "pharsal-quest.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122440637695:android:ef3892d695bf86fb4600ca",
+        "android_client_info": {
+          "package_name": "com.new.yagooterom.phrasalquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4YDr14nOwuyg0TjRXPN8zbPqwgmu4wtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.new.yagooterom.phrasalquest
+package com.yagooterom.pharasal
 
 import io.flutter.embedding.android.FlutterActivity
 

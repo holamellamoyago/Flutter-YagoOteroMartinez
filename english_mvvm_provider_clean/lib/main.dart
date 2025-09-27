@@ -21,6 +21,7 @@ void main() async {
   final saveWord = SaveWordUsecase(wordRepository);
   final saveWords = SaveWordsUsecase(wordRepository);
 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(

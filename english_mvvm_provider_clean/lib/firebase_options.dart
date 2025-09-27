@@ -42,17 +42,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyA3S4CuSviuZagMm7-I3S8F1E6AJLCz3y8',
-    appId: '1:122440637695:web:5771e93e7366d14e4600ca',
+    appId: '1:122440637695:web:8f293f0ee96194734600ca',
     messagingSenderId: '122440637695',
     projectId: 'pharsal-quest',
     authDomain: 'pharsal-quest.firebaseapp.com',
     storageBucket: 'pharsal-quest.firebasestorage.app',
-    measurementId: 'G-C51NHM53SJ',
+    measurementId: 'G-1F2VLL8Y8W',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD4YDr14nOwuyg0TjRXPN8zbPqwgmu4wtY',
-    appId: '1:122440637695:android:ef3892d695bf86fb4600ca',
+    appId: '1:122440637695:android:3468c8710a67007e4600ca',
     messagingSenderId: '122440637695',
     projectId: 'pharsal-quest',
     storageBucket: 'pharsal-quest.firebasestorage.app',
@@ -60,16 +60,16 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAuOtqDgp5Zdvy88EHL-XefM2Sj8XzU1FA',
-    appId: '1:122440637695:ios:cc777c4c2466e92c4600ca',
+    appId: '1:122440637695:ios:e31086b67e23c2f84600ca',
     messagingSenderId: '122440637695',
     projectId: 'pharsal-quest',
     storageBucket: 'pharsal-quest.firebasestorage.app',
-    iosBundleId: 'com.new.yagooterom.phrasalquest',
+    iosBundleId: 'com.yagooterom.pharasal',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAuOtqDgp5Zdvy88EHL-XefM2Sj8XzU1FA',
-    appId: '1:122440637695:ios:5c7115bca0b494274600ca',
+    appId: '1:122440637695:ios:83d0fa5d2c41b45a4600ca',
     messagingSenderId: '122440637695',
     projectId: 'pharsal-quest',
     storageBucket: 'pharsal-quest.firebasestorage.app',
@@ -78,11 +78,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyA3S4CuSviuZagMm7-I3S8F1E6AJLCz3y8',
-    appId: '1:122440637695:web:dee48dd831f63aac4600ca',
+    appId: '1:122440637695:web:3b48ee993ee3b3b24600ca',
     messagingSenderId: '122440637695',
     projectId: 'pharsal-quest',
     authDomain: 'pharsal-quest.firebaseapp.com',
     storageBucket: 'pharsal-quest.firebasestorage.app',
-    measurementId: 'G-VZYKHPWZC7',
+    measurementId: 'G-BDYSXP9F3V',
   );
+
 }

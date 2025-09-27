@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:122440637695:android:ef3892d695bf86fb4600ca",
+        "mobilesdk_app_id": "1:122440637695:android:3468c8710a67007e4600ca",
         "android_client_info": {
-          "package_name": "com.new.yagooterom.phrasalquest"
+          "package_name": "com.yagooterom.pharasal"
         }
       },
       "oauth_client": [],

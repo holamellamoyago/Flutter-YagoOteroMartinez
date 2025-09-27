@@ -1,6 +1,6 @@
 import 'package:english_mvvm_provider_clean/config/app_router.dart';
-import 'package:english_mvvm_provider_clean/data/datasources/file_words_datasource.dart';
-import 'package:english_mvvm_provider_clean/data/repositories/local_word_repository_impl.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/word/file_words_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/repositories/word_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/bottombar_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';

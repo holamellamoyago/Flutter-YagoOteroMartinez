@@ -10,6 +10,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        // TODO Foto de perfil
+        // leading: ClipRRect(borderRadius: BorderRadiusGeometry.circular(100), child: ,),
+      ),
       body: Container(
         color: AppColors.primaryColor,
         child: Column(
@@ -24,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
               child: GestureDetector(
-                onTap: () => context.go('/game_screen'),
+                onTap: () => context.push(AppStrings.levelsScreen),
                 child: Container(
                   height: screenHeight * 0.1,
                   decoration: BoxDecoration(

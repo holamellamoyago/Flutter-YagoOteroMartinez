@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:english_mvvm_provider_clean/data/datasources/local_words_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/word/local_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:english_mvvm_provider_clean/domain/enums/WordCategory.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,7 +21,6 @@ class FileWordsDatasource implements LocalWordsDatasource {
         english: "no creado",
         category: Wordcategory.noun
       );
-      print("añadir w");
       return [w];
     }
 

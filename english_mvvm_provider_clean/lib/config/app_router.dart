@@ -2,6 +2,7 @@ import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/view/game_screen/game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/view/home_screen/home_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/levels_screen/levels_screen.dart';
+import 'package:english_mvvm_provider_clean/data/view/loggin_screen/loggin_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/main_home_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/profile_screen/profile_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/puntuation_screen/puntuation_screen.dart';
@@ -21,6 +22,7 @@ class AppRouter {
       GoRoute(path: '/social_screen', builder: (context, state) => SocialScreen()),
 
       GoRoute(path: AppStrings.levelsScreen, builder: (context, state) => LevelsScreen()),
+      GoRoute(path: AppStrings.logginScreen, builder: (context, state) => LogginScreen()),
     ],
   );
 }

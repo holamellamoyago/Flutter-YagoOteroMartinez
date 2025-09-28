@@ -12,6 +12,7 @@ import 'package:english_mvvm_provider_clean/domain/usecases/save_words_usecase.d
 import 'package:english_mvvm_provider_clean/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -22,6 +23,7 @@ void main() async {
   final saveWords = SaveWordsUsecase(wordRepository);
 
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
@@ -32,12 +34,8 @@ void main() async {
         ),
         ChangeNotifierProvider(create: (context) => CarouselViewmodel()),
         ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),
-        ChangeNotifierProvider(
-          create: (context) => ClockViewmodel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => BottombarViewmodel(),
-        )
+        ChangeNotifierProvider(create: (context) => ClockViewmodel()),
+        ChangeNotifierProvider(create: (context) => BottombarViewmodel()),
       ],
       child: MainApp(),
     ),

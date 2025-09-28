@@ -15,7 +15,7 @@ class AppStrings {
   // home screen
   static final appTitle = "Phrasal Quest";
 
-
   // Pantallas
   static final levelsScreen = "/levels_screen";
+  static final logginScreen = "/loggin_screen";
 }

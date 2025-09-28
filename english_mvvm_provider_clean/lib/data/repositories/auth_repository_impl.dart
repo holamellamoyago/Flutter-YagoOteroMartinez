@@ -1,27 +1,14 @@
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
-import 'package:english_mvvm_provider_clean/domain/entities/user.dart'
-    as app_user;
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
+import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
 
-class AuthRemoteDatasource implements AuthDatasource {
-  final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
-  late firebase.User firebaseUser;
-
-  @override
-  Future<app_user.User> loginWithEmail() {
-    throw UnimplementedError();
-  }
+class AuthRepositoryImpl implements AuthRepository {
+  final AuthDatasource datasource;
+  AuthRepositoryImpl({required this.datasource});
 
   @override
   bool isLoggedIn() {
-    bool isLoggin = false;
-    _auth.authStateChanges().listen((firebase.User? user) {
-      if (user != null) {
-        isLoggin = true;
-      }
-    });
-
-    return isLoggin;
+    return datasource.isLoggedIn();
   }
 
   @override
@@ -31,19 +18,25 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
-  Future<app_user.User?> getCachedUser() {
+  Future<User?> getCachedUser() {
     // TODO: implement getCachedUser
     throw UnimplementedError();
   }
 
   @override
-  Future<app_user.User> getCurrentUser() {
+  Future<User> getCurrentUser() {
     // TODO: implement getCurrentUser
     throw UnimplementedError();
   }
 
   @override
-  Future<app_user.User> loginWithGoogle() {
+  Future<User> loginWithEmail() {
+    // TODO: implement loginWithEmail
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<User> loginWithGoogle() {
     // TODO: implement loginWithGoogle
     throw UnimplementedError();
   }

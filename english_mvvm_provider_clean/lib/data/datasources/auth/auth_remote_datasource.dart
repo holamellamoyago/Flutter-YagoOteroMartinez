@@ -2,6 +2,13 @@ import 'package:english_mvvm_provider_clean/data/datasources/auth/local_user_dat
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 
 class AuthRemoteDatasource implements LocalUserDatasource {
+
+  @override
+  Future<User> loginWithEmail() {
+    
+    throw UnimplementedError();
+  }
+
   @override
   Future<void> cleanCache() {
     // TODO: implement cleanCache
@@ -26,11 +33,7 @@ class AuthRemoteDatasource implements LocalUserDatasource {
     throw UnimplementedError();
   }
 
-  @override
-  Future<User> loginWithEmail() {
-    // TODO: implement loginWithEmail
-    throw UnimplementedError();
-  }
+
 
   @override
   Future<User> loginWithGoogle() {

@@ -1,6 +1,7 @@
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
+// import 'package:firebase_auth/firebase_auth.dart' ;
 
-abstract class LocalUserDatasource {
+abstract class AuthDatasource {
   Future<User?> getCachedUser();
   Future<void> setCachedUser();
   Future<void> cleanCache();
@@ -8,5 +9,5 @@ abstract class LocalUserDatasource {
   Future<User> loginWithEmail();
   Future<User> loginWithGoogle();
   Future<void> logout();
-  Future<bool> isLoggedIn();
+  bool isLoggedIn();
 }

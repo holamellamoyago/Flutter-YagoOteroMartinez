@@ -134,7 +134,7 @@ class LogginScreen extends StatelessWidget {
         children: [
           Icon(Icons.person_outline),
           Text(
-            AppStrings.signupEmail,
+            AppStrings.signupAsGuest,
             style: TextStyle(
               fontWeight: FontWeight.normal,
               color: Colors.black,

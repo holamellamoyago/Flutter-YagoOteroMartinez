@@ -18,4 +18,13 @@ class AppStrings {
   // Pantallas
   static final levelsScreen = "/levels_screen";
   static final logginScreen = "/loggin_screen";
+
+  // Login screen
+  static final titleLoginScreen = "Welcome to $appTitle!";
+  static final subtitleLoginScreen =
+      "Learn English in a fun and interactive way";
+  static final signupEmail = "Sign up with Email";
+  static final signupGoogle = "Continue with Google";
+  static final therms =
+      "By continuing, you agree to our Terms of Service and Privacy Policy";
 }

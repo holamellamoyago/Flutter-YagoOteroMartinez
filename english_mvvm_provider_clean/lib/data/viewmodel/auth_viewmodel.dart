@@ -1,6 +1,4 @@
-import 'package:english_mvvm_provider_clean/config/app_router.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
-import 'package:english_mvvm_provider_clean/data/view/loggin_screen/loggin_screen.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';

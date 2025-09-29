@@ -22,8 +22,12 @@ class ThemedataViewmodel extends ChangeNotifier {
         ],
       ),
       // Título del dialog Timer
-      headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-      headlineSmall: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+      headlineMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
+      headlineSmall: TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.w900,
+        color: Colors.white,
+      ),
       titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       bodyMedium: TextStyle(
         fontSize: 16,

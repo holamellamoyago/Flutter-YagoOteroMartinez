@@ -1,6 +1,7 @@
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:go_router/go_router.dart';
@@ -104,22 +105,63 @@ class ButtonsLoginWidget extends StatelessWidget {
   }
 }
 
-
 class TextFieldsEmailPassword extends StatelessWidget {
   const TextFieldsEmailPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 16,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextFormField(
-          decoration: InputDecoration(hint: Text("Rellena el mail")),
-          validator: ValidationBuilder().email(AppStrings.errorEmail).build(),
-        )
-        
-      ],
+    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(context);
+
+    InputDecoration decoration(String titulo) {
+      return InputDecoration(
+        border: OutlineInputBorder(),
+        alignLabelWithHint: true,
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        labelText: titulo,
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Form(
+        key: authProvider.formkey,
+        child: Column(
+          spacing: 16,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: authProvider.emailControlleer,
+              decoration: decoration(AppStrings.signupEmail),
+              validator: ValidationBuilder()
+                  .email(AppStrings.errorEmail)
+                  .build(),
+            ),
+            TextFormField(
+              controller: authProvider.passwordController,
+              decoration: decoration(AppStrings.password),
+              validator: ValidationBuilder()
+                  .minLength(4, AppStrings.errorPasswordLenght)
+                  .required()
+                  .build(),
+            ),
+            TextFormField(
+              controller: authProvider.confirmPasswordController,
+              decoration: decoration(AppStrings.confirmPassword),
+              validator: ValidationBuilder()
+                  .minLength(4, AppStrings.errorPasswordLenght)
+                  .required()
+                  .build(),
+            ),
+            Align(
+              alignment: AlignmentGeometry.centerRight,
+              child: FilledButton(
+                onPressed: () {},
+                child: Text("Crear cuenta"),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

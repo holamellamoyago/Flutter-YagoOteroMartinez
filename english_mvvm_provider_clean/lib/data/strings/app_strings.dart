@@ -28,4 +28,6 @@ class AppStrings {
   static final signupAsGuest = "Sign up as guest";
   static final therms =
       "By continuing, you agree to our Terms of Service and Privacy Policy";
+
+  static final errorEmail = "You need to write a correct email";
 }

@@ -9,14 +9,14 @@ class AuthRemoteDatasource implements AuthDatasource {
   late firebase.User firebaseUser;
 
   @override
-  Future<app_user.User> loginWithEmail() {
+  Future<app_user.User> loginWithEmail(String email, String password) {
     throw UnimplementedError();
   }
 
   @override
   bool isLoggedIn() {
     bool isLoggin = false;
-    _auth.authStateChanges().listen((firebase.User? user) {
+    _auth.userChanges().listen((firebase.User? user) {
       if (user != null) {
         isLoggin = true;
       }

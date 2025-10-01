@@ -1,8 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LogginScreen extends StatelessWidget {
@@ -51,17 +51,12 @@ class LogginScreen extends StatelessWidget {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                SizedBox(height: 8),
-
-                _signupEmailWidget(pageHeight),
-                GestureDetector(
-                  onTap: () async {
-                    await authProvider.loginGoogle();
-                    context.go("/");
-                  },
-                  child: _signupGoogleWidget(pageHeight),
+                CarouselSlider(
+                  carouselController: authProvider.carouselController,
+                  disableGesture: false,
+                  items: authProvider.carouselItems,
+                  options: authProvider.carouselOptions
                 ),
-                _signupAsGuestWidget(pageHeight),
               ],
             ),
             Padding(
@@ -69,7 +64,6 @@ class LogginScreen extends StatelessWidget {
               child: Text(
                 AppStrings.therms,
                 textAlign: TextAlign.center,
-
                 style: TextStyle(
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.normal,
@@ -82,77 +76,4 @@ class LogginScreen extends StatelessWidget {
     );
   }
 
-  _signupEmailWidget(double pageHeight) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        height: pageHeight * 0.05,
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          spacing: 16,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.email_outlined, color: Colors.white),
-            Text(
-              AppStrings.signupEmail,
-              style: TextStyle(fontWeight: FontWeight.normal),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _signupGoogleWidget(double pageHeight) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        height: pageHeight * 0.05,
-        decoration: BoxDecoration(
-          color: AppColors.primaryAccentColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          spacing: 16,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset("assets/images/logo_google.png"),
-            ),
-            Text(
-              AppStrings.signupGoogle,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _signupAsGuestWidget(double pageHeight) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        spacing: 16,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.person_outline),
-          Text(
-            AppStrings.signupAsGuest,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

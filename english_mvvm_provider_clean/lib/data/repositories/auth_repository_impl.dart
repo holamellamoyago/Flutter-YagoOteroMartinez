@@ -31,8 +31,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> loginWithEmail() {
-    return datasource.loginWithGoogle();
+  Future<User> loginWithEmail(String email, String password) {
+    throw UnimplementedError();
   }
 
   @override

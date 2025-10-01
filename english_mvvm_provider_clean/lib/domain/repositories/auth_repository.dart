@@ -6,7 +6,7 @@ abstract class AuthRepository {
   Future<void> setCachedUser();
   Future<void> cleanCache();
   Future<User> getCurrentUser();
-  Future<User> loginWithEmail();
+  Future<User> loginWithEmail(String email, String password);
   Future<User> loginWithGoogle();
   Future<void> logout();
   bool isLoggedIn();

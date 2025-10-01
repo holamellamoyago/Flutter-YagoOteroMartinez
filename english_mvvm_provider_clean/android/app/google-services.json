@@ -12,7 +12,20 @@
           "package_name": "com.yagooterom.pharasal"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "122440637695-vegk7tvhkme87utnue8a4ng70bk0vak5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yagooterom.pharasal",
+            "certificate_hash": "c5b9c00fd2178ce99d97f447f523895119189357"
+          }
+        },
+        {
+          "client_id": "122440637695-msibjrkbd54uq3ib6ro00t91sv9k6ql3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD4YDr14nOwuyg0TjRXPN8zbPqwgmu4wtY"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122440637695-msibjrkbd54uq3ib6ro00t91sv9k6ql3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "122440637695-58bk2r6qcl2m7dkeojcf2oe1bj1opvj2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.englishMvvmProviderClean"
+              }
+            }
+          ]
         }
       }
     }

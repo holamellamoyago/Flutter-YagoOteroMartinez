@@ -1,6 +1,9 @@
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class LogginScreen extends StatelessWidget {
   const LogginScreen({super.key});
@@ -8,6 +11,7 @@ class LogginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double pageHeight = MediaQuery.of(context).size.height;
+    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -48,8 +52,15 @@ class LogginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8),
+
                 _signupEmailWidget(pageHeight),
-                _signupGoogleWidget(pageHeight),
+                GestureDetector(
+                  onTap: () async {
+                    await authProvider.loginGoogle();
+                    context.go("/");
+                  },
+                  child: _signupGoogleWidget(pageHeight),
+                ),
                 _signupAsGuestWidget(pageHeight),
               ],
             ),

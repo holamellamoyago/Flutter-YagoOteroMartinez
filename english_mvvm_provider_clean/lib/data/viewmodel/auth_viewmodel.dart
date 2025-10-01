@@ -13,6 +13,12 @@ class AuthViewmodel extends ChangeNotifier {
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
+  TextEditingController get emailControlleer => TextEditingController();
+  TextEditingController get passwordController => TextEditingController();
+  TextEditingController get confirmPasswordController =>
+      TextEditingController();
+  GlobalKey get formkey => GlobalKey<FormState>();
+
   AuthViewmodel(this.userRepository) {
     _checkAuth();
   }
@@ -22,9 +28,16 @@ class AuthViewmodel extends ChangeNotifier {
 
   CarouselSliderController get carouselController => _carouselController;
 
-  CarouselOptions get carouselOptions => CarouselOptions(viewportFraction: 1);
+  // CarouselOptions get carouselOptions => CarouselOptions(viewportFraction: 1);
 
-  List<StatelessWidget> get carouselItems => [ButtonsLoginWidget(), TextFieldsEmailPassword()];
+  CarouselOptions carouselOptions(double pageHeight) {
+    return CarouselOptions(viewportFraction: 1, height: pageHeight * 0.3);
+  }
+
+  List<StatelessWidget> get carouselItems => [
+    ButtonsLoginWidget(),
+    TextFieldsEmailPassword(),
+  ];
 
   bool _checkAuth() {
     return userRepository.isLoggedIn();

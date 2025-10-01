@@ -55,7 +55,7 @@ class LogginScreen extends StatelessWidget {
                   carouselController: authProvider.carouselController,
                   disableGesture: false,
                   items: authProvider.carouselItems,
-                  options: authProvider.carouselOptions
+                  options: authProvider.carouselOptions(pageHeight),
                 ),
               ],
             ),
@@ -75,5 +75,4 @@ class LogginScreen extends StatelessWidget {
       ),
     );
   }
-
 }

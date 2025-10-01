@@ -2,6 +2,7 @@ import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasourc
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart'
     as app_user;
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRemoteDatasource implements AuthDatasource {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
@@ -25,6 +26,18 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
+  Future<app_user.User> loginWithGoogle() async {
+    final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
+
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    // final credential = firebase.GoogleAuthProvider.credential(accessToken: googleAuth?.)
+    
+    return app_user.User(name: googleUser.displayName!, email: googleUser.email);
+
+  }
+
+  @override
   Future<void> cleanCache() {
     // TODO: implement cleanCache
     throw UnimplementedError();
@@ -39,12 +52,6 @@ class AuthRemoteDatasource implements AuthDatasource {
   @override
   Future<app_user.User> getCurrentUser() {
     // TODO: implement getCurrentUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<app_user.User> loginWithGoogle() {
-    // TODO: implement loginWithGoogle
     throw UnimplementedError();
   }
 

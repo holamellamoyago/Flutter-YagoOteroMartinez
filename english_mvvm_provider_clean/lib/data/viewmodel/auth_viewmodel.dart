@@ -9,7 +9,7 @@ class AuthViewmodel extends ChangeNotifier {
   // String _initialLocalitation;
   bool isLoggedIn = false;
   User? currentUser;
-  bool _isLoading = false;
+  // bool _isLoading = false;
 
   AuthViewmodel(this.userRepository) {
     _checkAuth();
@@ -22,11 +22,8 @@ class AuthViewmodel extends ChangeNotifier {
     return userRepository.isLoggedIn();
   }
 
-  // void loadUser() {
-  //   if (userRepository.isLoggedIn()) {
-  //     AppRouter.initialLocation = "/";
-  //   } else {
-  //     AppRouter.initialLocation = AppStrings.logginScreen;
-  //   }
-  // }
+  Future<void> loginGoogle() async {
+    currentUser=  await userRepository.loginWithGoogle();
+
+  }
 }

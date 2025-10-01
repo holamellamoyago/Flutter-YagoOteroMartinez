@@ -1,4 +1,5 @@
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 abstract class AuthRepository {
   Future<User?> getCachedUser();

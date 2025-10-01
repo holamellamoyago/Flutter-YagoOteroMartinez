@@ -1,6 +1,7 @@
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDatasource datasource;
@@ -31,14 +32,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> loginWithEmail() {
-    // TODO: implement loginWithEmail
-    throw UnimplementedError();
+    return datasource.loginWithGoogle();
   }
 
   @override
   Future<User> loginWithGoogle() {
-    // TODO: implement loginWithGoogle
-    throw UnimplementedError();
+    return datasource.loginWithGoogle();
   }
 
   @override

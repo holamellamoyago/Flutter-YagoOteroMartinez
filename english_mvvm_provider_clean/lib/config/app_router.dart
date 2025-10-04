@@ -17,7 +17,7 @@ class AppRouter {
       initialLocation: provider.initialLocalitation,
       routes: [
         // TODO Cambiar todo esto a AppStrings
-        GoRoute(path: '/', builder: (context, state) => MainHomeScreen()),
+        GoRoute(path: AppStrings.mainHomeScreen, builder: (context, state) => MainHomeScreen()),
         GoRoute(
           path: '/home_screen',
           builder: (context, state) => HomeScreen(),

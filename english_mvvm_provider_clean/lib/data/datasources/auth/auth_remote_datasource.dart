@@ -2,17 +2,11 @@ import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasourc
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart'
     as app_user;
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRemoteDatasource implements AuthDatasource {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
-  late firebase.User firebaseUser;
 
-  @override
-  Future<app_user.User> loginWithEmail(String email, String password) {
-    throw UnimplementedError();
-  }
-
+  // Hecho
   @override
   bool isLoggedIn() {
     bool isLoggin = false;
@@ -26,15 +20,40 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
+  Future<app_user.User> createAccountEmailPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return _firebaaseUserToAppUser(credential.user!);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<app_user.User> loginWithEmail(String email, String password) async {
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      return _firebaaseUserToAppUser(credential.user!);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  // TODO Sin hacer
+
+
+  @override
   Future<app_user.User> loginWithGoogle() async {
-    final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
-
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-    // final credential = firebase.GoogleAuthProvider.credential(accessToken: googleAuth?.)
-    
-    return app_user.User(name: googleUser.displayName!, email: googleUser.email);
-
+    throw UnimplementedError();
   }
 
   @override
@@ -65,5 +84,15 @@ class AuthRemoteDatasource implements AuthDatasource {
   Future<void> setCachedUser() {
     // TODO: implement setCachedUser
     throw UnimplementedError();
+  }
+
+  app_user.User _firebaaseUserToAppUser(firebase.User firebaseUser) {
+    return app_user.User(
+      name:
+          firebaseUser.displayName ??
+          firebaseUser.email?.split("@")[0] ??
+          'user',
+      email: firebaseUser.email ?? "Email user",
+    );
   }
 }

@@ -19,9 +19,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-
   await dotenv.load(fileName: ".env");
-  
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -33,7 +32,7 @@ void main() async {
 
   final AuthRemoteDatasource userDatasource = AuthRemoteDatasource();
   final AuthRepositoryImpl userRepository = AuthRepositoryImpl(
-    datasource: userDatasource,
+    remoteDatasource: userDatasource,
   );
 
   runApp(

@@ -10,10 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        // TODO Foto de perfil
-        // leading: ClipRRect(borderRadius: BorderRadiusGeometry.circular(100), child: ,),
-      ),
+      appBar: AppBar(backgroundColor: AppColors.primaryColor),
       body: Container(
         color: AppColors.primaryColor,
         child: Column(

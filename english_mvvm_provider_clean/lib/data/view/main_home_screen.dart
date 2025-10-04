@@ -47,7 +47,7 @@ class MainHomeScreen extends StatelessWidget {
             items: provider.lista,
             currentIndex: provider.selectedIndex,
             type: BottomNavigationBarType.fixed,
-
+            
             onTap: (value) {
               provider.changeScreen(value);
             },

@@ -6,38 +6,59 @@ import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.
 import 'package:flutter/material.dart';
 
 class AuthViewmodel extends ChangeNotifier {
+  // Parámetros
   AuthRepository userRepository;
-
   bool isLoggedIn = false;
   User? currentUser;
   final CarouselSliderController _carouselController =
       CarouselSliderController();
+  String? error;
+  bool isLoading = false;
 
-  TextEditingController get emailControlleer => TextEditingController();
-  TextEditingController get passwordController => TextEditingController();
-  TextEditingController get confirmPasswordController =>
-      TextEditingController();
-  GlobalKey get formkey => GlobalKey<FormState>();
-
+  // Constructores
   AuthViewmodel(this.userRepository) {
     _checkAuth();
   }
 
+  // GETTERS
+  CarouselSliderController get carouselController => _carouselController;
+
   String get initialLocalitation =>
       _checkAuth() ? "/" : AppStrings.logginScreen;
 
-  CarouselSliderController get carouselController => _carouselController;
+  List<Widget> get carouselItems => [
+    ButtonsLoginWidget(),
+    RegisterEmailPassword(),
+    SignInEmailPassword(),
+  ];
 
-  // CarouselOptions get carouselOptions => CarouselOptions(viewportFraction: 1);
-
-  CarouselOptions carouselOptions(double pageHeight) {
-    return CarouselOptions(viewportFraction: 1, height: pageHeight * 0.3);
+  InputDecoration _errorDecoration(String titulo) {
+    return InputDecoration(
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.redAccent),
+      ),
+      alignLabelWithHint: true,
+      floatingLabelAlignment: FloatingLabelAlignment.start,
+      labelText: titulo,
+    );
   }
 
-  List<StatelessWidget> get carouselItems => [
-    ButtonsLoginWidget(),
-    TextFieldsEmailPassword(),
-  ];
+  InputDecoration inputDecoration(String titulo) {
+    return error == null
+        ? InputDecoration(
+            border: OutlineInputBorder(),
+            alignLabelWithHint: true,
+            floatingLabelAlignment: FloatingLabelAlignment.start,
+            labelText: titulo,
+          )
+        : _errorDecoration(error!);
+  }
+
+  // Funciones
+
+  CarouselOptions carouselOptions(double pageHeight) {
+    return CarouselOptions(viewportFraction: 1, height: pageHeight * 0.4);
+  }
 
   bool _checkAuth() {
     return userRepository.isLoggedIn();
@@ -47,7 +68,34 @@ class AuthViewmodel extends ChangeNotifier {
     currentUser = await userRepository.loginWithGoogle();
   }
 
-  Future<void> loginEmailPassword(String email, String password) async {
-    currentUser = await userRepository.loginWithEmail(email, password);
+  Future<void> createAccountEmailPassword(String email, String password) async {
+    try {
+      currentUser = await userRepository.createAccountEmailPassword(
+        email,
+        password,
+      );
+    } catch (e) {
+      error = e.toString();
+    } 
   }
+
+
+  Future<void> loginEmailPassword(String email, String password) async {
+    try {
+      isLoading = true;
+      error = null;
+
+      // notifyListeners();
+
+      currentUser = await userRepository.loginWithEmail(email, password);
+      isLoggedIn = true;
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      // isLoading = false;
+      // notifyListeners();
+
+    }
+  }
+
 }

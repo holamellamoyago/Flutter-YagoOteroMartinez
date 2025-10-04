@@ -16,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User> loginWithEmail(String email, String password) {
     return remoteDatasource.loginWithEmail(email, password);
   }
-  
+
   @override
   Future<void> cleanCache() {
     // TODO: implement cleanCache
@@ -35,16 +35,14 @@ class AuthRepositoryImpl implements AuthRepository {
     throw UnimplementedError();
   }
 
-
   @override
   Future<User> loginWithGoogle() {
     return remoteDatasource.loginWithGoogle();
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async {
+    remoteDatasource.logout();
   }
 
   @override

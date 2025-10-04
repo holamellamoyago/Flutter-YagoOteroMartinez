@@ -75,27 +75,23 @@ class AuthViewmodel extends ChangeNotifier {
         password,
       );
     } catch (e) {
-      error = e.toString();
-    } 
-  }
-
-
-  Future<void> loginEmailPassword(String email, String password) async {
-    try {
-      isLoading = true;
-      error = null;
-
-      // notifyListeners();
-
-      currentUser = await userRepository.loginWithEmail(email, password);
-      isLoggedIn = true;
-    } catch (e) {
-      error = e.toString();
-    } finally {
-      // isLoading = false;
-      // notifyListeners();
-
+      throw Exception(e.toString());
     }
   }
 
+  Future<void> loginEmailPassword(String email, String password) async {
+    try {
+      currentUser = await userRepository.loginWithEmail(email, password);
+      isLoggedIn = true;
+      notifyListeners();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<void> logOut() async {
+    currentUser = null;
+    userRepository.logout();
+    notifyListeners();
+  }
 }

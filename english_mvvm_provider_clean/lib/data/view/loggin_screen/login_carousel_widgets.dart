@@ -28,6 +28,24 @@ class ButtonsLoginWidget extends StatelessWidget {
         ),
         _signupGoogleWidget(pageHeight),
         _signupAsGuestWidget(pageHeight),
+        Row(
+          children: [
+            Text(
+              "Don't have an account?",
+              style: TextStyle(
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+            Text(
+              "Register",
+              style: TextStyle(
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -206,6 +224,7 @@ class _SignInEmailPasswordState extends State<SignInEmailPassword> {
   final GlobalKey<FormState> _key = GlobalKey();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -220,6 +239,10 @@ class _SignInEmailPasswordState extends State<SignInEmailPassword> {
       context,
       listen: false,
     );
+
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -244,7 +267,6 @@ class _SignInEmailPasswordState extends State<SignInEmailPassword> {
               child: FilledButton(
                 onPressed: () async {
                   _checkLogin(authProvider);
-                  
                 },
                 child: Text("Sign in"),
               ),
@@ -257,21 +279,25 @@ class _SignInEmailPasswordState extends State<SignInEmailPassword> {
 
   void _checkLogin(AuthViewmodel authProvider) async {
     try {
+      setState(() {
+        isLoading = true;
+      });
+
       await authProvider.loginEmailPassword(
         _emailController.text,
         _passwordController.text,
       );
 
-      // Navega (ahora el context está vivo)
-      if (mounted) {
-        context.go(AppStrings.mainHomeScreen);
-      }
+      
     } catch (e) {
       // Cierra el dialog en caso de error
-
       if (mounted) {
         showSnackBar(context, e.toString(), color: Colors.red);
       }
+
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 }

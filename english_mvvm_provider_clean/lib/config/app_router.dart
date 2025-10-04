@@ -4,7 +4,7 @@ import 'package:english_mvvm_provider_clean/data/view/home_screen/home_screen.da
 import 'package:english_mvvm_provider_clean/data/view/levels_screen/levels_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/loggin_screen/loggin_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/main_home_screen.dart';
-import 'package:english_mvvm_provider_clean/data/view/profile_screen/profile_screen.dart';
+import 'package:english_mvvm_provider_clean/data/view/settings_screen/settings_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/puntuation_screen/puntuation_screen.dart';
 import 'package:english_mvvm_provider_clean/data/view/social_screen/social_screen.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
@@ -17,7 +17,10 @@ class AppRouter {
       initialLocation: provider.initialLocalitation,
       routes: [
         // TODO Cambiar todo esto a AppStrings
-        GoRoute(path: AppStrings.mainHomeScreen, builder: (context, state) => MainHomeScreen()),
+        GoRoute(
+          path: AppStrings.mainHomeScreen,
+          builder: (context, state) => MainHomeScreen(),
+        ),
         GoRoute(
           path: '/home_screen',
           builder: (context, state) => HomeScreen(),
@@ -28,7 +31,7 @@ class AppRouter {
         ),
         GoRoute(
           path: '/profile_screen',
-          builder: (context, state) => ProfileScreen(),
+          builder: (context, state) => SettingsScreen(),
         ),
         GoRoute(
           path: '/puntuation_screen',

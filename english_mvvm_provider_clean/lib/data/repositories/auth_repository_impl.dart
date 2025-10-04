@@ -4,14 +4,19 @@ import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthDatasource datasource;
-  AuthRepositoryImpl({required this.datasource});
+  final AuthDatasource remoteDatasource;
+  AuthRepositoryImpl({required this.remoteDatasource});
 
   @override
   bool isLoggedIn() {
-    return datasource.isLoggedIn();
+    return remoteDatasource.isLoggedIn();
   }
 
+  @override
+  Future<User> loginWithEmail(String email, String password) {
+    return remoteDatasource.loginWithEmail(email, password);
+  }
+  
   @override
   Future<void> cleanCache() {
     // TODO: implement cleanCache
@@ -30,14 +35,10 @@ class AuthRepositoryImpl implements AuthRepository {
     throw UnimplementedError();
   }
 
-  @override
-  Future<User> loginWithEmail(String email, String password) {
-    throw UnimplementedError();
-  }
 
   @override
   Future<User> loginWithGoogle() {
-    return datasource.loginWithGoogle();
+    return remoteDatasource.loginWithGoogle();
   }
 
   @override
@@ -50,5 +51,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> setCachedUser() {
     // TODO: implement setCachedUser
     throw UnimplementedError();
+  }
+
+  @override
+  Future<User> createAccountEmailPassword(String email, String password) {
+    return remoteDatasource.createAccountEmailPassword(email, password);
   }
 }

@@ -51,12 +51,14 @@ class LogginScreen extends StatelessWidget {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                CarouselSlider(
-                  carouselController: authProvider.carouselController,
-                  disableGesture: false,
-                  items: authProvider.carouselItems,
-                  options: authProvider.carouselOptions(pageHeight),
-                ),
+                authProvider.isLoading
+                    ? CircularProgressIndicator()
+                    : CarouselSlider(
+                        carouselController: authProvider.carouselController,
+                        disableGesture: false,
+                        items: authProvider.carouselItems,
+                        options: authProvider.carouselOptions(pageHeight),
+                      ),
               ],
             ),
             Padding(

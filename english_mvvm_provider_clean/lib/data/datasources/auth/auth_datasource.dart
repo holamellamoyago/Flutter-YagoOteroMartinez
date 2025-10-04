@@ -10,4 +10,5 @@ abstract class AuthDatasource {
   Future<User> loginWithGoogle();
   Future<void> logout();
   bool isLoggedIn();
+  Future<User> createAccountEmailPassword(String email, String password);
 }

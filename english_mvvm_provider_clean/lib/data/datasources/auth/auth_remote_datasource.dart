@@ -9,14 +9,7 @@ class AuthRemoteDatasource implements AuthDatasource {
   // Hecho
   @override
   bool isLoggedIn() {
-    bool isLoggin = false;
-    _auth.userChanges().listen((firebase.User? user) {
-      if (user != null) {
-        isLoggin = true;
-      }
-    });
-
-    return isLoggin;
+    return _auth.currentUser != null;
   }
 
   @override
@@ -48,8 +41,12 @@ class AuthRemoteDatasource implements AuthDatasource {
       throw Exception(e);
     }
   }
-  // TODO Sin hacer
 
+  @override
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+  // TODO Sin hacer
 
   @override
   Future<app_user.User> loginWithGoogle() async {
@@ -71,12 +68,6 @@ class AuthRemoteDatasource implements AuthDatasource {
   @override
   Future<app_user.User> getCurrentUser() {
     // TODO: implement getCurrentUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> logout() {
-    // TODO: implement logout
     throw UnimplementedError();
   }
 

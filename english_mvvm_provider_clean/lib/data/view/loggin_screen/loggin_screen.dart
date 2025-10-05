@@ -33,7 +33,7 @@ class LogginScreen extends StatelessWidget {
                       color: AppColors.primaryAccentColor,
                     ),
                     child: Image.asset(
-                      "assets/images/logo.png",
+                      AppStrings.logoImage,
                       height: pageHeight * 0.2,
                     ),
                   ),
@@ -59,6 +59,7 @@ class LogginScreen extends StatelessWidget {
                         items: authProvider.carouselItems,
                         options: authProvider.carouselOptions(pageHeight),
                       ),
+                
               ],
             ),
             Padding(

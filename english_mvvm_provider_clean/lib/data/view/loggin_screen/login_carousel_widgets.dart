@@ -1,5 +1,6 @@
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
+import 'package:english_mvvm_provider_clean/data/view/loggin_screen/auth_button_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
@@ -11,119 +12,63 @@ class ButtonsLoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double pageHeight = MediaQuery.of(context).size.height;
-    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(
-      context,
-      listen: false,
-    );
     return Column(
       spacing: 16,
       mainAxisAlignment: MainAxisAlignment.center,
+      children: [_authButtons(), _singnUpWidget()],
+    );
+  }
+
+  Widget _authButtons() {
+    return Column(
+      spacing: 16,
       children: [
-        GestureDetector(
-          onTap: () {
-            authProvider.carouselController.jumpToPage(2);
-          },
-          child: _signupEmailWidget(pageHeight),
+        AuthButton(
+          customIcon: Icon(Icons.email_outlined),
+          customText: AppStrings.signupEmail,
+          containerColor: AppColors.primaryColor,
+          textColor: Colors.white,
         ),
-        _signupGoogleWidget(pageHeight),
-        _signupAsGuestWidget(pageHeight),
-        Row(
-          children: [
-            Text(
-              "Don't have an account?",
-              style: TextStyle(
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            Text(
-              "Register",
-              style: TextStyle(
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        AuthButton(
+          customIcon: Image.asset(AppStrings.googleIcon),
+          customText: AppStrings.signupGoogle,
+          containerColor: AppColors.primaryAccentColor,
+          textColor: Colors.black,
+        ),
+        AuthButton(
+          customIcon: Icon(Icons.person_outline),
+          customText: AppStrings.signupAsGuest,
+          containerColor: Colors.transparent,
+          textColor: Colors.black,
         ),
       ],
     );
   }
 
-  _signupEmailWidget(double pageHeight) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        height: pageHeight * 0.05,
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          spacing: 16,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.email_outlined, color: Colors.white),
-            Text(
-              AppStrings.signupEmail,
-              style: TextStyle(fontWeight: FontWeight.normal),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _signupGoogleWidget(double pageHeight) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        height: pageHeight * 0.05,
-        decoration: BoxDecoration(
-          color: AppColors.primaryAccentColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          spacing: 16,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset("assets/images/logo_google.png"),
-            ),
-            Text(
-              AppStrings.signupGoogle,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _signupAsGuestWidget(double pageHeight) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        spacing: 16,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.person_outline),
-          Text(
-            AppStrings.signupAsGuest,
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-            ),
+  _singnUpWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          AppStrings.signUpText1,
+          style: TextStyle(
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.normal,
           ),
-        ],
-      ),
+        ),
+        Text(
+          AppStrings.signUpText2,
+          style: TextStyle(
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }
+
+
 
 class RegisterEmailPassword extends StatefulWidget {
   const RegisterEmailPassword({super.key});
@@ -287,8 +232,6 @@ class _SignInEmailPasswordState extends State<SignInEmailPassword> {
         _emailController.text,
         _passwordController.text,
       );
-
-      
     } catch (e) {
       // Cierra el dialog en caso de error
       if (mounted) {

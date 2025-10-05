@@ -36,4 +36,11 @@ class AppStrings {
   static final password = "Write your password";
   static final confirmPassword = "Confirm the password";
   static final errorPasswordLenght = "The password must have 6 lengh";
+
+  static final signUpText1 = "Don't have an account?";
+  static final signUpText2 = " Register";
+
+  // Imagenes
+  static final logoImage = "assets/images/logo.png";
+  static final googleIcon = "assets/images/logo_google.png";
 }

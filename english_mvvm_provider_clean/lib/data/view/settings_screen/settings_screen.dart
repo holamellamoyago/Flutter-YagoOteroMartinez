@@ -1,6 +1,9 @@
-import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/view/loggin_screen/login_carousel_widgets.dart';
+import 'package:english_mvvm_provider_clean/data/view/loggin_screen/register_email_password_widget.dart';
+import 'package:english_mvvm_provider_clean/data/view/loggin_screen/signin_email_password_widget.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
+import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 
 class AuthViewmodel extends ChangeNotifier {
@@ -21,6 +24,7 @@ class AuthViewmodel extends ChangeNotifier {
   }
 
   // GETTERS
+
   CarouselSliderController get carouselController => _carouselController;
 
   String get initialLocalitation =>
@@ -57,7 +61,7 @@ class AuthViewmodel extends ChangeNotifier {
   // Funciones
 
   CarouselOptions carouselOptions(double pageHeight) {
-    return CarouselOptions(viewportFraction: 1, height: pageHeight * 0.4);
+    return CarouselOptions(viewportFraction: 1);
   }
 
   bool _checkAuth() {
@@ -65,7 +69,11 @@ class AuthViewmodel extends ChangeNotifier {
   }
 
   Future<void> loginGoogle() async {
-    currentUser = await userRepository.loginWithGoogle();
+    try {
+      currentUser = await userRepository.loginWithGoogle();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   Future<void> createAccountEmailPassword(String email, String password) async {

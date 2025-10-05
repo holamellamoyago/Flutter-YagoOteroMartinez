@@ -1,10 +1,16 @@
+import 'package:english_mvvm_provider_clean/config/app_env.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart'
     as app_user;
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRemoteDatasource implements AuthDatasource {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    serverClientId: AppEnv.googleServerClientID,
+  );
 
   // Hecho
   @override
@@ -46,11 +52,30 @@ class AuthRemoteDatasource implements AuthDatasource {
   Future<void> logout() async {
     await _auth.signOut();
   }
+
   // TODO Sin hacer
 
   @override
   Future<app_user.User> loginWithGoogle() async {
-    throw UnimplementedError();
+    try {
+      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      if (account == null) throw Exception('Sign in cancelled');
+
+      final GoogleSignInAuthentication auth = await account.authentication;
+
+      // Crea credenciales para Firebase
+      final firebase.AuthCredential credential = firebase.GoogleAuthProvider.credential(
+        accessToken: auth.accessToken,
+        idToken: auth.idToken,
+      );
+
+      // Autentica con Firebase
+      final firebase.UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+      return _firebaaseUserToAppUser(userCredential.user!);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override

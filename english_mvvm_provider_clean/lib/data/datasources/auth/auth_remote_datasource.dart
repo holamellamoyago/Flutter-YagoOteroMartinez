@@ -8,9 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthRemoteDatasource implements AuthDatasource {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    serverClientId: AppEnv.googleServerClientID,
-  );
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   serverClientId: AppEnv.googleServerClientID,
+  // );
 
   // Hecho
   @override
@@ -57,8 +57,10 @@ class AuthRemoteDatasource implements AuthDatasource {
 
   @override
   Future<app_user.User> loginWithGoogle() async {
+    GoogleSignIn googleSignIn = GoogleSignIn();
+
     try {
-      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      final GoogleSignInAccount? account = await googleSignIn.signIn();
       if (account == null) throw Exception('Sign in cancelled');
 
       final GoogleSignInAuthentication auth = await account.authentication;

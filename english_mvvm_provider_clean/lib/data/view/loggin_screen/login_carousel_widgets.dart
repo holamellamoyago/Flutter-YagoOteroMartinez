@@ -52,7 +52,6 @@ class ButtonsLoginWidget extends StatelessWidget {
                 context.go(AppStrings.mainHomeScreen);
               }
             } catch (e) {
-              print(e.toString());
               showSnackBar(context, e.toString());
             }
           },
@@ -62,7 +61,16 @@ class ButtonsLoginWidget extends StatelessWidget {
           customText: AppStrings.signupAsGuest,
           containerColor: Colors.transparent,
           textColor: Colors.black,
-          customVoid: null,
+          customVoid: () async {
+            try {
+              
+              if (context.mounted && await authProvider.loginAnonimously()) {
+                context.go(AppStrings.mainHomeScreen);
+              }
+            } catch (e) {
+              showSnackBar(context, e.toString());
+            }
+          },
         ),
       ],
     );

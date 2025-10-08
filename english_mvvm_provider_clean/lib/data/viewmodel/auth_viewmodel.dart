@@ -5,7 +5,6 @@ import 'package:english_mvvm_provider_clean/data/view/loggin_screen/register_ema
 import 'package:english_mvvm_provider_clean/data/view/loggin_screen/signin_email_password_widget.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
-import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 
 class AuthViewmodel extends ChangeNotifier {
@@ -20,21 +19,34 @@ class AuthViewmodel extends ChangeNotifier {
 
   // Constructores
   AuthViewmodel(this.userRepository) {
-    _checkAuth();
+    Future.microtask(() async {
+      await _checkAuth();
+      notifyListeners(); // Notifica cambios después de chequear
+    });
   }
 
   // GETTERS
 
   CarouselSliderController get carouselController => _carouselController;
 
-  String get initialLocalitation =>
-      _checkAuth() ? "/" : AppStrings.logginScreen;
+  String get initialLocalitation => isLoggedIn ? "/" : AppStrings.logginScreen;
 
   List<Widget> get carouselItems => [
     ButtonsLoginWidget(),
     RegisterEmailPassword(),
     SignInEmailPassword(),
   ];
+
+  Future<void> _checkAuth() async {
+    if (userRepository.isLoggedIn()) {
+      currentUser = await userRepository.getCurrentUser();
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
+  }
+
+  User get getCurrentUser => currentUser!;
 
   InputDecoration _errorDecoration(String titulo) {
     return InputDecoration(
@@ -62,10 +74,6 @@ class AuthViewmodel extends ChangeNotifier {
 
   CarouselOptions carouselOptions(double pageHeight) {
     return CarouselOptions(viewportFraction: 1);
-  }
-
-  bool _checkAuth() {
-    return userRepository.isLoggedIn();
   }
 
   Future<void> loginGoogle() async {
@@ -102,4 +110,21 @@ class AuthViewmodel extends ChangeNotifier {
     userRepository.logout();
     notifyListeners();
   }
+
+  Future<bool> loginAnonimously() async {
+    try {
+      currentUser = await userRepository.loginAnonimously();
+      return true;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  // User getCurrentUser() {
+  //   if (currentUser != null) {
+  //     return currentUser!;
+  //   } else {
+  //     throw Exception("No hay user");
+  //   }
+  // }
 }

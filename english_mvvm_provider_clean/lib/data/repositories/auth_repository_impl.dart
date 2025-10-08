@@ -1,7 +1,6 @@
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDatasource remoteDatasource;
@@ -18,21 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> cleanCache() {
-    // TODO: implement cleanCache
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<User?> getCachedUser() {
-    // TODO: implement getCachedUser
-    throw UnimplementedError();
-  }
-
-  @override
   Future<User> getCurrentUser() {
-    // TODO: implement getCurrentUser
-    throw UnimplementedError();
+    return remoteDatasource.getCurrentUser();
   }
 
   @override
@@ -46,13 +32,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> setCachedUser() {
-    // TODO: implement setCachedUser
-    throw UnimplementedError();
+  Future<User> createAccountEmailPassword(String email, String password) {
+    return remoteDatasource.createAccountEmailPassword(email, password);
   }
 
   @override
-  Future<User> createAccountEmailPassword(String email, String password) {
-    return remoteDatasource.createAccountEmailPassword(email, password);
+  Future<User> loginAnonimously() {
+    return remoteDatasource.loginAnonimously();
   }
 }

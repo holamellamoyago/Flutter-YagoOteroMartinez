@@ -1,4 +1,3 @@
-import 'package:english_mvvm_provider_clean/config/app_env.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/user.dart'
     as app_user;
@@ -7,10 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRemoteDatasource implements AuthDatasource {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
-
-  // final GoogleSignIn _googleSignIn = GoogleSignIn(
-  //   serverClientId: AppEnv.googleServerClientID,
-  // );
 
   // Hecho
   @override
@@ -53,8 +48,6 @@ class AuthRemoteDatasource implements AuthDatasource {
     await _auth.signOut();
   }
 
-  // TODO Sin hacer
-
   @override
   Future<app_user.User> loginWithGoogle() async {
     GoogleSignIn googleSignIn = GoogleSignIn();
@@ -66,13 +59,15 @@ class AuthRemoteDatasource implements AuthDatasource {
       final GoogleSignInAuthentication auth = await account.authentication;
 
       // Crea credenciales para Firebase
-      final firebase.AuthCredential credential = firebase.GoogleAuthProvider.credential(
-        accessToken: auth.accessToken,
-        idToken: auth.idToken,
-      );
+      final firebase.AuthCredential credential =
+          firebase.GoogleAuthProvider.credential(
+            accessToken: auth.accessToken,
+            idToken: auth.idToken,
+          );
 
       // Autentica con Firebase
-      final firebase.UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final firebase.UserCredential userCredential = await _auth
+          .signInWithCredential(credential);
 
       return _firebaaseUserToAppUser(userCredential.user!);
     } catch (e) {
@@ -81,31 +76,20 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
-  Future<void> cleanCache() {
-    // TODO: implement cleanCache
-    throw UnimplementedError();
+  Future<app_user.User> loginAnonimously() async {
+    firebase.UserCredential user = await _auth.signInAnonymously();
+
+    return _firebaaseUserToAppUser(user.user!);
   }
 
   @override
-  Future<app_user.User?> getCachedUser() {
-    // TODO: implement getCachedUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<app_user.User> getCurrentUser() {
-    // TODO: implement getCurrentUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> setCachedUser() {
-    // TODO: implement setCachedUser
-    throw UnimplementedError();
+  Future<app_user.User> getCurrentUser() async {
+    return _firebaaseUserToAppUser(_auth.currentUser!);
   }
 
   app_user.User _firebaaseUserToAppUser(firebase.User firebaseUser) {
     return app_user.User(
+      image: firebaseUser.photoURL ?? "",
       name:
           firebaseUser.displayName ??
           firebaseUser.email?.split("@")[0] ??

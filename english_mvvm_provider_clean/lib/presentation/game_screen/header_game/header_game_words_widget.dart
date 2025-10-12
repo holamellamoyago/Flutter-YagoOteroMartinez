@@ -1,4 +1,4 @@
-import 'package:english_mvvm_provider_clean/data/view/game_screen/header_game/game_timer_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/game_screen/header_game/game_timer_widget.dart';
 import 'package:flutter/material.dart';
 
 class HeaderGameWidget extends StatelessWidget {

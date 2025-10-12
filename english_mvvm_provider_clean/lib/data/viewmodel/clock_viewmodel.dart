@@ -1,5 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:english_mvvm_provider_clean/data/view/game_screen/puntuation_screen/dialog_timer_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/game_screen/puntuation_screen/dialog_timer_widget.dart';
 import 'package:flutter/material.dart';
 
 class ClockViewmodel extends ChangeNotifier {

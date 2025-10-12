@@ -9,7 +9,7 @@ class MainHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BottombarViewmodel provider = Provider.of<BottombarViewmodel>(context);
+    BottombarViewmodel provider = Provider.of<BottombarViewmodel>(context, listen: true);
     final primaryColor = Theme.of(context).colorScheme.primary;
 
     final IconThemeData unselectedIconThemeData = IconThemeData(

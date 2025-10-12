@@ -5,6 +5,10 @@ class PuntuationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Profile screen"),),);
+    return Scaffold(
+      body: Center(
+        child: Text("Profile screen", style: TextStyle(color: Colors.black)),
+      ),
+    );
   }
 }

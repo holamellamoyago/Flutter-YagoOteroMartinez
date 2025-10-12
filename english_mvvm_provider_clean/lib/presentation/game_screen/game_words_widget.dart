@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:english_mvvm_provider_clean/data/view/game_screen/body_game/grid_answers.dart';
-import 'package:english_mvvm_provider_clean/data/view/game_screen/header_game/header_game_words_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/game_screen/body_game/grid_answers.dart';
+import 'package:english_mvvm_provider_clean/presentation/game_screen/header_game/header_game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:flutter/material.dart';

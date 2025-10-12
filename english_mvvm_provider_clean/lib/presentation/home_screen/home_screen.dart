@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
-import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -21,16 +20,16 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
-        leading: GestureDetector(
-          onTap: () {
-            User user = authProvider.getCurrentUser;
-          },
-          child: CircleAvatar(
-            child: CachedNetworkImage(
-              imageUrl: authProvider.getCurrentUser.image,
-              progressIndicatorBuilder: (context, url, progress) =>
-                  CircularProgressIndicator(value: progress.progress),
-              errorWidget: (context, url, error) => Text("Iniciar sesion"),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: authProvider.getCurrentUser.image!,
+                progressIndicatorBuilder: (context, url, progress) =>
+                    CircularProgressIndicator(value: progress.progress),
+                errorWidget: (context, url, error) => Text("Iniciar sesion"),
+              ),
             ),
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
-import 'package:english_mvvm_provider_clean/domain/entities/user.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -12,17 +12,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> loginWithEmail(String email, String password) {
+  Future<AppUser> loginWithEmail(String email, String password) {
     return remoteDatasource.loginWithEmail(email, password);
   }
 
   @override
-  Future<User> getCurrentUser() {
+  Future<AppUser> getCurrentUser() {
     return remoteDatasource.getCurrentUser();
   }
 
   @override
-  Future<User> loginWithGoogle() {
+  Future<AppUser> loginWithGoogle() {
     return remoteDatasource.loginWithGoogle();
   }
 
@@ -32,12 +32,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> createAccountEmailPassword(String email, String password) {
+  Future<AppUser> createAccountEmailPassword(String email, String password) {
     return remoteDatasource.createAccountEmailPassword(email, password);
   }
 
   @override
-  Future<User> loginAnonimously() {
+  Future<AppUser> loginAnonimously() {
     return remoteDatasource.loginAnonimously();
   }
 }

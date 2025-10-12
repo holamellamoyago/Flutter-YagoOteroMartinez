@@ -1,4 +1,4 @@
-import 'package:english_mvvm_provider_clean/data/view/game_screen/body_game/answer_button.dart';
+import 'package:english_mvvm_provider_clean/presentation/game_screen/body_game/answer_button.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
 import 'package:flutter/material.dart';

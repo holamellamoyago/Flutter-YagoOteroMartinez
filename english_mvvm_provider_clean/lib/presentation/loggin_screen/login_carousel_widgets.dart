@@ -1,6 +1,6 @@
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
-import 'package:english_mvvm_provider_clean/data/view/loggin_screen/auth_button_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/loggin_screen/auth_button_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';

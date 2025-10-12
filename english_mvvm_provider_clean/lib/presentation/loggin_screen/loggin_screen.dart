@@ -11,7 +11,7 @@ class LogginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double pageHeight = MediaQuery.of(context).size.height;
-    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(context);
+    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(

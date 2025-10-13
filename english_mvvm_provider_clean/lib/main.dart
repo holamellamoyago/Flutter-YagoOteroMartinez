@@ -64,7 +64,7 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) =>
-              SocialViewmodel(socialRepository: socialRepository),
+              SocialViewmodel(socialRepository),
         ),
       ],
       child: MainApp(),

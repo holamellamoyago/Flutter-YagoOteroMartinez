@@ -1,3 +1,5 @@
+import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
+
 abstract class SocialDatasource {
-  getGeneralTable();
+  Future<List<AppUser>> getGeneralTable();
 }

@@ -29,6 +29,11 @@ class ThemedataViewmodel extends ChangeNotifier {
         color: Colors.white,
       ),
       titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      bodySmall: TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
       bodyMedium: TextStyle(
         fontSize: 16,
         color: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/datasources/social/social_datasource.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/social_repository.dart';
 
 class SocialRespositoryImpl extends SocialRepository {
@@ -6,7 +7,7 @@ class SocialRespositoryImpl extends SocialRepository {
   SocialRespositoryImpl({required this.datasource});
 
   @override
-  getGeneralTable() {
-    datasource.getGeneralTable();
+  Future<List<AppUser>> getGeneralTable() {
+    return datasource.getGeneralTable();
   }
 }

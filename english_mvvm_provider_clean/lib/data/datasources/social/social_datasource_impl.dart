@@ -6,9 +6,14 @@ class SocialDatasourceImpl extends SocialDatasource {
   Supabase supabase = Supabase.instance;
 
   @override
-  getGeneralTable() async {
+  Future<List<AppUser>> getGeneralTable() async {
     final data = await supabase.client.from('users').select();
-    print(mapearUsers(data));
+
+    if (data.isNotEmpty) {
+      return mapearUsers(data);
+    } else {
+      return List<AppUser>.empty();
+    }
   }
 
   List<AppUser> mapearUsers(List<Map<String, dynamic>> lista) {

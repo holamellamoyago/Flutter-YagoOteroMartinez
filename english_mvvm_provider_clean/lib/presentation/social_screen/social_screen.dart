@@ -50,7 +50,7 @@ class GeneralTable extends StatelessWidget {
     List<AppUser> users = socialViewmodel.users;
     return Expanded(
       child: ListView.builder(
-        itemCount: users.length,
+        itemCount: 5,
         itemBuilder: (context, index) => Card(
           elevation: 4,
           color: Colors.white,
@@ -71,6 +71,7 @@ class GeneralTable extends StatelessWidget {
               ),
             ),
             title: Text(users[index].name),
+            subtitle: Text(users[index].totalPoints.toString()),
             trailing: Icon(Icons.person_add_alt_1_outlined),
           ),
         ),

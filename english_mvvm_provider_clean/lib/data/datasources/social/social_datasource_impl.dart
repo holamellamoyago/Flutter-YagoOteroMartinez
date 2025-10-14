@@ -22,15 +22,16 @@ class SocialDatasourceImpl extends SocialDatasource {
 
     while (it.moveNext()) {
       Map<String, dynamic> map = it.current;
-      map["photo_url"] != null
-          ? users.add(
-              AppUser(
-                name: map["name"],
-                email: map["email"],
-                image: map["photo_url"],
-              ),
-            )
-          : users.add(AppUser(name: map["name"], email: map["email"]));
+      users.add(
+        AppUser(
+          name: map["name"],
+          email: map["email"],
+          username: map["username"],
+          image: map["photo_url"],
+          totalPoints: map["total_puntos"],
+          createdAt: map["created_at"],
+        ),
+      );
     }
 
     return users;

@@ -25,7 +25,7 @@ class SocialScreen extends StatelessWidget {
           children: [
             PodiumListWidget(socialProvider: socialProvider),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: Text(
                 "General Table",
                 textAlign: TextAlign.start,
@@ -51,22 +51,28 @@ class GeneralTable extends StatelessWidget {
     return Expanded(
       child: ListView.builder(
         itemCount: users.length,
-        itemBuilder: (context, index) => ListTile(
-          leading: SizedBox(
-            width: screenWidth * 0.25,
-            child: Row(
-              children: [
-                Text("${index + 1}º", style: TextStyle(fontSize: 16)),
-                ClipOval(
-                  child: Image.asset(
-                    AppStrings.logoImage,
-                    width: screenWidth * 0.2,
+        itemBuilder: (context, index) => Card(
+          elevation: 4,
+          color: Colors.white,
+          margin: EdgeInsets.all(8),
+          child: ListTile(
+            leading: SizedBox(
+              width: screenWidth * 0.25,
+              child: Row(
+                children: [
+                  Text("${index + 1}º", style: TextStyle(fontSize: 16)),
+                  ClipOval(
+                    child: Image.asset(
+                      AppStrings.logoImage,
+                      width: screenWidth * 0.2,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            title: Text(users[index].name),
+            trailing: Icon(Icons.person_add_alt_1_outlined),
           ),
-          title: Text(users[index].name),
         ),
       ),
     );

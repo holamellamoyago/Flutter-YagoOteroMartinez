@@ -1,5 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
-import 'package:english_mvvm_provider_clean/data/viewmodel/social_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/database_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ class SocialScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SocialViewmodel socialProvider = Provider.of<SocialViewmodel>(
+    DatabaseViewmodel socialProvider = Provider.of<DatabaseViewmodel>(
       context,
       listen: true,
     );
@@ -41,7 +41,7 @@ class SocialScreen extends StatelessWidget {
 }
 
 class GeneralTable extends StatelessWidget {
-  final SocialViewmodel socialViewmodel;
+  final DatabaseViewmodel socialViewmodel;
   const GeneralTable({super.key, required this.socialViewmodel});
 
   @override
@@ -81,7 +81,7 @@ class GeneralTable extends StatelessWidget {
 }
 
 class PodiumListWidget extends StatelessWidget {
-  final SocialViewmodel socialProvider;
+  final DatabaseViewmodel socialProvider;
   const PodiumListWidget({super.key, required this.socialProvider});
 
   @override
@@ -117,7 +117,7 @@ class PodiumListWidget extends StatelessWidget {
 class IndividualSocialWidget extends StatelessWidget {
   final double screenHeight;
   final int id;
-  final SocialViewmodel socialViewmodel;
+  final DatabaseViewmodel socialViewmodel;
 
   const IndividualSocialWidget({
     super.key,

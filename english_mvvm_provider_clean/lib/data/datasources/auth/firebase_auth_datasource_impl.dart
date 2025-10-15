@@ -3,7 +3,7 @@ import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthRemoteDatasource implements AuthDatasource {
+class FirebaseAuthDatasource implements AuthDatasource {
   final firebase.FirebaseAuth _auth = firebase.FirebaseAuth.instance;
 
   // Hecho
@@ -73,7 +73,6 @@ class AuthRemoteDatasource implements AuthDatasource {
 
       return _firebaaseUserToAppUser(userCredential.user!);
     } catch (e) {
-      print(e.toString());
       throw Exception(e.toString());
     }
   }
@@ -92,8 +91,12 @@ class AuthRemoteDatasource implements AuthDatasource {
 
   AppUser _firebaaseUserToAppUser(firebase.User firebaseUser) {
     return AppUser(
-      image: firebaseUser.photoURL ?? "",
+      image: firebaseUser.photoURL,
       name:
+          firebaseUser.displayName ??
+          firebaseUser.email?.split("@")[0] ??
+          'user',
+      username:
           firebaseUser.displayName ??
           firebaseUser.email?.split("@")[0] ??
           'user',

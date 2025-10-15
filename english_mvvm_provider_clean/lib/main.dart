@@ -1,15 +1,15 @@
 import 'package:english_mvvm_provider_clean/config/app_env.dart';
 import 'package:english_mvvm_provider_clean/config/app_router.dart';
-import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_remote_datasource.dart';
-import 'package:english_mvvm_provider_clean/data/datasources/social/social_datasource_impl.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/auth/firebase_auth_datasource_impl.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/database/supabase_database_datasource_impl.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/word/file_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/auth_repository_impl.dart';
-import 'package:english_mvvm_provider_clean/data/repositories/social_respository_impl.dart';
+import 'package:english_mvvm_provider_clean/data/repositories/supabase_respository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/word_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/bottombar_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
-import 'package:english_mvvm_provider_clean/data/viewmodel/social_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/database_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
@@ -40,11 +40,11 @@ void main() async {
   final saveWord = SaveWordUsecase(wordRepository);
   final saveWords = SaveWordsUsecase(wordRepository);
   
-  final socialRepository = SocialRespositoryImpl(
-    datasource: SocialDatasourceImpl(),
+  final socialRepository = DatabaseRespositoryImpl(
+    datasource: SupabaseDatabaseDatasourceImpl(),
   );
 
-  final AuthRemoteDatasource userDatasource = AuthRemoteDatasource();
+  final FirebaseAuthDatasource userDatasource = FirebaseAuthDatasource();
   final AuthRepositoryImpl userRepository = AuthRepositoryImpl(
     remoteDatasource: userDatasource,
   );
@@ -64,7 +64,7 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) =>
-              SocialViewmodel(socialRepository),
+              DatabaseViewmodel(socialRepository),
         ),
       ],
       child: MainApp(),

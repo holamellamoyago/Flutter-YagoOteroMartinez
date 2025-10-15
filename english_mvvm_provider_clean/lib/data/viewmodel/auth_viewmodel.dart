@@ -90,6 +90,8 @@ class AuthViewmodel extends ChangeNotifier {
         email,
         password,
       );
+
+      
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -119,12 +121,4 @@ class AuthViewmodel extends ChangeNotifier {
       throw Exception(e);
     }
   }
-
-  // User getCurrentUser() {
-  //   if (currentUser != null) {
-  //     return currentUser!;
-  //   } else {
-  //     throw Exception("No hay user");
-  //   }
-  // }
 }

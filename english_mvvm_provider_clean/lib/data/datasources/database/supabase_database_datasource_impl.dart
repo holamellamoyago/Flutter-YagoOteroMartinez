@@ -1,19 +1,31 @@
-import 'package:english_mvvm_provider_clean/data/datasources/social/social_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SocialDatasourceImpl extends SocialDatasource {
-  Supabase supabase = Supabase.instance;
+class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
+  SupabaseClient supabase = Supabase.instance.client;
+  AppStrings str = AppStrings();
 
   @override
   Future<List<AppUser>> getGeneralTable() async {
-    final data = await supabase.client.from('users').select();
+    final data = await supabase.from(AppStrings.tableUsers).select();
 
     if (data.isNotEmpty) {
       return mapearUsers(data);
     } else {
       return List<AppUser>.empty();
     }
+  }
+
+  @override
+  Future<void> saveUser(AppUser user) async {
+    await supabase.from(AppStrings.tableUsers).insert({
+      'name': user.name,
+      'email': user.email,
+      'username': user.username,
+      'photo_url': user.image,
+    });
   }
 
   List<AppUser> mapearUsers(List<Map<String, dynamic>> lista) {

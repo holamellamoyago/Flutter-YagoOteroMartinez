@@ -1,6 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
-import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart'
-    as app_user;
+import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -14,7 +13,7 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
-  Future<app_user.AppUser> createAccountEmailPassword(
+  Future<AppUser> createAccountEmailPassword(
     String email,
     String password,
   ) async {
@@ -30,7 +29,7 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
-  Future<app_user.AppUser> loginWithEmail(String email, String password) async {
+  Future<AppUser> loginWithEmail(String email, String password) async {
     try {
       final credential = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -49,8 +48,11 @@ class AuthRemoteDatasource implements AuthDatasource {
   }
 
   @override
-  Future<app_user.AppUser> loginWithGoogle() async {
-    GoogleSignIn googleSignIn = GoogleSignIn();
+  Future<AppUser> loginWithGoogle() async {
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      // signInOption: SignInOption.games,
+      // clientId: "122440637695-msibjrkbd54uq3ib6ro00t91sv9k6ql3.apps.googleusercontent.com",
+    );
 
     try {
       final GoogleSignInAccount? account = await googleSignIn.signIn();
@@ -71,24 +73,25 @@ class AuthRemoteDatasource implements AuthDatasource {
 
       return _firebaaseUserToAppUser(userCredential.user!);
     } catch (e) {
+      print(e.toString());
       throw Exception(e.toString());
     }
   }
 
   @override
-  Future<app_user.AppUser> loginAnonimously() async {
+  Future<AppUser> loginAnonimously() async {
     firebase.UserCredential user = await _auth.signInAnonymously();
 
     return _firebaaseUserToAppUser(user.user!);
   }
 
   @override
-  Future<app_user.AppUser> getCurrentUser() async {
+  Future<AppUser> getCurrentUser() async {
     return _firebaaseUserToAppUser(_auth.currentUser!);
   }
 
-  app_user.AppUser _firebaaseUserToAppUser(firebase.User firebaseUser) {
-    return app_user.AppUser(
+  AppUser _firebaaseUserToAppUser(firebase.User firebaseUser) {
+    return AppUser(
       image: firebaseUser.photoURL ?? "",
       name:
           firebaseUser.displayName ??

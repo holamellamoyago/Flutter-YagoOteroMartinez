@@ -1,5 +1,6 @@
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/database_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/presentation/loggin_screen/auth_button_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
@@ -16,17 +17,27 @@ class ButtonsLoginWidget extends StatelessWidget {
       context,
       listen: false,
     );
+
+    DatabaseViewmodel dbProvider = Provider.of<DatabaseViewmodel>(
+      context,
+      listen: false,
+    );
+
     return Column(
       spacing: 16,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _authButtons(context, authProvider),
+        _authButtons(context, authProvider, dbProvider),
         _singnUpWidget(authProvider),
       ],
     );
   }
 
-  Widget _authButtons(BuildContext context, AuthViewmodel authProvider) {
+  Widget _authButtons(
+    BuildContext context,
+    AuthViewmodel authProvider,
+    DatabaseViewmodel dbProvider,
+  ) {
     return Column(
       spacing: 16,
       children: [
@@ -46,13 +57,19 @@ class ButtonsLoginWidget extends StatelessWidget {
           textColor: Colors.black,
           customVoid: () async {
             try {
+              // TODO Revisar
               await authProvider.loginGoogle();
+
+              await dbProvider.saveUser(authProvider.getCurrentUser);
 
               if (context.mounted) {
                 context.go(AppStrings.mainHomeScreen);
               }
+
             } catch (e) {
-              showSnackBar(context, e.toString());
+              if (context.mounted) {
+                showSnackBar(context, e.toString());
+              }
             }
           },
         ),
@@ -63,7 +80,6 @@ class ButtonsLoginWidget extends StatelessWidget {
           textColor: Colors.black,
           customVoid: () async {
             try {
-              
               if (context.mounted && await authProvider.loginAnonimously()) {
                 context.go(AppStrings.mainHomeScreen);
               }

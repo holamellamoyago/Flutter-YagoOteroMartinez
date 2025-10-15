@@ -43,4 +43,8 @@ class AppStrings {
   // Imagenes
   static final logoImage = "assets/images/logo.png";
   static final googleIcon = "assets/images/logo_google.png";
+
+  // Database 
+  static final tableUsers = 'users';
+  static final tablePoints = 'points';
 }

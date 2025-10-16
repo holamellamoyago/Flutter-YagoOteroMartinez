@@ -90,8 +90,6 @@ class AuthViewmodel extends ChangeNotifier {
         email,
         password,
       );
-
-      
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -109,7 +107,9 @@ class AuthViewmodel extends ChangeNotifier {
 
   Future<void> logOut() async {
     currentUser = null;
+    isLoggedIn = false;
     userRepository.logout();
+    
     notifyListeners();
   }
 

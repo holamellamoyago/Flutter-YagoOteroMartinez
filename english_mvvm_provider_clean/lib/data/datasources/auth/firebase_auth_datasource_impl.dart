@@ -91,6 +91,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
 
   AppUser _firebaaseUserToAppUser(firebase.User firebaseUser) {
     return AppUser(
+      uid: firebaseUser.uid,
       image: firebaseUser.photoURL,
       name:
           firebaseUser.displayName ??

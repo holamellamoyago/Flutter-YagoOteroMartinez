@@ -20,7 +20,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
 
   @override
   Future<void> saveUser(AppUser user) async {
-    await supabase.from(AppStrings.tableUsers).insert({
+    await supabase.from('users').insert({
       'name': user.name,
       'email': user.email,
       'username': user.username,
@@ -39,7 +39,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
           name: map["name"],
           email: map["email"],
           username: map["username"],
-          image: map["photo_url"],
+          image: map["photo_url"] ?? "",
           totalPoints: map["total_puntos"],
           createdAt: map["created_at"],
         ),

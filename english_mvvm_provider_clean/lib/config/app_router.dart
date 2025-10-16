@@ -9,7 +9,7 @@ import 'package:english_mvvm_provider_clean/presentation/puntuation_screen/puntu
 import 'package:english_mvvm_provider_clean/presentation/social_screen/social_screen.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+
 
 class AppRouter {
   static GoRouter createRouter(AuthViewmodel provider) {

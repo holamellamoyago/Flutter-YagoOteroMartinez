@@ -59,12 +59,12 @@ class ButtonsLoginWidget extends StatelessWidget {
             try {
               await authProvider.loginGoogle();
 
-              await dbProvider.saveUser(authProvider.getCurrentUser);
+              // await dbProvider.saveUser(authProvider.getCurrentUser);
+              await dbProvider.manageUser(authProvider.getCurrentUser);
 
               if (context.mounted) {
                 context.go(AppStrings.mainHomeScreen);
               }
-
             } catch (e) {
               if (context.mounted) {
                 showSnackBar(context, e.toString());

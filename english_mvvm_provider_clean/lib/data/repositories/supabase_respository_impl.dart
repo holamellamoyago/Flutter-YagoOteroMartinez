@@ -10,9 +10,14 @@ class DatabaseRespositoryImpl extends DatabaseRepository {
   Future<List<AppUser>> getGeneralTable() {
     return datasource.getGeneralTable();
   }
-  
+
   @override
   Future<void> saveUser(AppUser user) {
     return datasource.saveUser(user);
+  }
+
+  @override
+  Future<bool> isUserExisting(String uid) {
+    return datasource.isUserExisting(uid);
   }
 }

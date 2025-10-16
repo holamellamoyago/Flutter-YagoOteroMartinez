@@ -9,7 +9,10 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
 
   @override
   Future<List<AppUser>> getGeneralTable() async {
-    final data = await supabase.from(AppStrings.tableUsers).select();
+    final data = await supabase
+        .from(AppStrings.tableUsers)
+        .select()
+        .order('total_points');
 
     if (data.isNotEmpty) {
       return mapearUsers(data);
@@ -21,6 +24,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
   @override
   Future<void> saveUser(AppUser user) async {
     await supabase.from('users').insert({
+      'user_uid': user.uid,
       'name': user.name,
       'email': user.email,
       'username': user.username,
@@ -36,16 +40,30 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
       Map<String, dynamic> map = it.current;
       users.add(
         AppUser(
+          uid: map["user_uuid"],
           name: map["name"],
           email: map["email"],
           username: map["username"],
           image: map["photo_url"] ?? "",
-          totalPoints: map["total_puntos"],
+          totalPoints: map["total_points"],
           createdAt: map["created_at"],
         ),
       );
     }
 
     return users;
+  }
+
+  @override
+  Future<bool> isUserExisting(String uid) async {
+    var data = await supabase.from(AppStrings.tableUsers).select().match({
+      'user_uid': uid,
+    });
+
+    if (data.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

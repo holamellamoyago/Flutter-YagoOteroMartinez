@@ -57,7 +57,6 @@ class ButtonsLoginWidget extends StatelessWidget {
           textColor: Colors.black,
           customVoid: () async {
             try {
-              // TODO Revisar
               await authProvider.loginGoogle();
 
               await dbProvider.saveUser(authProvider.getCurrentUser);

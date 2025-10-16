@@ -70,7 +70,7 @@ class GeneralTable extends StatelessWidget {
                 ],
               ),
             ),
-            title: Text(users[index].name),
+            title: Text(users[index].username),
             subtitle: Text(users[index].totalPoints.toString()),
             trailing: Icon(Icons.person_add_alt_1_outlined),
           ),
@@ -187,7 +187,7 @@ class IndividualSocialWidget extends StatelessWidget {
                   Icon(Icons.emoji_events, color: Colors.white, size: 18),
                   SizedBox(width: 4),
                   Text(
-                    "$idº ${socialViewmodel.users[id].name}",
+                    "$idº ${socialViewmodel.users[id].username}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

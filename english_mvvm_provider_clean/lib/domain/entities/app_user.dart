@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class AppUser {
-  String uid, name, email, username;
+  String uid, name, photoURL, username;
   String? image, createdAt;
   int? totalPoints;
 
   AppUser({
     required this.uid,
     required this.name,
-    required this.email,
+    required this.photoURL,
     required this.username,
     this.totalPoints,
     this.createdAt,
@@ -16,5 +16,5 @@ class AppUser {
   });
 
   @override
-  String toString() => "$name($email) imagen: $image";
+  String toString() => "$name($photoURL) imagen: $image";
 }

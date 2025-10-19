@@ -35,4 +35,9 @@ class BottombarViewmodel extends ChangeNotifier {
     selectedIndex = i;
     notifyListeners();
   }
+
+  void resetIndex() {
+    selectedIndex = 0;
+    notifyListeners();
+  }
 }

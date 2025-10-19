@@ -14,6 +14,7 @@ import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.d
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/domain/usecases/log_out_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_words_usecase.dart';
 import 'package:english_mvvm_provider_clean/firebase_options.dart';
@@ -39,14 +40,14 @@ void main() async {
   final getWords = GetWords(wordRepository);
   final saveWord = SaveWordUsecase(wordRepository);
   final saveWords = SaveWordsUsecase(wordRepository);
-  
-  final socialRepository = DatabaseRespositoryImpl(
+
+  final databaseRepository = DatabaseRespositoryImpl(
     datasource: SupabaseDatabaseDatasourceImpl(),
   );
 
-  final FirebaseAuthDatasource userDatasource = FirebaseAuthDatasource();
-  final AuthRepositoryImpl userRepository = AuthRepositoryImpl(
-    remoteDatasource: userDatasource,
+  final FirebaseAuthDatasource authDatasource = FirebaseAuthDatasource();
+  final AuthRepositoryImpl authRepository = AuthRepositoryImpl(
+    remoteDatasource: authDatasource,
   );
 
   runApp(
@@ -59,12 +60,37 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),
         ChangeNotifierProvider(create: (context) => ClockViewmodel()),
         ChangeNotifierProvider(create: (context) => BottombarViewmodel()),
+
+        // ChangeNotifierProxyProvider<BottombarViewmodel, AuthViewmodel>(
+        //   create: (context) {
+        //     final bottombarViewmodel = Provider.of<BottombarViewmodel>(context);
+
+        //     final logoutUsecase = LogOutUsecase(
+        //       authRepository: authRepository,
+        //       bottombarViewmodel: bottombarViewmodel,
+        //     );
+
+        //     return AuthViewmodel(authRepository, logoutUsecase);
+        //   },
+        //   update: (context, value, previous) => previous!,
+        // ),
+
         ChangeNotifierProvider(
-          create: (context) => AuthViewmodel(userRepository),
+          create: (context) => AuthViewmodel(
+            authRepository,
+            LogOutUsecase(
+              authRepository: authRepository,
+              bottombarViewmodel: Provider.of<BottombarViewmodel>(context, listen: false),
+            ),
+          ),
         ),
+
+        // ChangeNotifierProvider(
+        //   create: (context) => AuthViewmodel(authRepository),
+        // ),
+
         ChangeNotifierProvider(
-          create: (context) =>
-              DatabaseViewmodel(socialRepository),
+          create: (context) => DatabaseViewmodel(databaseRepository),
         ),
       ],
       child: MainApp(),
@@ -78,7 +104,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // NEcesaria la escucha para gerstionar pantallas
-    final authProvider = Provider.of<AuthViewmodel>(context);
+    final authProvider = Provider.of<AuthViewmodel>(context, listen: true);
     var themeData = context.watch<ThemedataViewmodel>();
 
     return MaterialApp.router(

@@ -17,7 +17,12 @@ class SettingsScreen extends StatelessWidget {
 
     var lista = [
       // TODO Mover esto a un useacas para después llamar al bottombarviewmdoel
-      ListTile(title: Text("Log out"), onTap: () => authProvider.logOut()),
+      ListTile(
+        title: Text("Log out"),
+        onTap: () async {
+          await authProvider.logOut();
+        },
+      ),
     ];
 
     return Scaffold(body: ListView(children: lista));

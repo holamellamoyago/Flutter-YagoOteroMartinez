@@ -1,3 +1,4 @@
+import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
@@ -12,7 +13,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
     final data = await supabase
         .from(AppStrings.tableUsers)
         .select()
-        .order('total_points');
+        .order(DatabaseConstants.userTotalPoints);
 
     if (data.isNotEmpty) {
       return mapearUsers(data);
@@ -23,12 +24,12 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
 
   @override
   Future<void> saveUser(AppUser user) async {
-    await supabase.from('users').insert({
-      'user_uid': user.uid,
-      'name': user.name,
-      'email': user.email,
-      'username': user.username,
-      'photo_url': user.image,
+    await supabase.from(DatabaseConstants.tableUsers).insert({
+      DatabaseConstants.userUID: user.uid,
+      DatabaseConstants.userName: user.name,
+      DatabaseConstants.userEmail: user.photoURL,
+      DatabaseConstants.userUsername: user.username,
+      DatabaseConstants.userPhotoURL: user.image,
     });
   }
 
@@ -40,13 +41,13 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
       Map<String, dynamic> map = it.current;
       users.add(
         AppUser(
-          uid: map["user_uuid"],
-          name: map["name"],
-          email: map["email"],
-          username: map["username"],
-          image: map["photo_url"] ?? "",
-          totalPoints: map["total_points"],
-          createdAt: map["created_at"],
+          uid: map[DatabaseConstants.userUID],
+          name: map[DatabaseConstants.userName],
+          photoURL: map[DatabaseConstants.userEmail],
+          username: map[DatabaseConstants.userUsername],
+          image: map[DatabaseConstants.userPhotoURL] ?? "",
+          totalPoints: map[DatabaseConstants.userTotalPoints],
+          createdAt: map[DatabaseConstants.userCreatedAt],
         ),
       );
     }
@@ -57,7 +58,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
   @override
   Future<bool> isUserExisting(String uid) async {
     var data = await supabase.from(AppStrings.tableUsers).select().match({
-      'user_uid': uid,
+      DatabaseConstants.userUID: uid,
     });
 
     if (data.isNotEmpty) {

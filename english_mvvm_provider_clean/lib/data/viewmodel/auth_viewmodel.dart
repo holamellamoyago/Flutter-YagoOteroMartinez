@@ -1,15 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
+import 'package:english_mvvm_provider_clean/domain/usecases/log_out_usecase.dart';
 import 'package:english_mvvm_provider_clean/presentation/loggin_screen/login_carousel_widgets.dart';
 import 'package:english_mvvm_provider_clean/presentation/loggin_screen/register_email_password_widget.dart';
 import 'package:english_mvvm_provider_clean/presentation/loggin_screen/signin_email_password_widget.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
+import 'package:english_mvvm_provider_clean/utils/convert_firebase_users.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthViewmodel extends ChangeNotifier {
   // Parámetros
-  AuthRepository userRepository;
+  AuthRepository authRepository;
   bool isLoggedIn = false;
   AppUser? currentUser;
   final CarouselSliderController _carouselController =
@@ -17,13 +20,31 @@ class AuthViewmodel extends ChangeNotifier {
   String? error;
   bool isLoading = false;
 
+  // usecases
+  LogOutUsecase logOutUsecase;
+
   // Constructores
-  AuthViewmodel(this.userRepository) {
+  AuthViewmodel(this.authRepository, this.logOutUsecase) {
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      currentUser = user != null
+          ? ConvertFirebaseUsers.firebaaseUserToAppUser(user)
+          : null;
+      isLoggedIn = user != null ? true : false;
+      notifyListeners();
+    });
+
     Future.microtask(() async {
       await _checkAuth();
       notifyListeners(); // Notifica cambios después de chequear
     });
   }
+
+  // Estaticos
+  static const List<Widget> carouselItems = [
+    ButtonsLoginWidget(),
+    RegisterEmailPassword(),
+    SignInEmailPassword(),
+  ];
 
   // GETTERS
 
@@ -31,15 +52,9 @@ class AuthViewmodel extends ChangeNotifier {
 
   String get initialLocalitation => isLoggedIn ? "/" : AppStrings.logginScreen;
 
-  List<Widget> get carouselItems => [
-    ButtonsLoginWidget(),
-    RegisterEmailPassword(),
-    SignInEmailPassword(),
-  ];
-
   Future<void> _checkAuth() async {
-    if (userRepository.isLoggedIn()) {
-      currentUser = await userRepository.getCurrentUser();
+    if (authRepository.isLoggedIn()) {
+      currentUser = await authRepository.getCurrentUser();
       isLoggedIn = true;
     } else {
       isLoggedIn = false;
@@ -78,7 +93,7 @@ class AuthViewmodel extends ChangeNotifier {
 
   Future<void> loginGoogle() async {
     try {
-      currentUser = await userRepository.loginWithGoogle();
+      currentUser = await authRepository.loginWithGoogle();
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -86,7 +101,7 @@ class AuthViewmodel extends ChangeNotifier {
 
   Future<void> createAccountEmailPassword(String email, String password) async {
     try {
-      currentUser = await userRepository.createAccountEmailPassword(
+      currentUser = await authRepository.createAccountEmailPassword(
         email,
         password,
       );
@@ -97,7 +112,7 @@ class AuthViewmodel extends ChangeNotifier {
 
   Future<void> loginEmailPassword(String email, String password) async {
     try {
-      currentUser = await userRepository.loginWithEmail(email, password);
+      currentUser = await authRepository.loginWithEmail(email, password);
       isLoggedIn = true;
       notifyListeners();
     } catch (e) {
@@ -106,16 +121,13 @@ class AuthViewmodel extends ChangeNotifier {
   }
 
   Future<void> logOut() async {
-    currentUser = null;
-    isLoggedIn = false;
-    userRepository.logout();
-    
+    await logOutUsecase();
     notifyListeners();
   }
 
   Future<bool> loginAnonimously() async {
     try {
-      currentUser = await userRepository.loginAnonimously();
+      currentUser = await authRepository.loginAnonimously();
       return true;
     } catch (e) {
       throw Exception(e);

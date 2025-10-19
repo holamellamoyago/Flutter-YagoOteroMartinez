@@ -1,5 +1,6 @@
 import 'package:english_mvvm_provider_clean/data/datasources/auth/auth_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
+import 'package:english_mvvm_provider_clean/utils/convert_firebase_users.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -22,7 +23,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
         email: email,
         password: password,
       );
-      return _firebaaseUserToAppUser(credential.user!);
+      return ConvertFirebaseUsers.firebaaseUserToAppUser(credential.user!);
     } catch (e) {
       throw Exception(e);
     }
@@ -36,7 +37,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
         password: password,
       );
 
-      return _firebaaseUserToAppUser(credential.user!);
+      return ConvertFirebaseUsers.firebaaseUserToAppUser(credential.user!);
     } catch (e) {
       throw Exception(e);
     }
@@ -71,7 +72,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
       final firebase.UserCredential userCredential = await _auth
           .signInWithCredential(credential);
 
-      return _firebaaseUserToAppUser(userCredential.user!);
+      return ConvertFirebaseUsers.firebaaseUserToAppUser(userCredential.user!);
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -81,27 +82,11 @@ class FirebaseAuthDatasource implements AuthDatasource {
   Future<AppUser> loginAnonimously() async {
     firebase.UserCredential user = await _auth.signInAnonymously();
 
-    return _firebaaseUserToAppUser(user.user!);
+    return ConvertFirebaseUsers.firebaaseUserToAppUser(user.user!);
   }
 
   @override
   Future<AppUser> getCurrentUser() async {
-    return _firebaaseUserToAppUser(_auth.currentUser!);
-  }
-
-  AppUser _firebaaseUserToAppUser(firebase.User firebaseUser) {
-    return AppUser(
-      uid: firebaseUser.uid,
-      image: firebaseUser.photoURL,
-      name:
-          firebaseUser.displayName ??
-          firebaseUser.email?.split("@")[0] ??
-          'user',
-      username:
-          firebaseUser.displayName ??
-          firebaseUser.email?.split("@")[0] ??
-          'user',
-      email: firebaseUser.email ?? "Email user",
-    );
+    return ConvertFirebaseUsers.firebaaseUserToAppUser(_auth.currentUser!);
   }
 }

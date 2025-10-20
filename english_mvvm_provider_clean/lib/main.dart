@@ -61,20 +61,6 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ClockViewmodel()),
         ChangeNotifierProvider(create: (context) => BottombarViewmodel()),
 
-        // ChangeNotifierProxyProvider<BottombarViewmodel, AuthViewmodel>(
-        //   create: (context) {
-        //     final bottombarViewmodel = Provider.of<BottombarViewmodel>(context);
-
-        //     final logoutUsecase = LogOutUsecase(
-        //       authRepository: authRepository,
-        //       bottombarViewmodel: bottombarViewmodel,
-        //     );
-
-        //     return AuthViewmodel(authRepository, logoutUsecase);
-        //   },
-        //   update: (context, value, previous) => previous!,
-        // ),
-
         ChangeNotifierProvider(
           create: (context) => AuthViewmodel(
             authRepository,
@@ -84,10 +70,6 @@ void main() async {
             ),
           ),
         ),
-
-        // ChangeNotifierProvider(
-        //   create: (context) => AuthViewmodel(authRepository),
-        // ),
 
         ChangeNotifierProvider(
           create: (context) => DatabaseViewmodel(databaseRepository),

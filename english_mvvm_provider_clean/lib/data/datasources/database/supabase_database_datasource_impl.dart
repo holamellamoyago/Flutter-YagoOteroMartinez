@@ -1,17 +1,15 @@
 import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
-import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
-  SupabaseClient supabase = Supabase.instance.client;
-  AppStrings str = AppStrings();
+  final SupabaseClient _supabase = Supabase.instance.client;
 
   @override
   Future<List<AppUser>> getGeneralTable() async {
-    final data = await supabase
-        .from(AppStrings.tableUsers)
+    final data = await _supabase
+        .from(DatabaseConstants.tableUsers)
         .select()
         .order(DatabaseConstants.userTotalPoints);
 
@@ -24,7 +22,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
 
   @override
   Future<void> saveUser(AppUser user) async {
-    await supabase.from(DatabaseConstants.tableUsers).insert({
+    await _supabase.from(DatabaseConstants.tableUsers).insert({
       DatabaseConstants.userUID: user.uid,
       DatabaseConstants.userName: user.name,
       DatabaseConstants.userEmail: user.photoURL,
@@ -43,7 +41,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
         AppUser(
           uid: map[DatabaseConstants.userUID],
           name: map[DatabaseConstants.userName],
-          photoURL: map[DatabaseConstants.userEmail],
+          photoURL: map[DatabaseConstants.userPhotoURL],
           username: map[DatabaseConstants.userUsername],
           image: map[DatabaseConstants.userPhotoURL] ?? "",
           totalPoints: map[DatabaseConstants.userTotalPoints],
@@ -57,14 +55,16 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
 
   @override
   Future<bool> isUserExisting(String uid) async {
-    var data = await supabase.from(AppStrings.tableUsers).select().match({
-      DatabaseConstants.userUID: uid,
-    });
-
-    if (data.isNotEmpty) {
-      return true;
-    } else {
-      return false;
+    try {
+      final data = await _supabase
+          .from(DatabaseConstants.tableUsers)
+          .select()
+          .eq(DatabaseConstants.userUID, uid)
+          .maybeSingle();
+      return data != null;
+    } catch (e) {
+      throw Exception("Error checking user existence: $e");
     }
   }
+
 }

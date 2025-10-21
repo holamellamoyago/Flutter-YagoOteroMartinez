@@ -39,12 +39,12 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
       Map<String, dynamic> map = it.current;
       users.add(
         AppUser(
-          uid: map[DatabaseConstants.userUID],
-          name: map[DatabaseConstants.userName],
-          photoURL: map[DatabaseConstants.userPhotoURL],
-          username: map[DatabaseConstants.userUsername],
+          uid: map[DatabaseConstants.userUID] ?? "no uid",
+          name: map[DatabaseConstants.userName] ?? "no name",
+          photoURL: map[DatabaseConstants.userPhotoURL] ?? "no photo_url",
+          username: map[DatabaseConstants.userUsername] ?? "no username",
           image: map[DatabaseConstants.userPhotoURL] ?? "",
-          totalPoints: map[DatabaseConstants.userTotalPoints],
+          totalPoints: map[DatabaseConstants.userTotalPoints] ?? 999,
           createdAt: map[DatabaseConstants.userCreatedAt],
         ),
       );

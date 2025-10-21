@@ -50,7 +50,7 @@ class GeneralTable extends StatelessWidget {
     List<AppUser> users = socialViewmodel.users;
     return Expanded(
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: users.length >= 5 ? 5 : users.length,
         itemBuilder: (context, index) => Card(
           elevation: 4,
           color: Colors.white,
@@ -95,17 +95,17 @@ class PodiumListWidget extends StatelessWidget {
         children: [
           IndividualSocialWidget(
             screenHeight: screenHeight,
-            id: 2,
-            socialViewmodel: socialProvider,
-          ),
-          IndividualSocialWidget(
-            screenHeight: screenHeight,
             id: 1,
             socialViewmodel: socialProvider,
           ),
           IndividualSocialWidget(
             screenHeight: screenHeight,
-            id: 3,
+            id: 0,
+            socialViewmodel: socialProvider,
+          ),
+          IndividualSocialWidget(
+            screenHeight: screenHeight,
+            id: 2,
             socialViewmodel: socialProvider,
           ),
         ],
@@ -133,12 +133,12 @@ class IndividualSocialWidget extends StatelessWidget {
     double sizeboxHeight = screenHeight * 0.1;
 
     switch (id) {
-      case 1:
+      case 0:
         widgetColor = Colors.amber;
         imageHeight = screenHeight * 0.1;
         sizeboxHeight = screenHeight * 0.15;
         break;
-      case 2:
+      case 1:
         widgetColor = Colors.grey;
       default:
         widgetColor = Colors.brown;
@@ -168,7 +168,7 @@ class IndividualSocialWidget extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ClipOval(
                 child: Image.asset(
-                  "assets/images/logo.png",
+                  AppStrings.logoImage,
                   height: imageHeight,
                 ),
               ),
@@ -187,7 +187,7 @@ class IndividualSocialWidget extends StatelessWidget {
                   Icon(Icons.emoji_events, color: Colors.white, size: 18),
                   SizedBox(width: 4),
                   Text(
-                    "$idº ${socialViewmodel.users[id].username}",
+                    "${id+1}º${socialViewmodel.users[id].username}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

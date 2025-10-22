@@ -9,7 +9,8 @@ import 'package:english_mvvm_provider_clean/data/repositories/word_repository_im
 import 'package:english_mvvm_provider_clean/data/viewmodel/bottombar_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
-import 'package:english_mvvm_provider_clean/data/viewmodel/database_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/levels_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/users_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
@@ -66,13 +67,20 @@ void main() async {
             authRepository,
             LogOutUsecase(
               authRepository: authRepository,
-              bottombarViewmodel: Provider.of<BottombarViewmodel>(context, listen: false),
+              bottombarViewmodel: Provider.of<BottombarViewmodel>(
+                context,
+                listen: false,
+              ),
             ),
           ),
         ),
 
         ChangeNotifierProvider(
-          create: (context) => DatabaseViewmodel(databaseRepository),
+          create: (context) => UsersViewmodel(databaseRepository),
+        ),
+
+        ChangeNotifierProvider(
+          create: (context) => LevelsViewmodel(databaseRepository),
         ),
       ],
       child: MainApp(),

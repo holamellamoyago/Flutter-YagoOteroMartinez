@@ -1,6 +1,7 @@
 import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
@@ -67,4 +68,20 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
     }
   }
 
+  @override
+  Future<List<Level>> getLevels() async {
+    List<Map<String, dynamic>> data = await _supabase
+        .from(DatabaseConstants.tableLevels)
+        .select(
+          "${DatabaseConstants.levelID},${DatabaseConstants.levelCategory},${DatabaseConstants.levelName},${DatabaseConstants.levelDescription}",
+        );
+
+    List<Map<String, dynamic>> data2 = await _supabase
+        .from(DatabaseConstants.tableLevels)
+        .select();
+
+    print(data2);
+
+    return List<Level>.empty();
+  }
 }

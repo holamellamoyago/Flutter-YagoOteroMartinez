@@ -1,18 +1,19 @@
-import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/database_repository.dart';
 import 'package:flutter/widgets.dart';
 
-class DatabaseViewmodel extends ChangeNotifier {
+class UsersViewmodel extends ChangeNotifier {
   DatabaseRepository databaseRepository;
 
-  DatabaseViewmodel(this.databaseRepository) {
+  UsersViewmodel(this.databaseRepository) {
     getGeneralTable();
   }
 
   bool isLoading = false;
   String error = "";
   List<AppUser> users = [];
+  List<Level> levels = [];
 
   Future<void> getGeneralTable() async {
     isLoading = true;
@@ -36,7 +37,7 @@ class DatabaseViewmodel extends ChangeNotifier {
 
     if (!await databaseRepository.isUserExisting(user.uid)) {
       saveUser(user);
-    } else{
+    } else {
       // TODO Hacer usecase
     }
   }

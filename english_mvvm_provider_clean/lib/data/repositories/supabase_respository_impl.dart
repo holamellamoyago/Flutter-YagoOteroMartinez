@@ -1,5 +1,6 @@
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/database_repository.dart';
 
 class DatabaseRespositoryImpl extends DatabaseRepository {
@@ -19,5 +20,10 @@ class DatabaseRespositoryImpl extends DatabaseRepository {
   @override
   Future<bool> isUserExisting(String uid) {
     return datasource.isUserExisting(uid);
+  }
+
+  @override
+  Future<List<Level>> getLevels() {
+    return datasource.getLevels();
   }
 }

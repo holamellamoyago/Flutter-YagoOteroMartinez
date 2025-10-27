@@ -5,6 +5,6 @@ abstract class DatabaseRepository {
   Future<List<AppUser>> getGeneralTable();
   Future<void> saveUser(AppUser user);
   Future<bool> isUserExisting(String uid);
-    Future<List<Level>> getLevels();
+  Future<List<Level>> getLevels();
   
 }

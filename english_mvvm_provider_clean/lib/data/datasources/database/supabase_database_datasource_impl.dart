@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
@@ -54,6 +56,18 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
     return users;
   }
 
+  List<Level> mapearLevels(List<Map<String, dynamic>> data){
+    List<Level> levels = [];
+
+    for (var i = 0; i < data.length; i++) {
+      Map<String, dynamic> mapa = data[i];
+      Level level = Level(id: mapa["id_level"], categoryID: mapa["category_id"] , name: mapa["name"]);
+      levels.add(level);
+    }
+
+    return levels;
+  }
+
   @override
   Future<bool> isUserExisting(String uid) async {
     try {
@@ -72,16 +86,9 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
   Future<List<Level>> getLevels() async {
     List<Map<String, dynamic>> data = await _supabase
         .from(DatabaseConstants.tableLevels)
-        .select(
-          "${DatabaseConstants.levelID},${DatabaseConstants.levelCategory},${DatabaseConstants.levelName},${DatabaseConstants.levelDescription}",
-        );
-
-    List<Map<String, dynamic>> data2 = await _supabase
-        .from(DatabaseConstants.tableLevels)
         .select();
 
-    print(data2);
 
-    return List<Level>.empty();
+    return mapearLevels(data);
   }
 }

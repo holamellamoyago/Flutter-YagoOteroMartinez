@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/level_category.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
@@ -27,7 +26,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
   Future<void> saveUser(AppUser user) async {
     await _supabase.from(DatabaseConstants.tableUsers).insert({
       DatabaseConstants.userUID: user.uid,
-      DatabaseConstants.userName: user.name,
+      DatabaseConstants.globalName: user.name,
       DatabaseConstants.userEmail: user.photoURL,
       DatabaseConstants.userUsername: user.username,
       DatabaseConstants.userPhotoURL: user.image,
@@ -43,7 +42,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
       users.add(
         AppUser(
           uid: map[DatabaseConstants.userUID] ?? "no uid",
-          name: map[DatabaseConstants.userName] ?? "no name",
+          name: map[DatabaseConstants.globalName] ?? "no name",
           photoURL: map[DatabaseConstants.userPhotoURL] ?? "no photo_url",
           username: map[DatabaseConstants.userUsername] ?? "no username",
           image: map[DatabaseConstants.userPhotoURL] ?? "",
@@ -56,16 +55,39 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
     return users;
   }
 
-  List<Level> mapearLevels(List<Map<String, dynamic>> data){
+  List<Level> mapearLevels(List<Map<String, dynamic>> data) {
     List<Level> levels = [];
 
     for (var i = 0; i < data.length; i++) {
       Map<String, dynamic> mapa = data[i];
-      Level level = Level(id: mapa["id_level"], categoryID: mapa["category_id"] , name: mapa["name"]);
+      Level level = Level(
+        id: mapa[DatabaseConstants.levelID],
+        categoryID: mapa[DatabaseConstants.levelCategory],
+        name: mapa[DatabaseConstants.globalName],
+      );
       levels.add(level);
     }
 
     return levels;
+  }
+
+  List<LevelCategory> mapearLevelCategories(List<Map<String, dynamic>> data) {
+    List<LevelCategory> categories = [];
+
+    for (var i = 0; i < data.length; i++) {
+      Map<String, dynamic> map = data[i];
+
+      LevelCategory levelCategory = LevelCategory(
+        id: map[DatabaseConstants.idCategoria],
+        name: map[DatabaseConstants.globalName],
+      );
+
+      categories.add(levelCategory);
+    }
+
+    print(categories);
+
+    return categories;
   }
 
   @override
@@ -88,7 +110,17 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
         .from(DatabaseConstants.tableLevels)
         .select();
 
-
     return mapearLevels(data);
+  }
+
+  @override
+  Future<List<LevelCategory>> getLevelCategory() async {
+    List<Map<String, dynamic>> data = await _supabase
+        .from(DatabaseConstants.tableLevelCategory)
+        .select(
+          '${DatabaseConstants.idCategoria},${DatabaseConstants.globalName}',
+        );
+
+    return mapearLevelCategories(data);
   }
 }

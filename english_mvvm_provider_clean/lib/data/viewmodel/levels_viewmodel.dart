@@ -15,6 +15,8 @@ class LevelsViewmodel extends ChangeNotifier {
   String _error = "";
   List<Level> _levels = [];
 
+  List<Level> get levels => _levels;
+
   Future<void> loadLevels() async {
     if (_levels.isNotEmpty) {
       return;

@@ -1,14 +1,14 @@
-import 'package:english_mvvm_provider_clean/data/datasources/word/local_words_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/word/words_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/words_repository.dart';
 
-class LocalWordRepositoryImpl implements WordsRepository {
-  final LocalWordsDatasource datasource;
-  LocalWordRepositoryImpl(this.datasource);
+class WordRepositoryImpl implements WordsRepository {
+  final WordsDatasource datasource;
+  WordRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Word>> getWords() {
-    return datasource.getWords();
+  Future<List<Word>> getWords(int? idLevel) {
+    return datasource.getWords(idLevel);
   }
 
   @override

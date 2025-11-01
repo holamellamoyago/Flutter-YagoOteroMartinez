@@ -15,12 +15,13 @@ class LevelsViewmodel extends ChangeNotifier {
 
   bool _isLoading = false;
   String _error = "";
-  List<Level> _levels = [];
-  List<LevelCategory> _categories = [];
+  final List<Level> _levels = [];
+  final List<LevelCategory> _categories = [];
+  final List<Level> _levelsModified = [];
 
   LevelCategory? _selected;
 
-  List<Level> get levels => _levels;
+  List<Level> get levels => _levelsModified;
   List<LevelCategory> get categories => _categories;
   bool get isLoading => _isLoading;
   String get error => _error;
@@ -28,6 +29,7 @@ class LevelsViewmodel extends ChangeNotifier {
 
   set selected(LevelCategory category) {
     _selected = category;
+    _orderListVerbs(category.id);
     notifyListeners();
   }
 
@@ -41,7 +43,8 @@ class LevelsViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _levels = await repository.getLevels();
+      _levels.addAll(await repository.getLevels());
+      _levelsModified.addAll(_levels);
     } catch (e) {
       _error = e.toString();
     } finally {
@@ -60,12 +63,24 @@ class LevelsViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _categories = await repository.getLevelCategory();
+      _categories.add(LevelCategory(id: -1, name: "ALL"));
+      _categories.addAll(await repository.getLevelCategory());
     } catch (e) {
       _error = e.toString();
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  _orderListVerbs(int codCategory) {
+    _levelsModified.clear();
+    _levelsModified.addAll(_levels);
+
+    if (codCategory != -1) {
+      _levelsModified.removeWhere(
+        (element) => element.categoryID != codCategory,
+      );
     }
   }
 }

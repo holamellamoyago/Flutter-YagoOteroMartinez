@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:english_mvvm_provider_clean/data/datasources/word/local_words_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/word/words_datasource.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/word.dart';
 import 'package:english_mvvm_provider_clean/domain/enums/WordCategory.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-class FileWordsDatasource implements LocalWordsDatasource {
+class FileWordsDatasource implements WordsDatasource {
   List<Word> words = [];
 
   @override
-  Future<List<Word>> getWords() async {
+  Future<List<Word>> getWords(int? idLevel) async {
     final filePath = await getLocalFilePath();
     final file = File(filePath);
 
@@ -19,7 +19,7 @@ class FileWordsDatasource implements LocalWordsDatasource {
       var w = Word.smart(
         spanish: "no creado",
         english: "no creado",
-        category: Wordcategory.noun
+        category: Wordcategory.noun,
       );
       return [w];
     }

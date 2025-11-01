@@ -61,7 +61,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
     for (var i = 0; i < data.length; i++) {
       Map<String, dynamic> mapa = data[i];
       Level level = Level(
-        id: mapa[DatabaseConstants.levelID],
+        id: mapa[DatabaseConstants.idLevel],
         categoryID: mapa[DatabaseConstants.levelCategory],
         name: mapa[DatabaseConstants.globalName],
       );

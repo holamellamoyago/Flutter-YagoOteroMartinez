@@ -10,11 +10,11 @@ import 'package:english_mvvm_provider_clean/presentation/social_screen/social_sc
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
-
 class AppRouter {
   static GoRouter createRouter(AuthViewmodel provider) {
     return GoRouter(
       initialLocation: provider.initialLocalitation,
+      // initialLocation: "/game_screen",
       routes: [
         // TODO Cambiar todo esto a AppStrings
         GoRoute(

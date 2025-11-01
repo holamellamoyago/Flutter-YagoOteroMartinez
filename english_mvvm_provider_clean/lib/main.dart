@@ -2,7 +2,7 @@ import 'package:english_mvvm_provider_clean/config/app_env.dart';
 import 'package:english_mvvm_provider_clean/config/app_router.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/auth/firebase_auth_datasource_impl.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/supabase_database_datasource_impl.dart';
-import 'package:english_mvvm_provider_clean/data/datasources/word/file_words_datasource.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/word/supabase_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/auth_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/supabase_respository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/word_repository_impl.dart';
@@ -13,7 +13,6 @@ import 'package:english_mvvm_provider_clean/data/viewmodel/levels_viewmodel.dart
 import 'package:english_mvvm_provider_clean/data/viewmodel/users_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/themedata_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
-import 'package:english_mvvm_provider_clean/domain/usecases/get_words.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/log_out_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
@@ -36,9 +35,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final wordDatasource = FileWordsDatasource();
-  final wordRepository = LocalWordRepositoryImpl(wordDatasource);
-  final getWords = GetWords(wordRepository);
+  // final wordDatasource = FileWordsDatasource();
+  final wordDatasource = SupabaseWordsDatasource();
+
+  // final wordRepository = LocalWordRepositoryImpl(wordDatasource);
+  final wordRepository = WordRepositoryImpl(wordDatasource);
+
+  // final getWords = GetWords(wordRepository);
   final saveWord = SaveWordUsecase(wordRepository);
   final saveWords = SaveWordsUsecase(wordRepository);
 
@@ -55,7 +58,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => WordsViewModel(getWords, saveWord, saveWords),
+          create: (context) => WordsViewModel(wordRepository ,saveWord, saveWords),
         ),
         ChangeNotifierProvider(create: (context) => CarouselViewmodel()),
         ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),

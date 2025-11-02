@@ -83,7 +83,7 @@ void main() async {
         ),
 
         ChangeNotifierProvider(
-          create: (context) => LevelsViewmodel(databaseRepository),
+          create: (context) => LevelsViewmodel(databaseRepository, authRepository),
         ),
       ],
       child: MainApp(),

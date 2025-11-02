@@ -19,6 +19,11 @@ class AppStrings {
   static final mainHomeScreen = "/";
   static final levelsScreen = "/levels_screen";
   static final logginScreen = "/loggin_screen";
+  static final gameScreen = "/game_screen";
+  static final homeScreen = '/home_screen';
+  static final profileScreen = '/profile_screen';
+  static final puntuationScreen = '/puntuation_screen';
+  static final socialScreen = '/social_screen';
 
   // Login screen
   static final titleLoginScreen = "Welcome to $appTitle!";

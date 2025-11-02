@@ -1,16 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level_category.dart';
+import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:english_mvvm_provider_clean/domain/repositories/database_repository.dart';
 
 class LevelsViewmodel extends ChangeNotifier {
-  final DatabaseRepository repository;
+  final DatabaseRepository levelRepository;
+  final AuthRepository authRepository;
 
-  LevelsViewmodel(this.repository) {
+  LevelsViewmodel(this.levelRepository, this.authRepository) {
     _loadLevels();
     _loadCategories();
+    _getLevelsCompleted();
   }
 
   bool _isLoading = false;
@@ -18,6 +23,7 @@ class LevelsViewmodel extends ChangeNotifier {
   final List<Level> _levels = [];
   final List<LevelCategory> _categories = [];
   final List<Level> _levelsModified = [];
+  final Map<int, bool> _levelsCopmpletedUser = {};
 
   LevelCategory? _selected;
 
@@ -43,7 +49,7 @@ class LevelsViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _levels.addAll(await repository.getLevels());
+      _levels.addAll(await levelRepository.getLevels());
       _levelsModified.addAll(_levels);
     } catch (e) {
       _error = e.toString();
@@ -64,7 +70,7 @@ class LevelsViewmodel extends ChangeNotifier {
 
     try {
       _categories.add(LevelCategory(id: -1, name: "ALL"));
-      _categories.addAll(await repository.getLevelCategory());
+      _categories.addAll(await levelRepository.getLevelCategory());
     } catch (e) {
       _error = e.toString();
     } finally {
@@ -82,5 +88,33 @@ class LevelsViewmodel extends ChangeNotifier {
         (element) => element.categoryID != codCategory,
       );
     }
+  }
+
+  Future<void> _getLevelsCompleted() async {
+    _isLoading = true;
+    _error = "";
+    notifyListeners();
+
+    try {
+      AppUser user = await authRepository.getCurrentUser();
+
+      _levelsCopmpletedUser.addAll(
+        await levelRepository.getLevelsCompleted(user.uid),
+      );
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isLevelCompleted(int levelID) {
+    if (_levelsCopmpletedUser.containsKey(levelID) &&
+        _levelsCopmpletedUser[levelID] == true) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
+import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/levels_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +12,7 @@ class LevelsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LevelsViewmodel provider = Provider.of<LevelsViewmodel>(
+    LevelsViewmodel levelProvider = Provider.of<LevelsViewmodel>(
       context,
       listen: true,
     );
@@ -21,48 +23,77 @@ class LevelsScreen extends StatelessWidget {
     );
 
     ScrollController controller = ScrollController();
-    double _screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(title: Text("Levels"), centerTitle: true),
-      body: provider.isLoading
+      body: levelProvider.isLoading
           ? Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Categories(
-                  screenHeight: _screenHeight,
-                  provider: provider,
+                  screenHeight: screenHeight,
+                  provider: levelProvider,
                   controller: controller,
                 ),
+                SizedBox(height: 8),
                 Expanded(
                   child: ListView.builder(
                     controller: controller,
-                    itemCount: provider.levels.length,
-                    itemBuilder: (context, index) => ListTile(
-                      onTap: () async {
-                        await wordProvider.loadWords(provider.levels[index].id);
-                        if (context.mounted) {
-                          // TODO Optimizar todo 
-                          context.push("/game_screen");
-                        }
-                      },
-                      title: Text(provider.levels[index].name),
-                      subtitle: Text(
-                        provider.levels[index].description ??
-                            "No hay descripción",
-                      ),
+                    itemCount: levelProvider.levels.length,
+                    itemBuilder: (context, index) => LevelView(
+                      wordProvider: wordProvider,
+                      levelProvider: levelProvider,
+                      index: index,
                     ),
                   ),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    print(wordProvider.words);
-                  },
-                  child: Text("Cargar"),
                 ),
               ],
             ),
     );
+  }
+}
+
+class LevelView extends StatelessWidget {
+  const LevelView({
+    super.key,
+    required this.wordProvider,
+    required this.levelProvider,
+    required this.index,
+  });
+
+  final WordsViewModel wordProvider;
+  final LevelsViewmodel levelProvider;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final Level level = _loadLevel();
+    final Color iconColor = levelProvider.isLevelCompleted(level.id) ? Colors.green : Colors.grey;
+
+    return Card(
+      color: Colors.white,
+      elevation: 4,
+      margin: EdgeInsets.all(8),
+      child: ListTile(
+        leading: Icon(Icons.school),
+        trailing: Icon(Icons.check, color: iconColor),
+        onTap: () async {
+          await wordProvider.loadWords(level.id);
+          if (context.mounted) {
+            context.push(AppStrings.gameScreen);
+          }
+        },
+        title: Text(level.name),
+        subtitle: Text(
+          levelProvider.levels[index].description ?? "No hay descripción",
+        ),
+      ),
+    );
+  }
+
+  Level _loadLevel() {
+    return levelProvider.levels[index];
   }
 }
 

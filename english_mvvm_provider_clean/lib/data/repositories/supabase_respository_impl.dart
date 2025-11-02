@@ -32,4 +32,9 @@ class DatabaseRespositoryImpl extends DatabaseRepository {
   Future<List<LevelCategory>> getLevelCategory() {
     return datasource.getLevelCategory();
   }
+
+  @override
+  Future<Map<int, bool>> getLevelsCompleted(String userUID) {
+    return datasource.getLevelsCompleted(userUID);
+  }
 }

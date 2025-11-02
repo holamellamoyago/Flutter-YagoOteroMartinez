@@ -8,4 +8,6 @@ abstract class DatabaseDatasource {
   Future<bool> isUserExisting(String uid);
   Future<List<Level>> getLevels();
   Future<List<LevelCategory>> getLevelCategory();
+  // int: level_id , bool: completed
+  Future<Map<int, bool>> getLevelsCompleted(String userUID);
 }

@@ -8,4 +8,5 @@ abstract class DatabaseRepository {
   Future<bool> isUserExisting(String uid);
   Future<List<Level>> getLevels();
   Future<List<LevelCategory>> getLevelCategory();
+  Future<Map<int, bool>> getLevelsCompleted(String userUID);
 }

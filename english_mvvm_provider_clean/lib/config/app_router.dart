@@ -14,7 +14,6 @@ class AppRouter {
   static GoRouter createRouter(AuthViewmodel provider) {
     return GoRouter(
       initialLocation: provider.initialLocalitation,
-      // initialLocation: "/game_screen",
       routes: [
         // TODO Cambiar todo esto a AppStrings
         GoRoute(
@@ -22,23 +21,23 @@ class AppRouter {
           builder: (context, state) => MainHomeScreen(),
         ),
         GoRoute(
-          path: '/home_screen',
+          path: AppStrings.homeScreen,
           builder: (context, state) => HomeScreen(),
         ),
         GoRoute(
-          path: '/game_screen',
+          path: AppStrings.gameScreen,
           builder: (context, state) => GameScreen(),
         ),
         GoRoute(
-          path: '/profile_screen',
+          path: AppStrings.profileScreen,
           builder: (context, state) => SettingsScreen(),
         ),
         GoRoute(
-          path: '/puntuation_screen',
+          path: AppStrings.puntuationScreen,
           builder: (context, state) => PuntuationScreen(),
         ),
         GoRoute(
-          path: '/social_screen',
+          path: AppStrings.socialScreen,
           builder: (context, state) => SocialScreen(),
         ),
 

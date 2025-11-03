@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/presentation/game_screen/body_game/grid_answers.dart';
 import 'package:english_mvvm_provider_clean/presentation/game_screen/header_game/header_game_words_widget.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
@@ -18,9 +19,10 @@ class GameScreen extends StatelessWidget {
 
     final CarouselViewmodel carouselProvider = Provider.of<CarouselViewmodel>(
       context,
-      listen: false,
+      listen: true,
     );
 
+    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -28,24 +30,40 @@ class GameScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            HeaderGameWidget(screenHeight: screenHeight),
+            HeaderGameWidget(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+              carouselProvider: carouselProvider,
+              wordsProvider: wordsProvider,
+            ),
             CarouselSlider.builder(
               disableGesture: true,
               carouselController: carouselProvider.controller,
               itemCount: wordsProvider.words!.length,
-              itemBuilder: (context, index, realIndex) => GridTestWidget(
-                words: wordsProvider.words!,
-                index: index,
-                carouselProvider: carouselProvider,
-              ),
+              itemBuilder: (context, index, realIndex) {
+                return GridTestWidget(
+                  words: wordsProvider.words!,
+                  index: index,
+                  carouselProvider: carouselProvider,
+                );
+              },
               options: CarouselOptions(
                 enlargeCenterPage: false,
                 height: screenHeight * 0.36,
                 viewportFraction: 1,
                 scrollPhysics: NeverScrollableScrollPhysics(),
+                onPageChanged: (index, reason) => carouselProvider.addIndex(),
               ),
             ),
-            SizedBox(height: screenHeight * 0.2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Pregunta ${carouselProvider.index} de ${wordsProvider.words!.length}",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
           ],
         ),
       ),

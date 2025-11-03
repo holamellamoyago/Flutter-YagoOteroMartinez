@@ -8,6 +8,7 @@ class GameTimerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO Revisar si esto puede ser un listen: false
     var clockProvider = context.watch<ClockViewmodel>();
 
     return CircularCountDownTimer(

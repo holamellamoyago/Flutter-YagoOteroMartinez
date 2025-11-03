@@ -51,14 +51,16 @@ void main() async {
 
   final FirebaseAuthDatasource authDatasource = FirebaseAuthDatasource();
   final AuthRepositoryImpl authRepository = AuthRepositoryImpl(
-    remoteDatasource: authDatasource,
+    firebaseDatasource: authDatasource,
+    databaseDatasource: SupabaseDatabaseDatasourceImpl()
   );
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => WordsViewModel(wordRepository ,saveWord, saveWords),
+          create: (context) =>
+              WordsViewModel(wordRepository, saveWord, saveWords),
         ),
         ChangeNotifierProvider(create: (context) => CarouselViewmodel()),
         ChangeNotifierProvider(create: (context) => ThemedataViewmodel()),
@@ -83,7 +85,8 @@ void main() async {
         ),
 
         ChangeNotifierProvider(
-          create: (context) => LevelsViewmodel(databaseRepository, authRepository),
+          create: (context) =>
+              LevelsViewmodel(databaseRepository, authRepository),
         ),
       ],
       child: MainApp(),

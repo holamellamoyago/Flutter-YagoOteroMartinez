@@ -50,10 +50,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
 
   @override
   Future<AppUser> loginWithGoogle() async {
-    GoogleSignIn googleSignIn = GoogleSignIn(
-      // signInOption: SignInOption.games,
-      // clientId: "122440637695-msibjrkbd54uq3ib6ro00t91sv9k6ql3.apps.googleusercontent.com",
-    );
+    GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
       final GoogleSignInAccount? account = await googleSignIn.signIn();

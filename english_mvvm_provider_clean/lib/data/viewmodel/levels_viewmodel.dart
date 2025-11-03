@@ -114,7 +114,6 @@ class LevelsViewmodel extends ChangeNotifier {
         _levelsCopmpletedUser[levelID] == true) {
       return true;
     }
-
     return false;
   }
 }

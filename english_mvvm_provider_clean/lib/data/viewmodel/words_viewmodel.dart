@@ -31,34 +31,4 @@ class WordsViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  Future<void> saveOneWord(Word word) async {
-    try {
-      loading = true;
-      error = null;
-      notifyListeners();
-
-      await saveWord(word);
-    } catch (e) {
-      error = e.toString();
-    } finally {
-      loading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> saveMultipleWords(List<Word> words) async {
-    try {
-      loading = true;
-      error = null;
-      notifyListeners();
-
-      await savewords(words);
-    } catch (e) {
-      error = e.toString();
-    } finally {
-      loading = false;
-      notifyListeners();
-    }
-  }
 }

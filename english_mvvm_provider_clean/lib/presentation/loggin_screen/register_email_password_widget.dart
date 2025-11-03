@@ -1,4 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/users_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
@@ -36,6 +37,7 @@ class _RegisterEmailPasswordState extends State<RegisterEmailPassword> {
       context,
       listen: false,
     );
+
 
     if (isLoading) {
       return Center(child: CircularProgressIndicator());
@@ -93,6 +95,12 @@ class _RegisterEmailPasswordState extends State<RegisterEmailPassword> {
     String password = _passwordController.text;
     String confirPassword = _confirmPasswordController.text;
 
+    
+    UsersViewmodel usersProvider = Provider.of<UsersViewmodel>(
+      context,
+      listen: false,
+    );
+
     setState(() {
       isLoading = true;
     });
@@ -100,6 +108,7 @@ class _RegisterEmailPasswordState extends State<RegisterEmailPassword> {
     if (_formKey.currentState!.validate() && password == confirPassword) {
       try {
         await authProvider.createAccountEmailPassword(email, password);
+        await usersProvider.manageUser(authProvider.getCurrentUser);
 
         if (mounted) {
           context.go(AppStrings.mainHomeScreen);

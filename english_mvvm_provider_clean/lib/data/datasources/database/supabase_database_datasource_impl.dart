@@ -1,6 +1,5 @@
 import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/database_datasource.dart';
-import 'package:english_mvvm_provider_clean/data/viewmodel/users_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level_category.dart';
@@ -27,7 +26,7 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
   @override
   Future<void> saveUser(AppUser user) async {
     await _supabase.from(DatabaseConstants.tableUsers).insert({
-      DatabaseConstants.userUID: user.uid,
+      DatabaseConstants.uidUser: user.uid,
       DatabaseConstants.globalName: user.name,
       DatabaseConstants.userEmail: user.photoURL,
       DatabaseConstants.userUsername: user.username,
@@ -38,12 +37,17 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
   @override
   Future<bool> isUserExisting(String uid) async {
     try {
-      final data = await _supabase
+      final List<Map<String, dynamic>> data = await _supabase
           .from(DatabaseConstants.tableUsers)
           .select()
-          .eq(DatabaseConstants.userUID, uid)
-          .maybeSingle();
-      return data != null;
+          .eq(DatabaseConstants.uidUser, uid);
+
+      if (data.isNotEmpty) {
+        return true;
+        
+      }
+
+      return  false;
     } catch (e) {
       throw Exception("Error checking user existence: $e");
     }
@@ -76,8 +80,6 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
         .select()
         .eq(DatabaseConstants.userUID, userUID);
 
-    print(data);
-
-    return Map<int,bool>();
+    return mapLevelsCompleted(data);
   }
 }

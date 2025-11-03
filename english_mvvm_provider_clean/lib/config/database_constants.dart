@@ -6,6 +6,7 @@ class DatabaseConstants {
   static final String tableVocabulary = "vocabulary";
   static final String tableLevelsUsers = "levels_users";
 
+  static final String uidUser = "uid_user";
   static final String userUID = "user_uid";
   static final String userUsername = "username";
   static final String userEmail = "email";

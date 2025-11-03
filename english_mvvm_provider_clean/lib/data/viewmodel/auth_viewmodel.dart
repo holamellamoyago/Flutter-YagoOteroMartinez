@@ -94,6 +94,7 @@ class AuthViewmodel extends ChangeNotifier {
   Future<void> loginGoogle() async {
     try {
       currentUser = await authRepository.loginWithGoogle();
+      // TODO Integrar consuopabase
     } catch (e) {
       throw Exception(e.toString());
     }

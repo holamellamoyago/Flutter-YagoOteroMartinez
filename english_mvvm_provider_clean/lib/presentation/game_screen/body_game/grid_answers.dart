@@ -108,6 +108,27 @@ class GridTestWidget extends StatelessWidget {
     return l;
   }
 
+
+  /* 
+    TODO
+    1.
+    En esta función tengo que comprobar que termine el juego , si esta en la última pestaña cambiar a 
+    otra pantalla donde muestre los resultados 
+
+    2. 
+    Quiero implementar un sistema de puntuaciones mejor , restar si falla, corazones , notificaciones si 
+    suma o resta puntos , que sume mas o menos en función del tiempo que tarde en responder.
+
+    3. 
+    Mirar el tema de los niveles, los testers se me quejaron de que 10 seg se le hacian pequeños 
+    entonces intentar hacer un calculo de:
+    cogemos total de segundos: 10 
+       devolver un map<NivelDificultad, Map<String, double>>
+       
+       que en base al nivel de dificultad que tgengas te devuelva el map que tenga 
+        puntos -> acertado 1.2 y después se hace 
+  */
+
   void _checkAnswer(
     CarouselViewmodel carouselProvider,
     ClockViewmodel clockProvider,

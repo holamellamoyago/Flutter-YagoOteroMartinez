@@ -52,7 +52,7 @@ void main() async {
   final FirebaseAuthDatasource authDatasource = FirebaseAuthDatasource();
   final AuthRepositoryImpl authRepository = AuthRepositoryImpl(
     firebaseDatasource: authDatasource,
-    databaseDatasource: SupabaseDatabaseDatasourceImpl()
+    databaseDatasource: SupabaseDatabaseDatasourceImpl(),
   );
 
   runApp(

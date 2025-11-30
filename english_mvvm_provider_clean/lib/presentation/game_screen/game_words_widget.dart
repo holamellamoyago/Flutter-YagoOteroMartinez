@@ -53,6 +53,7 @@ class GameScreen extends StatelessWidget {
                 viewportFraction: 1,
                 scrollPhysics: NeverScrollableScrollPhysics(),
                 onPageChanged: (index, reason) => carouselProvider.addIndex(),
+                
               ),
             ),
             Row(

@@ -5,9 +5,14 @@ class AppStrings {
 
   // Resultados
   static final headLineDialogTime = "Great job!";
-  static final titleDialog =
+  static final titleDialogFailed =
       "You ran out of time but you received a lot of poins, Let's go!";
-  static final textButtonDialog = "Play again";
+  static final textButtonDialogFailed = "Play again";
+
+  static final headLineWinnerTime = "Great job!";
+  static final titleDialogWinner =
+      "You complete this level perfectly, run to get your points!";
+  static final textButtonDialogWinner = "Go to levels";
 
   static final cardTitleNew = "New puntuation";
   static final cardTitleTotal = "Total puntuation";
@@ -50,4 +55,7 @@ class AppStrings {
   static final googleIcon = "assets/images/logo_google.png";
 
   // Database
+
+  // grid_answers
+  static final incorrectAnswer = "Vaya, respuesta incorrecta!";
 }

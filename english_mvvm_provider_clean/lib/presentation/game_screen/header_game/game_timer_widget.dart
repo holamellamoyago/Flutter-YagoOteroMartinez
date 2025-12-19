@@ -13,7 +13,7 @@ class GameTimerWidget extends StatelessWidget {
 
     return CircularCountDownTimer(
       controller: clockProvider.countDownController,
-      onComplete: () => clockProvider.openDialog(context),
+      onComplete: () => clockProvider.openDialog(context, false),
       onChange: (value) => clockProvider.onChangeCountdowm(value),
       width: 50,
       height: 50,

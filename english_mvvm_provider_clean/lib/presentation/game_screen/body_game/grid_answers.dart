@@ -1,6 +1,8 @@
+import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/presentation/game_screen/body_game/answer_button.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -12,12 +14,14 @@ class GridTestWidget extends StatelessWidget {
   final List<Word> words;
   final int index;
   final CarouselViewmodel carouselProvider;
+  final WordsViewModel wordsProvider;
 
   const GridTestWidget({
     super.key,
     required this.words,
     required this.index,
     required this.carouselProvider,
+    required this.wordsProvider,
   });
 
   @override
@@ -50,15 +54,13 @@ class GridTestWidget extends StatelessWidget {
                 AnswerButton(
                   text: answers[0],
                   color: Colors.red,
-                  onTap: () =>
-                      _checkAnswer(carouselProvider, clockProvider, answers[0]),
+                  onTap: () => _checkAnswer(context, clockProvider, answers[0]),
                 ),
                 SizedBox(width: 16),
                 AnswerButton(
                   text: answers[1],
                   color: Colors.blue,
-                  onTap: () =>
-                      _checkAnswer(carouselProvider, clockProvider, answers[1]),
+                  onTap: () => _checkAnswer(context, clockProvider, answers[1]),
                 ),
               ],
             ),
@@ -71,15 +73,13 @@ class GridTestWidget extends StatelessWidget {
                 AnswerButton(
                   text: answers[2],
                   color: Colors.orange,
-                  onTap: () =>
-                      _checkAnswer(carouselProvider, clockProvider, answers[2]),
+                  onTap: () => _checkAnswer(context, clockProvider, answers[2]),
                 ),
                 SizedBox(width: 16),
                 AnswerButton(
                   text: answers[3],
                   color: Colors.green,
-                  onTap: () =>
-                      _checkAnswer(carouselProvider, clockProvider, answers[3]),
+                  onTap: () => _checkAnswer(context, clockProvider, answers[3]),
                 ),
               ],
             ),
@@ -108,7 +108,6 @@ class GridTestWidget extends StatelessWidget {
     return l;
   }
 
-
   /* 
     TODO
     1.
@@ -130,15 +129,23 @@ class GridTestWidget extends StatelessWidget {
   */
 
   void _checkAnswer(
-    CarouselViewmodel carouselProvider,
+    BuildContext context,
     ClockViewmodel clockProvider,
     String text,
   ) {
     if (text == words.elementAt(index).spanish) {
       carouselProvider.addPoints();
       clockProvider.countDownController.restart();
+
+      // Actualización 19/12 - Hacer que se pare cuando lleva el total de preguntas.
+      if ((index + 1) >= wordsProvider.words!.length) {
+        clockProvider.countDownController.pause();
+        clockProvider.openDialog(context, true);
+      } else {
+        print("no se todavía no llego a la última respuesta");
+      }
     } else {
-      print("Fallo");
+      // showSnackBar(context, AppStrings.incorrectAnswer);
     }
   }
 }

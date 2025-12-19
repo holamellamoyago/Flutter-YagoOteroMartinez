@@ -45,22 +45,23 @@ class GameScreen extends StatelessWidget {
                   words: wordsProvider.words!,
                   index: index,
                   carouselProvider: carouselProvider,
+                  wordsProvider: wordsProvider,
                 );
               },
               options: CarouselOptions(
                 enlargeCenterPage: false,
                 height: screenHeight * 0.36,
                 viewportFraction: 1,
+                enableInfiniteScroll: false,
                 scrollPhysics: NeverScrollableScrollPhysics(),
                 onPageChanged: (index, reason) => carouselProvider.addIndex(),
-                
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Pregunta ${carouselProvider.index} de ${wordsProvider.words!.length}",
+                  "Pregunta ${carouselProvider.index + 1} de ${wordsProvider.words!.length}",
                   style: TextStyle(color: Colors.black),
                 ),
               ],

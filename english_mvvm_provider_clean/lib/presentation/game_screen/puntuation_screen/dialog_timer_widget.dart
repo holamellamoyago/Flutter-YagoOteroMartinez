@@ -33,7 +33,7 @@ class DialogTimerWidget extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              AppStrings.titleDialog,
+              AppStrings.titleDialogFailed,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(height: 16),
@@ -67,7 +67,7 @@ class DialogTimerWidget extends StatelessWidget {
           icon: Icon(Icons.refresh),
           // TODO
           onPressed: () => context.go('/'),
-          label: Text(AppStrings.textButtonDialog),
+          label: Text(AppStrings.textButtonDialogFailed),
         ),
       ],
     );

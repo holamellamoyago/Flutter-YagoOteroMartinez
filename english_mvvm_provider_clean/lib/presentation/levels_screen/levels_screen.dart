@@ -3,9 +3,11 @@ import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/levels_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
+import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LevelsScreen extends StatelessWidget {
   const LevelsScreen({super.key});
@@ -45,6 +47,7 @@ class LevelsScreen extends StatelessWidget {
                       wordProvider: wordProvider,
                       levelProvider: levelProvider,
                       index: index,
+                      indexDatabsae: levelProvider.levels[index].id,
                     ),
                   ),
                 ),
@@ -60,16 +63,20 @@ class LevelView extends StatelessWidget {
     required this.wordProvider,
     required this.levelProvider,
     required this.index,
+    required this.indexDatabsae,
   });
 
   final WordsViewModel wordProvider;
   final LevelsViewmodel levelProvider;
   final int index;
+  final int indexDatabsae;
 
   @override
   Widget build(BuildContext context) {
     final Level level = _loadLevel();
-    final Color iconColor = levelProvider.isLevelCompleted(level.id) ? Colors.green : Colors.grey;
+    final Color iconColor = levelProvider.isLevelCompleted(level.id)
+        ? Colors.green
+        : Colors.grey;
 
     return Card(
       color: Colors.white,
@@ -79,10 +86,28 @@ class LevelView extends StatelessWidget {
         leading: Icon(Icons.school),
         trailing: Icon(Icons.check, color: iconColor),
         onTap: () async {
+          print("index: " + index.toString());
+          print("index databse " + indexDatabsae.toString());
+          print("levelid" + level.id.toString());
+
+          print(levelProvider.levels[index].name);
+
+          print(levelProvider.levels.toString());
+
           await wordProvider.loadWords(level.id);
-          if (context.mounted) {
-            context.push(AppStrings.gameScreen);
+
+          // ignore: prefer_is_empty
+          if (wordProvider.words == null || wordProvider.words?.length == 0) {
+            print("No se cargaron las palabras");
+          } else {
+            print(wordProvider.words);
           }
+
+          context.push(AppStrings.gameScreen);
+
+          // if (context.mounted) {
+          //   context.push(AppStrings.gameScreen);
+          // }
         },
         title: Text(level.name),
         subtitle: Text(
@@ -93,7 +118,7 @@ class LevelView extends StatelessWidget {
   }
 
   Level _loadLevel() {
-    return levelProvider.levels[index];
+    return levelProvider.levels.firstWhere((e) => e.id == indexDatabsae);
   }
 }
 

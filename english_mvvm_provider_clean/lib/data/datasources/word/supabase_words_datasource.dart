@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:english_mvvm_provider_clean/config/database_constants.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/word/words_datasource.dart';

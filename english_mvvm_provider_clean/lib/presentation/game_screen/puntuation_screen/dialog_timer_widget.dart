@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class DialogTimerWidget extends StatelessWidget {
-  const DialogTimerWidget({super.key});
+  const DialogTimerWidget({super.key, required this.isWin});
+
+  final bool isWin;
 
   @override
   Widget build(BuildContext context) {

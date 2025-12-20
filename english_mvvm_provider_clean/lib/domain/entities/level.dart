@@ -11,4 +11,7 @@ class Level {
     required this.completed,
     this.description,
   });
+
+  @override
+  String toString() => "[$id]$name ";
 }

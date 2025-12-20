@@ -1,6 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:english_mvvm_provider_clean/presentation/game_screen/puntuation_screen/dialog_timer_widget.dart';
-import 'package:english_mvvm_provider_clean/presentation/game_screen/puntuation_screen/dialog_winner_widget.dart';
 import 'package:flutter/material.dart';
 
 class ClockViewmodel extends ChangeNotifier {
@@ -34,7 +33,7 @@ class ClockViewmodel extends ChangeNotifier {
     showDialog(
       barrierDismissible: true,
       context: context,
-      builder: (context) => isWin ? DialogWinnerWidget() : DialogTimerWidget(),
+      builder: (context) =>  DialogTimerWidget(isWin: isWin,),
     );
   }
 }

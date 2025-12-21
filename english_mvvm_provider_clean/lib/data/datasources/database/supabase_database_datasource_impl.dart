@@ -44,10 +44,9 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
 
       if (data.isNotEmpty) {
         return true;
-        
       }
 
-      return  false;
+      return false;
     } catch (e) {
       throw Exception("Error checking user existence: $e");
     }
@@ -81,5 +80,22 @@ class SupabaseDatabaseDatasourceImpl extends DatabaseDatasource {
         .eq(DatabaseConstants.userUID, userUID);
 
     return mapLevelsCompleted(data);
+  }
+
+  @override
+  Future<void> setLevelCompleted(int idLevel, String userUID) async {
+    await _supabase.from(DatabaseConstants.tableLevelsUsers).upsert({
+      DatabaseConstants.levelID: idLevel,
+      DatabaseConstants.userUID: userUID,
+      DatabaseConstants.levelCompleted: true,
+    });
+  }
+
+  @override
+  Future<void> setNewPoints(int currentPoints, String uid) async {
+    await _supabase.from(DatabaseConstants.tablePoints).insert({
+      DatabaseConstants.userUID: uid,
+      DatabaseConstants.columnPoints: currentPoints,
+    });
   }
 }

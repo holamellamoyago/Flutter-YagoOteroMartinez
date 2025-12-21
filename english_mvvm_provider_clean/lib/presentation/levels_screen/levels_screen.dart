@@ -86,28 +86,12 @@ class LevelView extends StatelessWidget {
         leading: Icon(Icons.school),
         trailing: Icon(Icons.check, color: iconColor),
         onTap: () async {
-          print("index: " + index.toString());
-          print("index databse " + indexDatabsae.toString());
-          print("levelid" + level.id.toString());
-
-          print(levelProvider.levels[index].name);
-
-          print(levelProvider.levels.toString());
-
           await wordProvider.loadWords(level.id);
+          levelProvider.currentLevel = level.id;
 
-          // ignore: prefer_is_empty
-          if (wordProvider.words == null || wordProvider.words?.length == 0) {
-            print("No se cargaron las palabras");
-          } else {
-            print(wordProvider.words);
+          if (context.mounted) {
+            context.push(AppStrings.gameScreen);
           }
-
-          context.push(AppStrings.gameScreen);
-
-          // if (context.mounted) {
-          //   context.push(AppStrings.gameScreen);
-          // }
         },
         title: Text(level.name),
         subtitle: Text(

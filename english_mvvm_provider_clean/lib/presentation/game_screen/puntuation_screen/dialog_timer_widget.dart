@@ -1,6 +1,9 @@
+import 'dart:isolate';
+
 import 'package:english_mvvm_provider_clean/config/app_shadows.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/levels_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +15,16 @@ class DialogTimerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<CarouselViewmodel>(context, listen: false);
+    CarouselViewmodel carouselProvider = Provider.of<CarouselViewmodel>(
+      context,
+      listen: false,
+    );
+
+    var levelProvider = Provider.of<LevelsViewmodel>(context, listen: false);
+
     var screenHeight = MediaQuery.of(context).size.height;
+
+    _updateTables(levelProvider, carouselProvider);
 
     return AlertDialog(
       content: SizedBox(
@@ -49,14 +60,18 @@ class DialogTimerWidget extends StatelessWidget {
                     _rowPoints(
                       context,
                       AppStrings.cardTitleNew,
-                      provider.points,
+                      carouselProvider.currentPoints,
                     ),
                     Container(
                       height: 1,
                       color: Colors.grey,
                       margin: EdgeInsets.all(8),
                     ),
-                    _rowPoints(context, AppStrings.cardTitleTotal, 999),
+                    _rowPoints(
+                      context,
+                      AppStrings.cardTitleTotal,
+                      carouselProvider.totalPoints,
+                    ),
                   ],
                 ),
               ),
@@ -73,6 +88,11 @@ class DialogTimerWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _updateTables(LevelsViewmodel levelProvider, CarouselViewmodel carousaelProvider) async {
+    await levelProvider.setTableCompleted(levelProvider.currentLevel!);
+    await levelProvider.setNewPoints(carousaelProvider.currentPoints);
   }
 
   Widget _rowPoints(BuildContext context, String title, int points) {

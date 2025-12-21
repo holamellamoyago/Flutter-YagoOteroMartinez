@@ -37,4 +37,14 @@ class DatabaseRespositoryImpl extends DatabaseRepository {
   Future<Map<int, bool>> getLevelsCompleted(String userUID) {
     return datasource.getLevelsCompleted(userUID);
   }
+
+  @override
+  Future<void> setLevelCompleted(int idLevel, String userUID) {
+    return datasource.setLevelCompleted(idLevel, userUID);
+  }
+
+  @override
+  Future<void> setNewPoints(int currentPoints, String uid) {
+    return datasource.setNewPoints(currentPoints, uid);
+  }
 }

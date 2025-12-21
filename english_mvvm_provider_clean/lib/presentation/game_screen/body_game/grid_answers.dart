@@ -141,11 +141,11 @@ class GridTestWidget extends StatelessWidget {
       if ((index + 1) >= wordsProvider.words!.length) {
         clockProvider.countDownController.pause();
         clockProvider.openDialog(context, true);
-      } else {
-        print("no se todavía no llego a la última respuesta");
       }
+      
     } else {
-      // showSnackBar(context, AppStrings.incorrectAnswer);
+      carouselProvider.subtractPoints();
+      showSnackBar(context, AppStrings.incorrectAnswer);
     }
   }
 }

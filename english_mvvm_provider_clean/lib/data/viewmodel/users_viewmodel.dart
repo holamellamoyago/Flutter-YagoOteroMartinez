@@ -1,6 +1,7 @@
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/database_repository.dart';
+import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/widgets.dart';
 
 class UsersViewmodel extends ChangeNotifier {
@@ -52,4 +53,6 @@ class UsersViewmodel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
 }

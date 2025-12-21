@@ -10,4 +10,9 @@ abstract class DatabaseDatasource {
   Future<List<LevelCategory>> getLevelCategory();
   // int: level_id , bool: completed
   Future<Map<int, bool>> getLevelsCompleted(String userUID);
+
+  // Actualización 21/12
+  Future<void> setLevelCompleted(int idLevel, String userUID);
+  Future<void> setNewPoints(int currentPoints, String uid);
+
 }

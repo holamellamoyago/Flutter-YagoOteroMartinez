@@ -5,6 +5,7 @@ class DatabaseConstants {
   static final String tableVocabularyLevel = "vocabulary_levels";
   static final String tableVocabulary = "vocabulary";
   static final String tableLevelsUsers = "levels_users";
+  static final String tablePoints = "points";
 
   static final String uidUser = "uid_user";
   static final String userUID = "user_uid";
@@ -29,4 +30,7 @@ class DatabaseConstants {
   static final String vocabularyID = "vocabulary_id";
   static final String english = "english";
   static final String spanish = "spanish";
+
+  // Table points
+  static final String columnPoints = "points";
 }

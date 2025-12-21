@@ -25,6 +25,8 @@ class GameScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    carouselProvider.updateTotalPoints(wordsProvider.words!.length * 100);
+
     return Scaffold(
       body: SafeArea(
         child: Column(

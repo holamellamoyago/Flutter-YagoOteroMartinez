@@ -3,7 +3,6 @@ import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/level_category.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:english_mvvm_provider_clean/domain/repositories/database_repository.dart';
@@ -18,8 +17,11 @@ class LevelsViewmodel extends ChangeNotifier {
     _getLevelsCompleted();
   }
 
+  AppUser? user;
   bool _isLoading = false;
   String _error = "";
+  int? currentLevel;
+
   final List<Level> _levels = [];
   final List<LevelCategory> _categories = [];
   final List<Level> _levelsModified = [];
@@ -115,5 +117,33 @@ class LevelsViewmodel extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  Future<void> setTableCompleted(int idLevel) async {
+    try {
+      if (user == null) {
+        await _loadInformationUser();
+      }
+
+      levelRepository.setLevelCompleted(idLevel, user!.uid);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> setNewPoints(int currentPoints) async {
+    try {
+      if (user == null) {
+        await _loadInformationUser();
+      }
+
+      levelRepository.setNewPoints(currentPoints, user!.uid);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> _loadInformationUser() async {
+    user = await authRepository.getCurrentUser();
   }
 }

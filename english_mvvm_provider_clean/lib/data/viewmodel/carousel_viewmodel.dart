@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 class CarouselViewmodel extends ChangeNotifier {
   final CarouselSliderController controller = CarouselSliderController();
-  int points = 0;
+
+  // Estos son los puntos que en un futuro cambiará la cifra dependendiendo de la dificultad
+  final int points = 100;
+
+  int currentPoints = 0;
+  int totalPoints = 0;
   int _index = 0;
 
   int get index => _index;
@@ -14,12 +19,25 @@ class CarouselViewmodel extends ChangeNotifier {
   );
 
   addPoints() {
-    points += 100;
+    currentPoints += points;
     nextPage();
   }
 
   addIndex() {
     _index++;
     notifyListeners();
+  }
+
+  updateTotalPoints(int totalPoints) {
+    if (totalPoints > 0) this.totalPoints = totalPoints;
+  }
+
+  subtractPoints() {
+    if (totalPoints <= points) {
+      currentPoints = 0;
+      return;
+    }
+
+    currentPoints = currentPoints - points;
   }
 }

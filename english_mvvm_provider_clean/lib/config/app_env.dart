@@ -8,5 +8,7 @@ class AppEnv {
   static final String windowsApiKey = dotenv.env['Windows_apiKey']!;
   static final String supabaseURL = dotenv.env['SUPABASE_URL']!;
   static final String supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY']!;
+  static final String androidAppCheck = dotenv.env['ANDROID_APPCHECK']!;
+  
   // static final String googleServerClientID = dotenv.env['ServerClientIdAutenticacionGoogle']!;
 }

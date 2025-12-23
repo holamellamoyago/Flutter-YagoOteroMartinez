@@ -18,7 +18,9 @@ import 'package:english_mvvm_provider_clean/domain/usecases/log_out_usecase.dart
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_words_usecase.dart';
 import 'package:english_mvvm_provider_clean/firebase_options.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +36,17 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await FirebaseAppCheck.instance.activate(
+    // // Para debug/desarrollo en Android
+    // androidProvider: AndroidProvider.debug,
+    // // Para producción usa: AndroidProvider.playIntegrity
+    // // androidProvider: AndroidProvider.playIntegrity,
+
+    // // Para iOS/macOS
+    // appleProvider: AppleProvider.appAttest,
+
+    providerAndroid: AndroidDebugProvider());
 
   // final wordDatasource = FileWordsDatasource();
   final wordDatasource = SupabaseWordsDatasource();

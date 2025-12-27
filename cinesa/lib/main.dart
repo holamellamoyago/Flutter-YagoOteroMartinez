@@ -3,6 +3,7 @@ import 'package:cinesa/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -15,10 +16,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: appRouter,
-      theme: AppTheme().getTheme(),
-      debugShowCheckedModeBanner: false,
+    return Sizer(
+      builder: (context, orientation, screentype) => MaterialApp.router(
+        routerConfig: appRouter,
+        theme: AppTheme().getTheme(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
-import 'package:cinesa/domain/entities/movie.dart';
-import 'package:cinesa/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cinesa/presentation/providers/providers.dart';
+import 'package:cinesa/presentation/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,17 +33,25 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final moviesSlideshowProvider = ref.watch(moviesSlideShowProvider);
 
     return Scaffold(
-      body: nowPlayingMovies.isEmpty
+      body: moviesSlideshowProvider.isEmpty
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: nowPlayingMovies.length,
-              itemBuilder: (context, index) {
-                Movie mov = nowPlayingMovies[index];
-                return ListTile(title: Text(mov.title));
-              },
+          : Column(
+              children: [
+                CustomAppbar(),
+                MoviesSlideshow(movies: moviesSlideshowProvider)
+                // Expanded(
+                //   child: ListView.builder(
+                //     itemCount: nowPlayingMovies.length,
+                //     itemBuilder: (context, index) {
+                //       Movie mov = nowPlayingMovies[index];
+                //       return ListTile(title: Text(mov.title));
+                //     },
+                //   ),
+                // ),
+              ],
             ),
     );
   }

@@ -11,7 +11,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _HomeView();
+    return Scaffold(
+      body: _HomeView(),
+      bottomNavigationBar: CustomBottomNavigattion(),
+    );
   }
 }
 
@@ -33,26 +36,24 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlideshowProvider = ref.watch(moviesSlideShowProvider);
 
-    return Scaffold(
-      body: moviesSlideshowProvider.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                CustomAppbar(),
-                MoviesSlideshow(movies: moviesSlideshowProvider)
-                // Expanded(
-                //   child: ListView.builder(
-                //     itemCount: nowPlayingMovies.length,
-                //     itemBuilder: (context, index) {
-                //       Movie mov = nowPlayingMovies[index];
-                //       return ListTile(title: Text(mov.title));
-                //     },
-                //   ),
-                // ),
-              ],
-            ),
-    );
+    return moviesSlideshowProvider.isEmpty
+        ? Center(child: CircularProgressIndicator())
+        : Column(
+            children: [
+              CustomAppbar(),
+              MoviesSlideshow(movies: moviesSlideshowProvider),
+              MovieHorizontalListview(
+                movies: nowPlayingMovies,
+                title: "En cines",
+                subtitle: "Sábado 27",
+                loadNextPage: () {
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                },
+              ),
+            ],
+          );
   }
 }

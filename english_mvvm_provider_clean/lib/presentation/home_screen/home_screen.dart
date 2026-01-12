@@ -25,10 +25,11 @@ class HomeScreen extends StatelessWidget {
           child: GestureDetector(
             child: ClipOval(
               child: CachedNetworkImage(
-                imageUrl: authProvider.getCurrentUser.image!,
+                imageUrl: authProvider.getCurrentUser.image ?? "no-url",
                 progressIndicatorBuilder: (context, url, progress) =>
                     CircularProgressIndicator(value: progress.progress),
-                errorWidget: (context, url, error) => Text("Iniciar sesion"),
+                errorWidget: (context, url, error) =>
+                    Image.asset("assets/images/logo.png", fit: BoxFit.cover),
               ),
             ),
           ),

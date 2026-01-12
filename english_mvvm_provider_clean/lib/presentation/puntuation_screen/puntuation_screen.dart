@@ -52,6 +52,30 @@ class BodyWithoutMessages extends StatelessWidget {
             'Utilizamos la mejor tecnología para resolver todas tus dudas',
             style: textTheme.labelMedium,
           ),
+          CuadroPosibilidadesIA(
+            colorFondo: Colors.orangeAccent[100]!,
+            colorIcono: Colors.orange,
+            titulo: "Repasar Pharsal Verbs",
+            subtitulo: "Practica los más comunes",
+            prompt: "",
+            icono: Icons.book,
+          ),
+          CuadroPosibilidadesIA(
+            colorFondo: Colors.lightBlueAccent[100]!,
+            colorIcono: Colors.blue,
+            titulo: "Dudas sobre verbos irregulares",
+            subtitulo: "Tablas y ejemplos rápidos",
+            prompt: "",
+            icono: Icons.question_answer,
+          ),
+          CuadroPosibilidadesIA(
+            colorFondo: Colors.greenAccent[100]!,
+            colorIcono: Colors.green,
+            titulo: "Analiza una foto de mis deberes",
+            subtitulo: "Sube una foto y la corregimos",
+            prompt: "",
+            icono: Icons.camera,
+          ),
         ],
       ),
     );
@@ -59,27 +83,47 @@ class BodyWithoutMessages extends StatelessWidget {
 }
 
 class CuadroPosibilidadesIA extends StatelessWidget {
-  final Color color;
+  final Color colorFondo, colorIcono;
   final String titulo, subtitulo, prompt;
-  final Icon icono;
+  final IconData icono;
 
   const CuadroPosibilidadesIA({
     super.key,
-    required this.color,
+    required this.colorFondo,
     required this.titulo,
     required this.subtitulo,
     required this.prompt,
     required this.icono,
+    required this.colorIcono,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(titulo),
-      subtitle: Text(subtitulo),
-      leading: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: color),
-        child: icono,
+    TextTheme textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 1.h),
+      child: Card(
+        borderOnForeground: true,
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(16),
+          side: BorderSide(color: AppColors.primaryAccentColor),
+        ),
+        child: ListTile(
+          trailing: Icon(Icons.arrow_right),
+          visualDensity: VisualDensity.comfortable,
+          title: Text(titulo),
+          subtitle: Text(subtitulo, style: textTheme.labelSmall),
+          leading: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: colorFondo,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(icono, color: colorIcono),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -91,7 +135,7 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
         children: [
           Container(
@@ -107,12 +151,22 @@ class Footer extends StatelessWidget {
           SizedBox(width: 8),
           Expanded(
             child: TextField(
+              maxLines: null,
+              minLines: 1,
+              textInputAction: TextInputAction.newline,
+              keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 hintText: "Escribe tu duda aquí",
                 filled: true,
                 fillColor: AppColors.primaryAccentColor,
               ),
             ),
+          ),
+          SizedBox(width: 8),
+          FilledButton.icon(
+            onPressed: () => null,
+            label: Icon(Icons.send),
+            style: ButtonStyle(),
           ),
         ],
       ),

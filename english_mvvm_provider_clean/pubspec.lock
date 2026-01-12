@@ -137,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
+  dart_openai:
+    dependency: "direct main"
+    description:
+      name: dart_openai
+      sha256: e7d297c932a6d6196ed75eef06aeea3de54d9e3c356846bc0e3493b0080b7030
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -145,6 +153,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.3"
+  fetch_api:
+    dependency: transitive
+    description:
+      name: fetch_api
+      sha256: "24cbd5616f3d4008c335c197bb90bfa0eb43b9e55c6de5c60d1f805092636034"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.1"
+  fetch_client:
+    dependency: transitive
+    description:
+      name: fetch_client
+      sha256: "3766964cc49ad1d007c261d7acecea61a73581e31fdbd948b446025851766bc8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   ffi:
     dependency: transitive
     description:
@@ -161,38 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
-  firebase_ai:
-    dependency: "direct main"
-    description:
-      name: firebase_ai
-      sha256: f2037222b3658aafe461044a954fc6b1dea4d3598b3b46ada2f45465ed35f1ef
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.6.1"
-  firebase_app_check:
-    dependency: "direct main"
-    description:
-      name: firebase_app_check
-      sha256: f4e6edfbdf178af7004589c52975a04c8f79ca8118e13bfd54ed2fca64271ba6
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.1+3"
-  firebase_app_check_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_app_check_platform_interface
-      sha256: f3e36015833e1d86e617d3e96e2f0609fb0e06f650df04c975b571680195ba82
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1+3"
-  firebase_app_check_web:
-    dependency: transitive
-    description:
-      name: firebase_app_check_web
-      sha256: cfc590f01cfba554641b348e9d4051984c8538a7f24b8da0a008e767ccb96082
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2+1"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -656,6 +648,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  sizer:
+    dependency: "direct main"
+    description:
+      name: sizer
+      sha256: "9963c89e4d30d7c2108de3eafc0a7e6a4a8009799376ea6be5ef0a9ad87cfbad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.3"
   sky_engine:
     dependency: transitive
     description: flutter

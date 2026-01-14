@@ -1,5 +1,8 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:dart_openai/dart_openai.dart';
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/ia_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -16,9 +19,24 @@ class PuntuationScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [SizedBox(), BodyWithoutMessages(), Footer()],
+        children: [
+          SizedBox(),
+          viewmodel.messages.isNotEmpty
+              ? BodyWithMessages()
+              : BodyWithoutMessages(),
+          Footer(viewmodel: viewmodel),
+        ],
       ),
     );
+  }
+}
+
+class BodyWithMessages extends StatelessWidget {
+  const BodyWithMessages({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeIn(duration: Durations.extralong4, child: Placeholder());
   }
 }
 
@@ -52,29 +70,38 @@ class BodyWithoutMessages extends StatelessWidget {
             'Utilizamos la mejor tecnología para resolver todas tus dudas',
             style: textTheme.labelMedium,
           ),
-          CuadroPosibilidadesIA(
-            colorFondo: Colors.orangeAccent[100]!,
-            colorIcono: Colors.orange,
-            titulo: "Repasar Pharsal Verbs",
-            subtitulo: "Practica los más comunes",
-            prompt: "",
-            icono: Icons.book,
+          FadeInLeft(
+            duration: Durations.extralong4,
+            child: CuadroPosibilidadesIA(
+              colorFondo: Colors.orangeAccent[100]!,
+              colorIcono: Colors.orange,
+              titulo: "Repasar Pharsal Verbs",
+              subtitulo: "Practica los más comunes",
+              prompt: "",
+              icono: Icons.book,
+            ),
           ),
-          CuadroPosibilidadesIA(
-            colorFondo: Colors.lightBlueAccent[100]!,
-            colorIcono: Colors.blue,
-            titulo: "Dudas sobre verbos irregulares",
-            subtitulo: "Tablas y ejemplos rápidos",
-            prompt: "",
-            icono: Icons.question_answer,
+          FadeInRight(
+            duration: Durations.extralong4,
+            child: CuadroPosibilidadesIA(
+              colorFondo: Colors.lightBlueAccent[100]!,
+              colorIcono: Colors.blue,
+              titulo: "Dudas sobre verbos irregulares",
+              subtitulo: "Tablas y ejemplos rápidos",
+              prompt: "",
+              icono: Icons.question_answer,
+            ),
           ),
-          CuadroPosibilidadesIA(
-            colorFondo: Colors.greenAccent[100]!,
-            colorIcono: Colors.green,
-            titulo: "Analiza una foto de mis deberes",
-            subtitulo: "Sube una foto y la corregimos",
-            prompt: "",
-            icono: Icons.camera,
+          FadeInUp(
+            duration: Durations.extralong4,
+            child: CuadroPosibilidadesIA(
+              colorFondo: Colors.greenAccent[100]!,
+              colorIcono: Colors.green,
+              titulo: "Analiza una foto de mis deberes",
+              subtitulo: "Sube una foto y la corregimos",
+              prompt: "",
+              icono: Icons.camera,
+            ),
           ),
         ],
       ),
@@ -130,10 +157,32 @@ class CuadroPosibilidadesIA extends StatelessWidget {
 }
 
 class Footer extends StatelessWidget {
-  const Footer({super.key});
+  const Footer({super.key, required this.viewmodel});
+
+  final IAViewmodel viewmodel;
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController txtFieldController = TextEditingController();
+
+    void enviarMensajes() {
+      String? mensaje = txtFieldController.text;
+
+      if (mensaje.isEmpty) {
+        showSnackBar(context, "Primero escribe un mensaje");
+        return;
+      }
+
+      OpenAIChatCompletionChoiceMessageContentItemModel content =
+          OpenAIChatCompletionChoiceMessageContentItemModel.text(mensaje);
+      viewmodel.anadirContenido(content);
+
+      viewmodel.mandarMensaje();
+
+      txtFieldController.clear();
+      print("Mensaje enviado");
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -151,6 +200,7 @@ class Footer extends StatelessWidget {
           SizedBox(width: 8),
           Expanded(
             child: TextField(
+              controller: txtFieldController,
               maxLines: null,
               minLines: 1,
               textInputAction: TextInputAction.newline,
@@ -164,7 +214,7 @@ class Footer extends StatelessWidget {
           ),
           SizedBox(width: 8),
           FilledButton.icon(
-            onPressed: () => null,
+            onPressed: () => enviarMensajes(),
             label: Icon(Icons.send),
             style: ButtonStyle(),
           ),

@@ -9,13 +9,35 @@ class IAViewmodel extends ChangeNotifier {
 
   bool _isloading = false;
   String? error;
+
+  List<OpenAIChatCompletionChoiceMessageContentItemModel> contents = [];
   List<OpenAIChatCompletionChoiceMessageModel> messages = [];
+
+  /*
+    OpenAIChatCompletionChoiceMessageModel -> Mensaje entero (rol + contenido)
+    OpenAIChatCompletionChoiceMessageContentItemModel -> Contenido de cada Mensaje indivisual (Puede ser varios de cada) (texto , imagenes y más)
+  */
+
+  void anadirContenido(
+    OpenAIChatCompletionChoiceMessageContentItemModel content,
+  ) {
+    contents.add(content);
+  }
 
   Future<void> crearChat() async {
     repository.iniciarChat(messages);
   }
 
-  Future<void> mandarMensaje(String mensaje) async {
-    repository.mandarMensaje();
+  Future<void> mandarMensaje() async {
+    OpenAIChatCompletionChoiceMessageModel message =
+        OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.user,
+          content: contents,
+        );
+
+    messages.add(message);
+
+    notifyListeners();
+    //repository.mandarMensaje();
   }
 }

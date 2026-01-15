@@ -37,7 +37,6 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
       if ((scrollController.position.pixels + 200) >=
           scrollController.position.maxScrollExtent) {
-
         widget.loadNextPage!();
       }
     });
@@ -51,9 +50,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      height: 50.h,
+    return SizedBox(
+      height: 44.h,
       child: Column(
         children: [
           if (widget.title != null || widget.subtitle != null)
@@ -66,7 +64,6 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) => _Slide(widget.movies[index]),
-              
             ),
           ),
         ],

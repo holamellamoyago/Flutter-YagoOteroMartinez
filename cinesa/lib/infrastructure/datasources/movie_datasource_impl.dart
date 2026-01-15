@@ -6,6 +6,8 @@ import 'package:cinesa/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
 class MovieDBDatasourceImplementation extends MovieDatasoutce {
+  final String regionEspanola = "ISO 3166-1";
+
   final dio = Dio(
     BaseOptions(
       baseUrl: "https://api.themoviedb.org/3",
@@ -13,22 +15,53 @@ class MovieDBDatasourceImplementation extends MovieDatasoutce {
     ),
   );
 
-  @override
-  Future<List<Movie>> getNowPlaying({int page = 1}) async {
-    List<Movie> movies = [];
+  List<Movie> _jsonToMovies(Map<String, dynamic> map) {
+    final movieDBResponse = MovieDbResponse.fromJson(map);
 
-    final response = await dio.get(
-      "/movie/now_playing",
-      queryParameters: {"page": page},
-    );
-
-    final movieDBResponse = MovieDbResponse.fromJson(response.data);
-
-    movies = movieDBResponse.results
+    return movieDBResponse.results
         .map((e) => MovieMapper.movieDbToEntity(e))
         .where((element) => element.posterPath != "no-poster")
         .toList();
-
-    return movies;
   }
+
+  @override
+  Future<List<Movie>> getNowPlaying({int page = 1}) async {
+    final response = await dio.get(
+      "/movie/now_playing",
+      queryParameters: {"page": page,},
+    );
+
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Movie>> getPopular({page = 1}) async {
+    final response = await dio.get(
+      "/movie/popular",
+      queryParameters: {"page": page, "region": regionEspanola},
+    );
+
+    return _jsonToMovies(response.data);
+  }
+  
+  @override
+  Future<List<Movie>> getUpComing({int page = 1}) async {
+    final response = await dio.get(
+      "/movie/upcoming",
+      queryParameters: {"page": page},
+    );
+
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Movie>> getTopRated({int page = 1}) async {
+    final response = await dio.get(
+      "/movie/top_rated",
+      queryParameters: {"page": page, "region": regionEspanola},
+    );
+
+    return _jsonToMovies(response.data);
+  }
+
 }

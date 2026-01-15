@@ -4,6 +4,5 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Este repositorio es de solo lectura
 final movieRepositoryProvider = Provider((ref) {
-  //TODO Probar si funciona con la abstract
   return MovieRepositoryImpl(datasource: MovieDBDatasourceImplementation());
 });

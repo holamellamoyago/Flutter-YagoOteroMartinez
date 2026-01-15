@@ -47,12 +47,13 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     final moviesSlideshowProvider = ref.watch(moviesSlideShowProvider);
 
+    return FullScreenLoader();
+
     return moviesSlideshowProvider.isEmpty
         ? Center(child: CircularProgressIndicator())
         : CustomScrollView(
             slivers: [
               SliverAppBar(floating: true, flexibleSpace: CustomAppbar()),
-
               SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   return Column(

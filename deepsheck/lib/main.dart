@@ -10,7 +10,6 @@ void main() async {
   OpenAI.baseUrl = "https://api.deepseek.com";
   OpenAI.apiKey = AppDotenv.openAIKey;
   OpenAI.requestsTimeOut = Duration(minutes: 1);
-  
 
   runApp(const MainApp());
 }
@@ -61,6 +60,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    txtController.dispose();
+    super.dispose();
   }
 
   @override

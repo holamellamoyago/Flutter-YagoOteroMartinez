@@ -44,8 +44,6 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
   Future<void> loadNextPage() async {
     if (isLoading) return;
 
-    print("Funcioin de proviuder");
-
     isLoading = true;
 
     currentPage++;

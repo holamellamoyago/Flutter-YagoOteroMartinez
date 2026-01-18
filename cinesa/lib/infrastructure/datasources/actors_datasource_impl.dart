@@ -10,7 +10,7 @@ class ActorsDatasourceImpl extends ActorsDatasource {
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: "https://api.themoviedb.org/3/movie/",
+      baseUrl: "https://api.themoviedb.org/3",
       queryParameters: {
         "api_key": AppEnv.keyTMDB,
         "language": "es-ES",
@@ -20,7 +20,7 @@ class ActorsDatasourceImpl extends ActorsDatasource {
 
   @override
   Future<List<Actor>> getActorByMovie(String movieId) async {
-    final response = await dio.get("$movieId/credits");
+    final response = await dio.get("/movie/$movieId/credits");
 
     List<Actor> actors = CreditsReponse.fromJson(
       response.data,

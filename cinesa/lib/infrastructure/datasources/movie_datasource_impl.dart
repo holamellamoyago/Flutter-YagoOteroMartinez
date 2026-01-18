@@ -2,6 +2,7 @@ import 'package:cinesa/config/env/app_env.dart';
 import 'package:cinesa/domain/datasources/movies_datasource.dart';
 import 'package:cinesa/domain/entities/movie.dart';
 import 'package:cinesa/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinesa/infrastructure/models/moviedb/moviedb_details.dart';
 import 'package:cinesa/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
@@ -28,7 +29,7 @@ class MovieDBDatasourceImplementation extends MovieDatasoutce {
   Future<List<Movie>> getNowPlaying({int page = 1}) async {
     final response = await dio.get(
       "/movie/now_playing",
-      queryParameters: {"page": page,},
+      queryParameters: {"page": page},
     );
 
     return _jsonToMovies(response.data);
@@ -43,7 +44,7 @@ class MovieDBDatasourceImplementation extends MovieDatasoutce {
 
     return _jsonToMovies(response.data);
   }
-  
+
   @override
   Future<List<Movie>> getUpComing({int page = 1}) async {
     final response = await dio.get(
@@ -64,4 +65,18 @@ class MovieDBDatasourceImplementation extends MovieDatasoutce {
     return _jsonToMovies(response.data);
   }
 
+  @override
+  Future<Movie> getMovieById(String id) async {
+    final response = await dio.get(
+      "/movie/$id",
+      queryParameters: {"language": "es-ES"},
+    );
+
+    if (response.statusCode != 200) throw Exception("Id not found");
+
+    final movieDB = MovieDetails.fromJson(response.data);
+    Movie movie = MovieMapper.movieDetailsDbToEntity(movieDB);
+
+    return movie;
+  }
 }

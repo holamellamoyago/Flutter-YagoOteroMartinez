@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 
+import 'package:cinesa/domain/entities/actor.dart';
 import 'package:cinesa/domain/entities/movie.dart';
 import 'package:cinesa/presentation/providers/movies/movie_info_provider.dart';
+import 'package:cinesa/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
@@ -22,6 +24,7 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
 
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsByMovieProvier.notifier).loadActors(widget.movieId);
   }
 
   @override
@@ -92,7 +95,6 @@ class _MovieDetails extends StatelessWidget {
                 (e) => Container(
                   margin: EdgeInsets.only(right: 10),
                   child: Chip(
-                    
                     label: Text(e),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadiusGeometry.circular(20),
@@ -103,6 +105,7 @@ class _MovieDetails extends StatelessWidget {
             ],
           ),
         ),
+        _ActorsByMovie(movieId: movie.id.toString()),
         Placeholder(),
       ],
     );
@@ -158,6 +161,51 @@ class _CustomSliverAppBar extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ActorsByMovie extends ConsumerWidget {
+  final String movieId;
+  const _ActorsByMovie({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final actorsByMovie = ref.watch(actorsByMovieProvier);
+
+    if (actorsByMovie[movieId] == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    final actors = actorsByMovie[movieId]!;
+
+    return SizedBox(
+      height: 30.h,
+      child: ListView.builder(
+        itemCount: actors.length,
+        itemBuilder: (context, index) {
+          Actor actor = actors[index];
+
+          return Container(
+            color: Colors.amber,
+            padding: EdgeInsets.all(8),
+            width: 10.w,
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(20),
+                  child: Image.network(
+                    actor.profilePath,
+                    height: 18.h,
+                    width: 13.w,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

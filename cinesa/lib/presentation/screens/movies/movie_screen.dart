@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:animate_do/animate_do.dart';
 import 'package:cinesa/domain/entities/actor.dart';
 import 'package:cinesa/domain/entities/movie.dart';
 import 'package:cinesa/presentation/providers/movies/movie_info_provider.dart';
@@ -106,7 +107,6 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
         _ActorsByMovie(movieId: movie.id.toString()),
-        Placeholder(),
       ],
     );
   }
@@ -123,7 +123,6 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: 70.h,
       foregroundColor: Colors.white,
-      shadowColor: Colors.red,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         title: Text(
@@ -134,7 +133,17 @@ class _CustomSliverAppBar extends StatelessWidget {
         background: Stack(
           children: [
             SizedBox.expand(
-              child: Image.network(movie.posterPath, fit: BoxFit.cover),
+              child: Image.network(
+                movie.posterPath,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress != null) {
+                    return SizedBox();
+                  } else {
+                    return FadeIn(child: child);
+                  }
+                },
+              ),
             ),
             SizedBox.expand(
               child: DecoratedBox(
@@ -181,25 +190,36 @@ class _ActorsByMovie extends ConsumerWidget {
     final actors = actorsByMovie[movieId]!;
 
     return SizedBox(
-      height: 30.h,
+      height: 24.h,
       child: ListView.builder(
         itemCount: actors.length,
+        scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           Actor actor = actors[index];
-
           return Container(
-            color: Colors.amber,
             padding: EdgeInsets.all(8),
-            width: 10.w,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(20),
-                  child: Image.network(
-                    actor.profilePath,
-                    height: 18.h,
-                    width: 13.w,
-                    fit: BoxFit.cover,
+                FadeInRight(
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(20),
+                    child: Image.network(
+                      actor.profilePath,
+                      height: 16.h,
+                      width: 12.h,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 1.h),
+                Text(actor.name, maxLines: 2),
+                Text(
+                  actor.character ?? "",
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.fade,
                   ),
                 ),
               ],

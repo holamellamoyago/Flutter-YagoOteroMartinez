@@ -85,8 +85,9 @@ class _Slide extends StatelessWidget {
 
     return Container(
       width: 40.w,
+
       padding: EdgeInsets.all(8),
-      child: Column(
+      child: Column (
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Imagen
@@ -110,7 +111,6 @@ class _Slide extends StatelessWidget {
               ),
             ),
           ),
-
           SizedBox(height: 1.h),
           // Titulo a partir de aquí
           SizedBox(

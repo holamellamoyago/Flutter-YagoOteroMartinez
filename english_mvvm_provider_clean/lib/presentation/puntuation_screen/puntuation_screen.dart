@@ -16,14 +16,26 @@ class PuntuationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     IAViewmodel viewmodel = Provider.of<IAViewmodel>(context, listen: true);
 
+    // return Scaffold(
+    //   body: Column(
+    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //     children: [
+    //       SizedBox(),
+    //       Expanded(
+    //         child: viewmodel.messages.isNotEmpty
+    //             ? BodyWithMessages(iaViewmodel: viewmodel)
+    //             : BodyWithoutMessages(),
+    //       ),
+    //       Footer(viewmodel: viewmodel),
+    //     ],
+    //   ),
+    // );
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(),
-          viewmodel.messages.isNotEmpty
-              ? BodyWithMessages()
-              : BodyWithoutMessages(),
+          Expanded(child: BodyWithMessages(iaViewmodel: viewmodel)),
           Footer(viewmodel: viewmodel),
         ],
       ),
@@ -32,11 +44,110 @@ class PuntuationScreen extends StatelessWidget {
 }
 
 class BodyWithMessages extends StatelessWidget {
-  const BodyWithMessages({super.key});
+  final IAViewmodel iaViewmodel;
+  const BodyWithMessages({super.key, required this.iaViewmodel});
 
   @override
   Widget build(BuildContext context) {
-    return FadeIn(duration: Durations.extralong4, child: Placeholder());
+    var textTheme = Theme.of(context).textTheme;
+
+    return FadeIn(
+      duration: Durations.extralong4,
+      child: ListView.builder(
+        itemCount: iaViewmodel.messages.length,
+        itemBuilder: (context, index) {
+          var message = iaViewmodel.messages[index];
+          var content = message.content![index];
+          var string = content.text ?? 'No hay texto';
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: message.role == OpenAIChatMessageRole.user
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.topLeft,
+                  clipBehavior: Clip.none,
+                  children: [
+                    FadeInRight(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryAccentColor,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(string, style: textTheme.bodySmall),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 2.w,
+                      bottom: 2.h,
+                      child: ClipRRect(
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          height: 4.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            // child: Row(
+            //   mainAxisAlignment: message.role == OpenAIChatMessageRole.user
+            //       ? MainAxisAlignment.end
+            //       : MainAxisAlignment.start,
+            //   children: [
+            //     Stack(
+            //       fit: StackFit.loose,
+            //       alignment: Alignment.topLeft,
+            //       children: [
+            //         Padding(
+            //           padding: EdgeInsets.only(bottom: 2.h),
+            //           child: ClipRRect(
+            //             child: Image.asset(
+            //               'assets/images/logo.png',
+            //               height: 4.h,
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     FadeInRight(
+            //       child: Container(
+            //         decoration: BoxDecoration(
+            //           color: AppColors.primaryAccentColor,
+            //           borderRadius: BorderRadius.only(
+            //             bottomLeft: Radius.circular(8),
+            //             topLeft: Radius.circular(8),
+            //             topRight: Radius.circular(8),
+            //           ),
+            //         ),
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: Text(
+            //             string,
+            //             style: textTheme.bodySmall,
+            //             maxLines: 99,
+
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -180,7 +291,6 @@ class Footer extends StatelessWidget {
       viewmodel.mandarMensaje();
 
       txtFieldController.clear();
-      print("Mensaje enviado");
     }
 
     return Padding(

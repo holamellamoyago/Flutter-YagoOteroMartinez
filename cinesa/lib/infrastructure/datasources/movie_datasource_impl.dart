@@ -21,7 +21,8 @@ class MovieDBDatasourceImplementation extends MovieDatasoutce {
 
     return movieDBResponse.results
         .map((e) => MovieMapper.movieDbToEntity(e))
-        .where((element) => element.posterPath != "no-poster")
+        .where((element) => element.posterPath != "")
+        .where((element) => element.overview != "")
         .toList();
   }
 
@@ -78,5 +79,25 @@ class MovieDBDatasourceImplementation extends MovieDatasoutce {
     Movie movie = MovieMapper.movieDetailsDbToEntity(movieDB);
 
     return movie;
+  }
+
+  @override
+  Future<List<Movie>> searchMovie(String query) async {
+    if (query.isEmpty) return [];
+
+    print("Realizando peticion");
+
+    final response = await dio.get(
+      "/search/movie",
+      options: Options(responseType: ResponseType.json),
+      queryParameters: {
+        "language": "es-ES",
+        "query": query,
+        "include_adult": true,
+        "region": regionEspanola,
+      },
+    );
+
+    return _jsonToMovies(response.data);
   }
 }

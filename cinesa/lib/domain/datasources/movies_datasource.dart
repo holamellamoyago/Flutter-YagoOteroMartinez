@@ -8,4 +8,5 @@ abstract class MovieDatasoutce {
   Future<Movie> getMovieById(String id);
 
   // Día 24/01
+  Future<List<Movie>> searchMovie(String query);
 }

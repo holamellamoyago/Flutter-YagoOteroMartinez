@@ -35,9 +35,12 @@ class IAViewmodel extends ChangeNotifier {
           content: contents,
         );
 
-    messages.add(message);
+    messages.add(message); // La respuesta del usuario
+    notifyListeners();
+
+    final OpenAIChatCompletionChoiceMessageModel response = await repository.mandarMensaje(messages);
+    messages.add(response) ; // Respuesta del servidor
 
     notifyListeners();
-    //repository.mandarMensaje();
   }
 }

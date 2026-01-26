@@ -14,7 +14,6 @@ class AppRouter {
   static GoRouter createRouter(AuthViewmodel provider) {
     return GoRouter(
       initialLocation: provider.initialLocalitation,
-      // initialLocation: AppStrings.gameScreen,
       routes: [
         // TODO Cambiar todo esto a AppStrings
         GoRoute(

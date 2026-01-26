@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
+import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/ia_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,26 +18,14 @@ class PuntuationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     IAViewmodel viewmodel = Provider.of<IAViewmodel>(context, listen: true);
 
-    // return Scaffold(
-    //   body: Column(
-    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //     children: [
-    //       SizedBox(),
-    //       Expanded(
-    //         child: viewmodel.messages.isNotEmpty
-    //             ? BodyWithMessages(iaViewmodel: viewmodel)
-    //             : BodyWithoutMessages(),
-    //       ),
-    //       Footer(viewmodel: viewmodel),
-    //     ],
-    //   ),
-    // );
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(),
-          Expanded(child: BodyWithMessages(iaViewmodel: viewmodel)),
+          viewmodel.messages.isEmpty
+              ? BodyWithoutMessages()
+              : Expanded(child: BodyWithMessages(iaViewmodel: viewmodel)),
           Footer(viewmodel: viewmodel),
         ],
       ),
@@ -50,100 +40,80 @@ class BodyWithMessages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var authProvider = Provider.of<AuthViewmodel>(context, listen: false);
+    var user =
+        authProvider.currentUser ??
+        AppUser(uid: "no-uid", name: "Debug", photoURL: "", username: "debug");
 
     return FadeIn(
       duration: Durations.extralong4,
       child: ListView.builder(
         itemCount: iaViewmodel.messages.length,
-        itemBuilder: (context, index) {
-          var message = iaViewmodel.messages[index];
-          var content = message.content![index];
-          var string = content.text ?? 'No hay texto';
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              crossAxisAlignment: message.role == OpenAIChatMessageRole.user
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.topLeft,
-                  clipBehavior: Clip.none,
-                  children: [
-                    FadeInRight(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryAccentColor,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(string, style: textTheme.bodySmall),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 2.w,
-                      bottom: 2.h,
-                      child: ClipRRect(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          height: 4.h,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            // child: Row(
-            //   mainAxisAlignment: message.role == OpenAIChatMessageRole.user
-            //       ? MainAxisAlignment.end
-            //       : MainAxisAlignment.start,
-            //   children: [
-            //     Stack(
-            //       fit: StackFit.loose,
-            //       alignment: Alignment.topLeft,
-            //       children: [
-            //         Padding(
-            //           padding: EdgeInsets.only(bottom: 2.h),
-            //           child: ClipRRect(
-            //             child: Image.asset(
-            //               'assets/images/logo.png',
-            //               height: 4.h,
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     FadeInRight(
-            //       child: Container(
-            //         decoration: BoxDecoration(
-            //           color: AppColors.primaryAccentColor,
-            //           borderRadius: BorderRadius.only(
-            //             bottomLeft: Radius.circular(8),
-            //             topLeft: Radius.circular(8),
-            //             topRight: Radius.circular(8),
-            //           ),
-            //         ),
-            //         child: Padding(
-            //           padding: const EdgeInsets.all(8.0),
-            //           child: Text(
-            //             string,
-            //             style: textTheme.bodySmall,
-            //             maxLines: 99,
+        itemBuilder: (context, i) {
+          var message = iaViewmodel.messages[i];
+          bool isUser = message.role == OpenAIChatMessageRole.user;
+          return ListView.builder(
+            itemCount: message.content?.length ?? 0,
+            itemBuilder: (context, j) {
+              var content = message.content![j];
+              var string = content.text ?? 'No hay texto';
 
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
+              return Column(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                      child: Column(
+                        crossAxisAlignment: message.role == OpenAIChatMessageRole.user
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: isUser
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadiusGeometry.circular(100),
+                                child: isUser && user.image != null
+                                    ? Image.network(
+                                        authProvider.currentUser!.image!,
+                                        height: 4.h,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/logo.png',
+                                        height: 4.h,
+                                      ),
+                              ),
+                    
+                              SizedBox(width: 1.w),
+                              Text(user.username, style: textTheme.bodySmall),
+                            ],
+                          ),
+                          SizedBox(height: 1.h),
+                          FadeInRight(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryAccentColor,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(8),
+                                  topLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(string, style: textTheme.bodySmall),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

@@ -42,7 +42,7 @@ void main() async {
 
   OpenAI.apiKey = AppEnv.deepSheekApiKey;
   OpenAI.baseUrl = "https://api.deepseek.com";
-  OpenAI.requestsTimeOut = Duration(minutes: 1);
+  OpenAI.requestsTimeOut = Duration(minutes: 5);
 
   // // Para debug/desarrollo en Android
   // androidProvider: AndroidProvider.debug,

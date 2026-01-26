@@ -13,9 +13,10 @@ class AIRepositorieImpl extends AIRepositorie {
   ) {
     return datasource.iniciarChat(messages);
   }
-
+  
   @override
-  Future<void> mandarMensaje() {
-    throw UnimplementedError();
+  Future<OpenAIChatCompletionChoiceMessageModel> mandarMensaje(List<OpenAIChatCompletionChoiceMessageModel> messages) {
+    return datasource.mandarMensaje(messages);
   }
+
 }

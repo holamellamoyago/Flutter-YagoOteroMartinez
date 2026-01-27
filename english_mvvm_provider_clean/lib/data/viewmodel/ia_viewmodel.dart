@@ -29,17 +29,22 @@ class IAViewmodel extends ChangeNotifier {
   }
 
   Future<void> mandarMensaje() async {
+    final List<OpenAIChatCompletionChoiceMessageContentItemModel> contentsCopy =
+        List.from(contents);
+
     OpenAIChatCompletionChoiceMessageModel message =
         OpenAIChatCompletionChoiceMessageModel(
           role: OpenAIChatMessageRole.user,
-          content: contents,
+          content: contentsCopy,
         );
 
     messages.add(message); // La respuesta del usuario
+    contents.clear();
     notifyListeners();
 
-    final OpenAIChatCompletionChoiceMessageModel response = await repository.mandarMensaje(messages);
-    messages.add(response) ; // Respuesta del servidor
+    final OpenAIChatCompletionChoiceMessageModel response = await repository
+        .mandarMensaje(messages);
+    messages.add(response); // Respuesta del servidor
 
     notifyListeners();
   }

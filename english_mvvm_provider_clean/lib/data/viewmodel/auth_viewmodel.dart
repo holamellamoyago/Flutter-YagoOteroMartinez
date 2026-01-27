@@ -50,8 +50,8 @@ class AuthViewmodel extends ChangeNotifier {
 
   CarouselSliderController get carouselController => _carouselController;
 
-  // String get initialLocalitation => isLoggedIn ? "/" : AppStrings.logginScreen;
-  String get initialLocalitation => isLoggedIn ? '/' : AppStrings.logginScreen;
+  String get initialLocalitation => isLoggedIn ? AppStrings.puntuationScreen : AppStrings.logginScreen;
+  // String get initialLocalitation => isLoggedIn ? '/' : AppStrings.logginScreen;
 
   Future<void> _checkAuth() async {
     if (authRepository.isLoggedIn()) {

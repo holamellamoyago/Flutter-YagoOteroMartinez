@@ -53,65 +53,62 @@ class BodyWithMessages extends StatelessWidget {
           var message = iaViewmodel.messages[i];
           bool isUser = message.role == OpenAIChatMessageRole.user;
           return ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             itemCount: message.content?.length ?? 0,
             itemBuilder: (context, j) {
               var content = message.content![j];
               var string = content.text ?? 'No hay texto';
-
-              return Column(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-                      child: Column(
-                        crossAxisAlignment: message.role == OpenAIChatMessageRole.user
-                            ? CrossAxisAlignment.end
-                            : CrossAxisAlignment.start,
+              return Expanded(
+                  child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                  child: Column(
+                    crossAxisAlignment: message.role == OpenAIChatMessageRole.user
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: isUser
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: isUser
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadiusGeometry.circular(100),
-                                child: isUser && user.image != null
-                                    ? Image.network(
-                                        authProvider.currentUser!.image!,
-                                        height: 4.h,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/logo.png',
-                                        height: 4.h,
-                                      ),
-                              ),
-                    
-                              SizedBox(width: 1.w),
-                              Text(user.username, style: textTheme.bodySmall),
-                            ],
+                          ClipRRect(
+                            borderRadius: BorderRadiusGeometry.circular(100),
+                            child: isUser && user.image != null
+                                ? Image.network(
+                                    authProvider.currentUser!.image!,
+                                    height: 4.h,
+                                  )
+                                : Image.asset(
+                                    'assets/images/logo.png',
+                                    height: 4.h,
+                                  ),
                           ),
-                          SizedBox(height: 1.h),
-                          FadeInRight(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryAccentColor,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(8),
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(string, style: textTheme.bodySmall),
-                              ),
-                            ),
-                          ),
+                
+                          SizedBox(width: 1.w),
+                          Text(user.username, style: textTheme.bodySmall),
                         ],
                       ),
-                    ),
+                      SizedBox(height: 1.h),
+                      FadeInRight(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryAccentColor,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(string, style: textTheme.bodySmall),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               );
             },
           );

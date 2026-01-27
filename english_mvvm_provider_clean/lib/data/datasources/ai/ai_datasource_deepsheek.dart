@@ -25,6 +25,7 @@ class AiDatasourceDeepsheek extends AIDatasource {
     OpenAIChatCompletionModel newChat = await openAI.chat.create(
       model: model,
       messages: messages,
+      temperature: 0.1
     );
 
     OpenAIChatCompletionChoiceModel message = newChat.choices.last;

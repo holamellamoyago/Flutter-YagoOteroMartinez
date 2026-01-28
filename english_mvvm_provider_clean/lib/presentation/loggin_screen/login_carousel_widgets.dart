@@ -7,6 +7,7 @@ import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class ButtonsLoginWidget extends StatelessWidget {
   const ButtonsLoginWidget({super.key});
@@ -60,7 +61,6 @@ class ButtonsLoginWidget extends StatelessWidget {
               await authProvider.loginGoogle();
 
               await dbProvider.manageUser(authProvider.getCurrentUser);
-
             } catch (e) {
               if (context.mounted) {
                 await authProvider.logOut();

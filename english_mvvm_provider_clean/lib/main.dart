@@ -124,7 +124,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // NEcesaria la escucha para gerstionar pantallas
+    // Necesaria la escucha para gerstionar pantallas
     final authProvider = Provider.of<AuthViewmodel>(context, listen: true);
     var themeData = context.watch<ThemedataViewmodel>();
 

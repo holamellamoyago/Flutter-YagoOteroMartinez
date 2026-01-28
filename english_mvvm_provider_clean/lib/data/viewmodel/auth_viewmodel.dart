@@ -88,14 +88,18 @@ class AuthViewmodel extends ChangeNotifier {
 
   // Funciones
 
-  CarouselOptions carouselOptions(double pageHeight) {
-    return CarouselOptions(viewportFraction: 1);
+  CarouselOptions carouselOptions() {
+    return CarouselOptions(
+      viewportFraction: 1,
+      //scrollPhysics: NeverScrollableScrollPhysics(),
+      enlargeCenterPage: false,
+      disableCenter: true
+    );
   }
 
   Future<void> loginGoogle() async {
     try {
       currentUser = await authRepository.loginWithGoogle();
-      // TODO Integrar consuopabase
     } catch (e) {
       throw Exception(e.toString());
     }

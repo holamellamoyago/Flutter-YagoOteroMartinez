@@ -38,7 +38,6 @@ class _RegisterEmailPasswordState extends State<RegisterEmailPassword> {
       listen: false,
     );
 
-
     if (isLoading) {
       return Center(child: CircularProgressIndicator());
     }
@@ -48,7 +47,7 @@ class _RegisterEmailPasswordState extends State<RegisterEmailPassword> {
       child: Form(
         key: _formKey,
         child: Column(
-          spacing: 16,
+          spacing: 8,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
@@ -95,7 +94,6 @@ class _RegisterEmailPasswordState extends State<RegisterEmailPassword> {
     String password = _passwordController.text;
     String confirPassword = _confirmPasswordController.text;
 
-    
     UsersViewmodel usersProvider = Provider.of<UsersViewmodel>(
       context,
       listen: false,

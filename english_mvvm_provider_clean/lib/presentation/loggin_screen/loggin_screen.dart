@@ -4,6 +4,7 @@ import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class LogginScreen extends StatelessWidget {
   const LogginScreen({super.key});
@@ -11,7 +12,10 @@ class LogginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double pageHeight = MediaQuery.of(context).size.height;
-    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(context, listen: false);
+    AuthViewmodel authProvider = Provider.of<AuthViewmodel>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -24,7 +28,7 @@ class LogginScreen extends StatelessWidget {
             ),
             Column(
               spacing: 16,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(100),
@@ -54,12 +58,12 @@ class LogginScreen extends StatelessWidget {
                 authProvider.isLoading
                     ? CircularProgressIndicator()
                     : SizedBox(
-                        height: pageHeight * 0.33,
+                        height: 40.h, // TODO 
                         child: CarouselSlider(
                           carouselController: authProvider.carouselController,
-                          disableGesture: false,
+                          disableGesture: true,
                           items: AuthViewmodel.carouselItems,
-                          options: authProvider.carouselOptions(pageHeight),
+                          options: authProvider.carouselOptions(),
                         ),
                       ),
               ],

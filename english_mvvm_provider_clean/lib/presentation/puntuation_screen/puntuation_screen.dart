@@ -7,6 +7,7 @@ import 'package:english_mvvm_provider_clean/data/viewmodel/ia_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,10 +24,13 @@ class PuntuationScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          //TODO Aquí tiene que ir una cabecera
           SizedBox(),
-          viewmodel.messages.isEmpty
-              ? BodyWithoutMessages()
-              : Expanded(child: BodyWithMessages(iaViewmodel: viewmodel)),
+          Expanded(
+            child: viewmodel.messages.isEmpty
+                ? BodyWithoutMessages()
+                : BodyWithMessages(iaViewmodel: viewmodel),
+          ),
           Footer(viewmodel: viewmodel),
         ],
       ),
@@ -42,160 +46,132 @@ class BodyWithMessages extends StatelessWidget {
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var authProvider = Provider.of<AuthViewmodel>(context, listen: false);
+
     var user =
         authProvider.currentUser ??
         AppUser(uid: "no-uid", name: "Debug", photoURL: "", username: "debug");
 
-    return FadeIn(
-      duration: Durations.extralong4,
-      child: ListView.builder(
-        itemCount: iaViewmodel.messages.length,
-        itemBuilder: (context, index) {
-          var message = iaViewmodel.messages[index];
-          bool isUser = message.role == OpenAIChatMessageRole.user;
-          List<String> mensajes = [];
-          int contentLength = message.content?.length ?? 0;
+    return Column(
+      children: [
+        Expanded(
+          child: FadeIn(
+            duration: Durations.extralong4,
+            child: ListView.builder(
+              itemCount: iaViewmodel.messages.length,
+              itemBuilder: (context, index) {
+                var message = iaViewmodel.messages[index];
+                bool isUser = message.role == OpenAIChatMessageRole.user;
+                List<String> mensajes = [];
+                int contentLength = message.content?.length ?? 0;
 
-          for (var i = 0; i < contentLength; i++) {
-            String text = message.content?[i].text ?? '';
-            if (text.isNotEmpty) mensajes.add(text);
-          }
+                for (var i = 0; i < contentLength; i++) {
+                  String text = message.content?[i].text ?? '';
+                  if (text.isNotEmpty) mensajes.add(text);
+                }
 
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-            child: Column(
-              crossAxisAlignment: isUser
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: isUser
-                      ? MainAxisAlignment.end
-                      : MainAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(100),
-                      child: isUser && user.image != null
-                          ? Image.network(
-                              authProvider.currentUser!.image!,
-                              height: 4.h,
-                            )
-                          : Image.asset(AppStrings.logoImage, height: 4.h),
-                    ),
-
-                    SizedBox(width: 1.w),
-                    Text(
-                      isUser ? user.username : '¡Dino profe!',
-                      style: textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 1.h),
-                ...mensajes.map(
-                  (e) => FadeInRight(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryAccentColor,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8),
-                        ),
+                return MensajeIA(
+                  isUser: isUser,
+                  user: user,
+                  authProvider: authProvider,
+                  textTheme: textTheme,
+                  mensajes: mensajes,
+                );
+              },
+            ),
+          ),
+        ),
+        iaViewmodel.isLoading()
+            ? SizedBox(
+                height: 10.h,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Tu mensaje esta cargando",
+                        style: textTheme.bodySmall,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(e, style: textTheme.bodySmall),
-                      ),
-                    ),
+                      SizedBox(width: 4.w),
+                      CircularProgressIndicator(strokeWidth: 2),
+                    ],
                   ),
                 ),
-              ],
+              )
+            : SizedBox(),
+      ],
+    );
+  }
+}
+
+class MensajeIA extends StatelessWidget {
+  const MensajeIA({
+    super.key,
+    required this.isUser,
+    required this.user,
+    required this.authProvider,
+    required this.textTheme,
+    required this.mensajes,
+  });
+
+  final bool isUser;
+  final AppUser user;
+  final AuthViewmodel authProvider;
+  final TextTheme textTheme;
+  final List<String> mensajes;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+      child: Column(
+        crossAxisAlignment: isUser
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: isUser
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(100),
+                child: isUser && user.image != null
+                    ? Image.network(
+                        authProvider.currentUser!.image!,
+                        height: 4.h,
+                      )
+                    : Image.asset(AppStrings.logoImage, height: 4.h),
+              ),
+
+              SizedBox(width: 1.w),
+              Text(
+                isUser ? user.username : '¡Dino profe!',
+                style: textTheme.bodySmall,
+              ),
+            ],
+          ),
+          SizedBox(height: 1.h),
+          ...mensajes.map(
+            (e) => FadeInRight(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.primaryAccentColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GptMarkdown(e, style: textTheme.bodySmall, ),
+                ),
+              ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
-    // return FadeIn(
-    //   duration: Durations.extralong4,
-    //   child: ListView.builder(
-    //     itemCount: iaViewmodel.messages.length,
-    //     itemBuilder: (context, i) {
-    //       var message = iaViewmodel.messages[i];
-    //       List<String> mensajes = [];
-    //       int contentLength = message.content?.length ?? 0;
-
-    //       for (var i = 0; i < contentLength; i++) {
-    //         String text = message.content?[i].text ?? '';
-    //         if (text.isNotEmpty) mensajes.add(text);
-    //       }
-
-    //       bool isUser = message.role == OpenAIChatMessageRole.user;
-    //       return ListView.builder(
-    //         physics: NeverScrollableScrollPhysics(),
-    //         shrinkWrap: true,
-    //         itemCount: message.content?.length ?? 0,
-    //         itemBuilder: (context, j) {
-    //           var content = message.content![j];
-    //           var string = content.text ?? 'No hay texto';
-    //           return Expanded(
-    //             child: Padding(
-    //               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-    //               child: Column(
-    //                 crossAxisAlignment: isUser
-    //                     ? CrossAxisAlignment.end
-    //                     : CrossAxisAlignment.start,
-    //                 children: [
-    //                   Row(
-    //                     mainAxisAlignment: isUser
-    //                         ? MainAxisAlignment.end
-    //                         : MainAxisAlignment.start,
-    //                     children: [
-    //                       ClipRRect(
-    //                         borderRadius: BorderRadiusGeometry.circular(100),
-    //                         child: isUser && user.image != null
-    //                             ? Image.network(
-    //                                 authProvider.currentUser!.image!,
-    //                                 height: 4.h,
-    //                               )
-    //                             : Image.asset(
-    //                                 AppStrings.logoImage,
-    //                                 height: 4.h,
-    //                               ),
-    //                       ),
-
-    //                       SizedBox(width: 1.w),
-    //                       Text(
-    //                         isUser ? user.username : '¡Dino profe!',
-    //                         style: textTheme.bodySmall,
-    //                       ),
-    //                     ],
-    //                   ),
-    //                   SizedBox(height: 1.h),
-    //                   FadeInRight(
-    //                     child: Container(
-    //                       decoration: BoxDecoration(
-    //                         color: AppColors.primaryAccentColor,
-    //                         borderRadius: BorderRadius.only(
-    //                           bottomLeft: Radius.circular(8),
-    //                           topLeft: Radius.circular(8),
-    //                           topRight: Radius.circular(8),
-    //                         ),
-    //                       ),
-    //                       child: Padding(
-    //                         padding: const EdgeInsets.all(8.0),
-    //                         child: Text(string, style: textTheme.bodySmall),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           );
-    //         },
-    //       );
-    //     },
-    //   ),
-    // );
   }
 }
 

@@ -32,12 +32,12 @@ class ThemedataViewmodel extends ChangeNotifier {
       bodySmall: TextStyle(
         fontSize: 16,
         color: Colors.black,
-        fontWeight: FontWeight.bold,
+        //fontWeight: FontWeight.bold,
       ),
       bodyMedium: TextStyle(
         fontSize: 16,
         color: Colors.white,
-        fontWeight: FontWeight.bold,
+        //fontWeight: FontWeight.bold,
       ),
       labelMedium: TextStyle(fontSize: 16, color: Colors.grey),
     ),

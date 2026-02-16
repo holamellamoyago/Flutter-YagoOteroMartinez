@@ -7,11 +7,13 @@ class IAViewmodel extends ChangeNotifier {
 
   IAViewmodel({required this.repository});
 
-  bool _isloading = false;
+  bool _loading = false;
   String? error;
 
   List<OpenAIChatCompletionChoiceMessageContentItemModel> contents = [];
   List<OpenAIChatCompletionChoiceMessageModel> messages = [];
+
+  bool isLoading() => _loading;
 
   /*
     OpenAIChatCompletionChoiceMessageModel -> Mensaje entero (rol + contenido)
@@ -30,7 +32,7 @@ class IAViewmodel extends ChangeNotifier {
 
   Future<void> mandarMensaje() async {
     final List<OpenAIChatCompletionChoiceMessageContentItemModel> contentsCopy =
-        List.from(contents);
+        List.from(contents); //TODO ¿Esto?
 
     OpenAIChatCompletionChoiceMessageModel message =
         OpenAIChatCompletionChoiceMessageModel(
@@ -40,12 +42,15 @@ class IAViewmodel extends ChangeNotifier {
 
     messages.add(message); // La respuesta del usuario
     contents.clear();
+    _loading = true;
+
     notifyListeners();
 
     final OpenAIChatCompletionChoiceMessageModel response = await repository
         .mandarMensaje(messages);
     messages.add(response); // Respuesta del servidor
 
+    _loading = false;
     notifyListeners();
   }
 }

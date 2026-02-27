@@ -2,6 +2,7 @@ import 'package:cinesa/domain/entities/movie.dart';
 import 'package:cinesa/presentation/delegates/search_movie_delegate.dart';
 import 'package:cinesa/presentation/providers/movies/movies_repository_provider.dart';
 import 'package:cinesa/presentation/providers/providers.dart';
+import 'package:cinesa/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -36,11 +37,13 @@ class CustomAppbar extends ConsumerWidget {
                     context: context,
                     delegate: SearchMovieDelegate(
                       initialMovies: searchedMovies,
-                      searchMovies: ref.read(searchedMoviesProvider.notifier).searchedMoviesByQuery
+                      searchMovies: ref
+                          .read(searchedMoviesProvider.notifier)
+                          .searchedMoviesByQuery,
                     ),
                   ).then((movie) {
                     if (movie != null) {
-                      context.push("/movie/${movie.id}");
+                      if (context.mounted) Utils.moveToMovie(context, movie);
                     }
                   });
                 },

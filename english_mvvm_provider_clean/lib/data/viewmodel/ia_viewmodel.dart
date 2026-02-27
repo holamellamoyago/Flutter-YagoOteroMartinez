@@ -8,12 +8,14 @@ class IAViewmodel extends ChangeNotifier {
   IAViewmodel({required this.repository});
 
   bool _loading = false;
-  String? error;
+  String? _error;
+  ScrollController _listController = ScrollController();
 
   List<OpenAIChatCompletionChoiceMessageContentItemModel> contents = [];
   List<OpenAIChatCompletionChoiceMessageModel> messages = [];
 
   bool isLoading() => _loading;
+  ScrollController listController() => _listController;
 
   /*
     OpenAIChatCompletionChoiceMessageModel -> Mensaje entero (rol + contenido)
@@ -51,6 +53,14 @@ class IAViewmodel extends ChangeNotifier {
     messages.add(response); // Respuesta del servidor
 
     _loading = false;
+    notifyListeners();
+
+    _listController.animateTo(
+      _listController.position.maxScrollExtent,
+      duration: Durations.long1,
+      curve: Curves.bounceIn,
+    );
+
     notifyListeners();
   }
 }

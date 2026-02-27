@@ -57,6 +57,7 @@ class BodyWithMessages extends StatelessWidget {
           child: FadeIn(
             duration: Durations.extralong4,
             child: ListView.builder(
+              controller: iaViewmodel.listController(),
               itemCount: iaViewmodel.messages.length,
               itemBuilder: (context, index) {
                 var message = iaViewmodel.messages[index];
@@ -164,7 +165,7 @@ class MensajeIA extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: GptMarkdown(e, style: textTheme.bodySmall, ),
+                  child: GptMarkdown(e, style: textTheme.bodySmall),
                 ),
               ),
             ),
@@ -321,21 +322,22 @@ class Footer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.primaryAccentColor,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: IconButton(
-              onPressed: () => null,
-              icon: Icon(Icons.attach_file),
-            ),
-          ),
+          // TODO Esto queda por hacer , adjuntar archivos
+          // Container(
+          //   decoration: BoxDecoration(
+          //     color: AppColors.primaryAccentColor,
+          //     borderRadius: BorderRadius.circular(100),
+          //   ),
+          //   child: IconButton(
+          //     onPressed: () => null,
+          //     icon: Icon(Icons.attach_file),
+          //   ),
+          // ),
           SizedBox(width: 8),
           Expanded(
             child: TextField(
               controller: txtFieldController,
-              maxLines: null,
+              maxLines: 10,
               minLines: 1,
               textInputAction: TextInputAction.newline,
               keyboardType: TextInputType.multiline,

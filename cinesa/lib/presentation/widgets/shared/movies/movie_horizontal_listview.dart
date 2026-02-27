@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinesa/config/helpers/human_formats.dart';
+import 'package:cinesa/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
@@ -87,7 +88,7 @@ class _Slide extends StatelessWidget {
       width: 40.w,
 
       padding: EdgeInsets.all(8),
-      child: Column (
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Imagen
@@ -104,7 +105,9 @@ class _Slide extends StatelessWidget {
                   }
 
                   return GestureDetector(
-                    onTap: () => context.push('/movie/${movie.id}'),
+                    onTap: () {
+                      Utils.moveToMovie(context, movie);
+                    },
                     child: FadeInRight(child: child),
                   );
                 },

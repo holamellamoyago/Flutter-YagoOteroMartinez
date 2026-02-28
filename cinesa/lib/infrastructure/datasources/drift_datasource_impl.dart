@@ -6,14 +6,14 @@ import 'package:drift/drift.dart' as drift;
 class DriftDatasourceImpl extends LocalStorageDatasource {
   final AppDatabase database;
 
-  DriftDatasourceImpl(AppDatabase? databaseToUse)
+  DriftDatasourceImpl([AppDatabase? databaseToUse])
     : database = databaseToUse ?? db;
 
   @override
-  Future<bool> isFavoriteMovie(int movie) async {
+  Future<bool> isFavoriteMovie(int movieId) async {
     // Construir el Query
     final query = database.select(database.favoriteMovies)
-      ..where((table) => table.movieId.equals(movie));
+      ..where((table) => table.movieId.equals(movieId));
 
     // Ejecutar el Query
     final favoriteMovie = await query.getSingleOrNull();
@@ -64,6 +64,7 @@ class DriftDatasourceImpl extends LocalStorageDatasource {
         ..where((tbl) => tbl.movieId.equals(movie.id));
 
       await deleteQuery.go();
+      return;
     }
 
     await database

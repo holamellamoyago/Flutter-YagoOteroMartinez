@@ -3,8 +3,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinesa/domain/entities/actor.dart';
 import 'package:cinesa/domain/entities/movie.dart';
-import 'package:cinesa/presentation/providers/movies/movie_info_provider.dart';
 import 'package:cinesa/presentation/providers/providers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
@@ -112,22 +112,36 @@ class _MovieDetails extends StatelessWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final Movie movie;
 
   const _CustomSliverAppBar({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
+
     return SliverAppBar(
       backgroundColor: Colors.black,
       expandedHeight: 70.h,
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () => null,
-          // icon: const Icon(Icons.favorite_outline_rounded),
-          icon: const Icon(Icons.favorite, color: Colors.red),
+          onPressed: () async {
+            await ref
+                .read(favoriteMoviesProvider.notifier)
+                .toggleFavoriteMovie(movie);
+            ref.invalidate(isFavoriteMovieProvider(movie.id));
+          },
+          // icon: ,
+          icon: isFavoriteFuture.when(
+            data: (isFavorite) => isFavorite
+                ? const Icon(Icons.favorite, color: Colors.red)
+                : const Icon(Icons.favorite_outline_rounded),
+            error: (error, stackTrace) =>
+                throw Exception('Error al cargar el estado de favoritos'),
+            loading: () => CircularProgressIndicator(strokeWidth: 2),
+          ),
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(

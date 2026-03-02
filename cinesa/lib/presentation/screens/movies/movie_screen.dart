@@ -120,6 +120,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
+    print('Pulsada: ' + movie.id.toString());
 
     return SliverAppBar(
       backgroundColor: Colors.black,

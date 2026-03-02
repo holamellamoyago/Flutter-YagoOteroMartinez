@@ -38,7 +38,7 @@ class DriftDatasourceImpl extends LocalStorageDatasource {
             adult: false,
             backdropPath: e.backdropPath,
             genreIds: const [],
-            id: e.id,
+            id: e.movieId,
             originalLanguage: "",
             originalTitle: e.originalTitle,
             overview: "",

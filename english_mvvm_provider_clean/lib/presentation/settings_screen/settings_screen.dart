@@ -10,15 +10,18 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorSeed = Theme.of(context).colorScheme;
+
     AuthViewmodel authProvider = Provider.of<AuthViewmodel>(
       context,
       listen: false,
     );
 
     var lista = [
-      // TODO Mover esto a un useacas para después llamar al bottombarviewmdoel
       ListTile(
+        trailing: Icon(Icons.exit_to_app, color: colorSeed.primary),
         title: Text("Log out"),
+        subtitle: Text("Exit from the application"),
         onTap: () async {
           await authProvider.logOut();
         },

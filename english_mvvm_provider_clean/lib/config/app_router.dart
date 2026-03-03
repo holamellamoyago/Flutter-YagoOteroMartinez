@@ -1,11 +1,11 @@
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
-import 'package:english_mvvm_provider_clean/presentation/game_screen/game_words_widget.dart';
-import 'package:english_mvvm_provider_clean/presentation/home_screen/home_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/levels_screen/levels_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/loggin_screen/loggin_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/game_screen/game_words_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/home_screen/home_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/levels_screen/levels_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/loggin_screen/loggin_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/main_home_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/settings_screen/settings_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/puntuation_screen/puntuation_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/puntuation_screen/puntuation_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/social_screen/social_screen.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';

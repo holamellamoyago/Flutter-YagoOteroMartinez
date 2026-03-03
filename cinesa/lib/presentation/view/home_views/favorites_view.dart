@@ -17,10 +17,27 @@ class _FavoritesView2State extends ConsumerState<FavoritesView> {
     ref.read(favoriteMoviesProvider.notifier).loadNextPage();
     super.initState();
   }
+  
 
   @override
   Widget build(BuildContext context) {
-    final favoritesProvider = ref.watch(favoriteMoviesProvider);
+    final Map<int, Movie> favoritesProvider = ref.watch(favoriteMoviesProvider);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (favoritesProvider.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.favorite_border_outlined, color: colorScheme.primary),
+            Text(
+              'No hay películas',
+              style: TextStyle(color: colorScheme.primary),
+            ),
+          ],
+        ),
+      );
+    }
 
     return MoviesMasory(
       movies: favoritesProvider.values.toList(),

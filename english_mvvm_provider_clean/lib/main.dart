@@ -67,7 +67,7 @@ void main() async {
   );
 
   // Datasources y repositories de AI
-  final IARepository = AIRepositorieImpl(datasource: AiDatasourceDeepsheek());
+  final iaRepository = AIRepositorieImpl(datasource: AiDatasourceDeepsheek());
 
   final FirebaseAuthDatasource authDatasource = FirebaseAuthDatasource();
   final AuthRepositoryImpl authRepository = AuthRepositoryImpl(
@@ -111,7 +111,7 @@ void main() async {
 
         // Día 12/01 - IA
         ChangeNotifierProvider(
-          create: (context) => IAViewmodel(repository: IARepository),
+          create: (context) => IAViewmodel(repository: iaRepository),
         ),
       ],
       child: MainApp(),

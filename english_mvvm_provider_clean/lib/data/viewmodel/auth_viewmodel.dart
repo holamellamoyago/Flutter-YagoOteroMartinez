@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/log_out_usecase.dart';
-import 'package:english_mvvm_provider_clean/presentation/loggin_screen/login_carousel_widgets.dart';
-import 'package:english_mvvm_provider_clean/presentation/loggin_screen/register_email_password_widget.dart';
-import 'package:english_mvvm_provider_clean/presentation/loggin_screen/signin_email_password_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/loggin_screen/login_carousel_widgets.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/loggin_screen/register_email_password_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/loggin_screen/signin_email_password_widget.dart';
 import 'package:english_mvvm_provider_clean/domain/entities/app_user.dart';
 import 'package:english_mvvm_provider_clean/domain/repositories/auth_repository.dart';
 import 'package:english_mvvm_provider_clean/utils/convert_firebase_users.dart';

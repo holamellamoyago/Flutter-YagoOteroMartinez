@@ -10,25 +10,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
-  // await db
-  //     .into(db.favoriteMovies)
-  //     .insert(
-  //       FavoriteMoviesCompanion.insert(
-  //         movieId: 1,
-  //         backdropPath: 'backdropPath.png',
-  //         posterPath: 'posterPath.png',
-  //         originalTitle: 'My first movie',
-  //         title: 'Mi primera película',
-  //       ),
-  //     );
-
-  // await db.update($FavoriteMoviesTable(attachedDatabase))
-
   // final deleteQuery = db.delete(db.favoriteMovies);
   // await deleteQuery.go();
-
-  // final moviesQuery = await db.select(db.favoriteMovies).get();
-  // print(moviesQuery);
 
   runApp(ProviderScope(child: MainApp()));
 }

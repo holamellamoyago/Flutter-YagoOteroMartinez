@@ -1,5 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/viewmodel/users_viewmodel.dart';
-import 'package:english_mvvm_provider_clean/presentation/social_screen/widgets/individual_social_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/social_screen/widgets/individual_social_widget.dart';
 import 'package:flutter/material.dart';
 
 class PodiumListWidget extends StatelessWidget {

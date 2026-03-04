@@ -1,6 +1,6 @@
 import 'package:english_mvvm_provider_clean/data/viewmodel/users_viewmodel.dart';
-import 'package:english_mvvm_provider_clean/presentation/social_screen/widgets/general_table_widget.dart';
-import 'package:english_mvvm_provider_clean/presentation/social_screen/widgets/podium_list_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/social_screen/widgets/general_table_widget.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/social_screen/widgets/podium_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

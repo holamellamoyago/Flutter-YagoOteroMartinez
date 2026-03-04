@@ -4,9 +4,9 @@ import 'package:english_mvvm_provider_clean/presentation/screens/home_screen/hom
 import 'package:english_mvvm_provider_clean/presentation/screens/levels_screen/levels_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/screens/loggin_screen/loggin_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/main_home_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/settings_screen/settings_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/settings_screen/settings_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/screens/puntuation_screen/puntuation_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/social_screen/social_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/social_screen/social_screen.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 

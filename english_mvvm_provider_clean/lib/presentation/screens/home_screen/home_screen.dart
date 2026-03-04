@@ -1,7 +1,9 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/presentation/providers/sound_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -12,10 +14,18 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
+
     AuthViewmodel authProvider = Provider.of<AuthViewmodel>(
       context,
       listen: false,
     );
+
+    SoundProvider soundProvider = Provider.of<SoundProvider>(
+      context,
+      listen: true,
+    );
+
+    soundProvider.initialize();
 
     return Scaffold(
       appBar: AppBar(
@@ -25,15 +35,32 @@ class HomeScreen extends StatelessWidget {
           child: GestureDetector(
             child: ClipOval(
               child: CachedNetworkImage(
+                height: double.infinity,
+                width: double.infinity,
                 imageUrl: authProvider.getCurrentUser.image ?? "no-url",
                 progressIndicatorBuilder: (context, url, progress) =>
                     CircularProgressIndicator(value: progress.progress),
-                errorWidget: (context, url, error) =>
-                    Image.asset("assets/images/logo.png", fit: BoxFit.cover),
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/images/logo.png",
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsetsGeometry.all(8),
+            child: GestureDetector(
+              onTap: () => soundProvider.toggleBackgroundSound(),
+              child: Icon(
+                soundProvider.backgroundIcon,
+                size: screenHeight * 0.05,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         color: AppColors.primaryColor,
@@ -46,46 +73,66 @@ class HomeScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             SizedBox(height: 32),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-              child: GestureDetector(
-                onTap: () => context.push(AppStrings.levelsScreen),
-                child: Container(
-                  height: screenHeight * 0.1,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(4, 4),
-                        color: Colors.deepOrangeAccent,
-                        blurRadius: 4,
-                        blurStyle: BlurStyle.normal,
-                      ),
-                      BoxShadow(
-                        offset: Offset(-4, -4),
-                        color: Colors.deepOrangeAccent,
-                        blurRadius: 8,
-                        blurStyle: BlurStyle.normal,
-                      ),
-                    ],
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.orangeAccent,
-                        Colors.orange,
-                        Colors.deepOrangeAccent,
-                      ],
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Play",
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ),
-                ),
-              ),
+            _FilledGradientButton(
+              screenHeight: screenHeight,
+              function: () {
+                context.push(AppStrings.levelsScreen);
+              },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FilledGradientButton extends StatelessWidget {
+  final double screenHeight;
+  final VoidCallback function;
+
+  const _FilledGradientButton({
+    required this.screenHeight,
+    required this.function,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+      child: GestureDetector(
+        onTap: function,
+        child: Container(
+          height: screenHeight * 0.1,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(4, 4),
+                color: Colors.deepOrangeAccent,
+                blurRadius: 4,
+                blurStyle: BlurStyle.normal,
+              ),
+              BoxShadow(
+                offset: Offset(-4, -4),
+                color: Colors.deepOrangeAccent,
+                blurRadius: 8,
+                blurStyle: BlurStyle.normal,
+              ),
+            ],
+            gradient: LinearGradient(
+              colors: [
+                Colors.orangeAccent,
+                Colors.orange,
+                Colors.deepOrangeAccent,
+              ],
+            ),
+          ),
+          child: Center(
+            child: Text(
+              "Play",
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ),
         ),
       ),
     );

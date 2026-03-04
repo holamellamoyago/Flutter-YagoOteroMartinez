@@ -4,9 +4,11 @@ import 'package:english_mvvm_provider_clean/config/app_router.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/ai/ai_datasource_deepsheek.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/auth/firebase_auth_datasource_impl.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/database/supabase_database_datasource_impl.dart';
+import 'package:english_mvvm_provider_clean/data/datasources/sound/sound_datasource_impl.dart';
 import 'package:english_mvvm_provider_clean/data/datasources/word/supabase_words_datasource.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/ai_repositorie_impl.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/auth_repository_impl.dart';
+import 'package:english_mvvm_provider_clean/data/repositories/sound_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/supabase_respository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/repositories/word_repository_impl.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/bottombar_viewmodel.dart';
@@ -22,6 +24,7 @@ import 'package:english_mvvm_provider_clean/domain/usecases/log_out_usecase.dart
 import 'package:english_mvvm_provider_clean/domain/usecases/save_word_usecase.dart';
 import 'package:english_mvvm_provider_clean/domain/usecases/save_words_usecase.dart';
 import 'package:english_mvvm_provider_clean/firebase_options.dart';
+import 'package:english_mvvm_provider_clean/presentation/providers/sound_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -75,6 +78,10 @@ void main() async {
     databaseDatasource: SupabaseDatabaseDatasourceImpl(),
   );
 
+  final SoundRepositoryImpl soundRepository = SoundRepositoryImpl(
+    datasource: SoundDatasourceImpl(),
+  );
+
   runApp(
     MultiProvider(
       providers: [
@@ -113,6 +120,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => IAViewmodel(repository: iaRepository),
         ),
+
+        // Día 04/03 - Sound 
+        ChangeNotifierProvider(create: (context) => SoundProvider(repository: soundRepository),)
       ],
       child: MainApp(),
     ),

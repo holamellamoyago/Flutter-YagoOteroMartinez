@@ -1,7 +1,7 @@
 import 'package:english_mvvm_provider_clean/presentation/screens/home_screen/home_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/settings_screen/settings_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/settings_screen/settings_screen.dart';
 import 'package:english_mvvm_provider_clean/presentation/screens/puntuation_screen/puntuation_screen.dart';
-import 'package:english_mvvm_provider_clean/presentation/social_screen/social_screen.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/social_screen/social_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottombarViewmodel extends ChangeNotifier {

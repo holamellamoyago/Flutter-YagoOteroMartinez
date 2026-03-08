@@ -1,17 +1,19 @@
+import 'package:glpi/domain/entities/asset.dart';
 import 'package:glpi/domain/entities/token.dart';
 import 'package:glpi/domain/repositories/glpi_api_repository.dart';
 
 class GlpiApiUsecase {
   final GlpiApiRepository repository;
-  final Token? token;
+  Token? token;
 
   GlpiApiUsecase({required this.repository, this.token});
 
-  void getAssets() {
-    if (token == null) {
-      repository.getToken();
-    }
+  Future<void> getAssets() async {
+    token ??= await repository.getToken();
+    print(token!.accessToken);
 
-    // TODO Trabajar ya con el token, paso a paso 
+    await repository.getAssets(token!);
+    // await repository.authorization();
+    // print('autorizado');
   }
 }

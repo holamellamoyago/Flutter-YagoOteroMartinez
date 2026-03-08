@@ -12,11 +12,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Home screen'),
             FilledButton(
               onPressed: () {
-                print('Boton presionado');
                 controller.getAssets();
               },
               child: Text('Get Assets'),

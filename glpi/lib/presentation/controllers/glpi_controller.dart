@@ -2,15 +2,13 @@ import 'package:get/state_manager.dart';
 import 'package:glpi/domain/usecases/glpi_api_usecase.dart';
 
 class GlpiController extends GetxController {
-  final GlpiApiUsecase usecase;
-  bool isLoading = false;
-  String error = "";
+  final GlpiApiUsecase _usecase;
+  bool _isLoading = false;
+  String _error = "";
 
-  GlpiController({required this.usecase});
+  GlpiController({required GlpiApiUsecase usecase}) : _usecase = usecase;
 
-  // TODO Probar sin future
-  Future<void> getAssets() async {
-    print('Llego al controller');
-    usecase.getAssets();
+  void getAssets() {
+    _usecase.getAssets();
   }
 }

@@ -7,6 +7,7 @@ class AppConstants {
   static final parameterClientSecret = 'client_secret';
   static final parameterUsername = 'username';
   static final parameterPassword = 'password';
+  static final parameterAuthorization = 'Authorization';
 
   // Esto es provisional hasta que implemente el login con el user.
   static final User administrator = User(

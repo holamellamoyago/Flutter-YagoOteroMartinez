@@ -1,0 +1,31 @@
+name: plantilla_flutter
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  go_router: ^14.1.2
+  flutter_dotenv: ^5.1.0
+  flutter_gen: ^5.5.0+1
+  shared_preferences: ^2.2.3
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - .env
+
+flutter_gen:
+  assets:
+    - assets/*.png

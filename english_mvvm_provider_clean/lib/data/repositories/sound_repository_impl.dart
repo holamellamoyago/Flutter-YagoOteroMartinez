@@ -7,11 +7,6 @@ class SoundRepositoryImpl extends SoundRepository {
   SoundRepositoryImpl({required this.datasource});
 
   @override
-  void toggleBackgroundSound() {
-    return datasource.toggleBackgroundSound();
-  }
-
-  @override
   void playBackgroundSound() {
     return datasource.playBackgroundSound();
   }
@@ -19,5 +14,15 @@ class SoundRepositoryImpl extends SoundRepository {
   @override
   void stopBackgroundSound() {
     return datasource.stopBackgroundSound();
+  }
+
+  @override
+  void playCorrectSound() {
+    return datasource.playCorrectSound();
+  }
+
+  @override
+  void playErrorSound() {
+    return datasource.playErrorSound();
   }
 }

@@ -22,4 +22,16 @@ class SoundProvider extends ChangeNotifier {
     _playing = !_playing;
     notifyListeners();
   }
+
+  void playErrorSound() {
+    if (!_playing) return;
+
+    repository.playErrorSound();
+  }
+
+  void playCorrectSound() {
+    if (!_playing) return;
+
+    repository.playCorrectSound();
+  }
 }

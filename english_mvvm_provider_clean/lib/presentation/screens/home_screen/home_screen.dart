@@ -4,6 +4,7 @@ import 'package:english_mvvm_provider_clean/config/app_colors.dart';
 import 'package:english_mvvm_provider_clean/data/strings/app_strings.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/auth_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/presentation/providers/sound_provider.dart';
+import 'package:english_mvvm_provider_clean/presentation/screens/home_screen/sound_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,6 @@ class HomeScreen extends StatelessWidget {
       listen: true,
     );
 
-    soundProvider.initialize();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
@@ -40,27 +39,16 @@ class HomeScreen extends StatelessWidget {
                 imageUrl: authProvider.getCurrentUser.image ?? "no-url",
                 progressIndicatorBuilder: (context, url, progress) =>
                     CircularProgressIndicator(value: progress.progress),
-                errorWidget: (context, url, error) => Image.asset(
-                  "assets/images/logo.png",
-                  fit: BoxFit.fitHeight,
-                ),
+                errorWidget: (context, url, error) =>
+                    Image.asset(AppStrings.logoImage, fit: BoxFit.fitHeight),
               ),
             ),
           ),
         ),
         actions: [
-          Padding(
-            padding: EdgeInsetsGeometry.all(8),
-            child: GestureDetector(
-              onTap: () => soundProvider.toggleBackgroundSound(),
-              child: Icon(
-                soundProvider.backgroundIcon,
-                size: screenHeight * 0.05,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          SoundButton(soundProvider: soundProvider, screenHeight: screenHeight),
         ],
+        actionsPadding: EdgeInsets.all(8),
       ),
       body: Container(
         color: AppColors.primaryColor,

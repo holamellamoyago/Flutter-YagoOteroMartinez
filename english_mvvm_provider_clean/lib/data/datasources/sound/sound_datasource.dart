@@ -1,5 +1,6 @@
 abstract class SoundDatasource {
-  void toggleBackgroundSound();
   void playBackgroundSound();
   void stopBackgroundSound();
+  void playErrorSound();
+  void playCorrectSound();
 }

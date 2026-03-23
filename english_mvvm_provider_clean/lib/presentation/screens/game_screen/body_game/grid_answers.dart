@@ -1,4 +1,5 @@
 import 'package:english_mvvm_provider_clean/data/viewmodel/words_viewmodel.dart';
+import 'package:english_mvvm_provider_clean/presentation/providers/sound_provider.dart';
 import 'package:english_mvvm_provider_clean/presentation/screens/game_screen/body_game/answer_button.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/carousel_viewmodel.dart';
 import 'package:english_mvvm_provider_clean/data/viewmodel/clock_viewmodel.dart';
@@ -35,6 +36,11 @@ class GridTestWidget extends StatelessWidget {
       listen: false,
     );
 
+    SoundProvider soundProvider = Provider.of<SoundProvider>(
+      context,
+      listen: false,
+    );
+
     var answers = _generateUniqueRandomNumber();
     answers[random.nextInt(answers.length - 1)] = word.spanish;
 
@@ -54,13 +60,23 @@ class GridTestWidget extends StatelessWidget {
                 AnswerButton(
                   text: answers[0],
                   color: Colors.red,
-                  onTap: () => _checkAnswer(context, clockProvider, answers[0]),
+                  onTap: () => _checkAnswer(
+                    context,
+                    clockProvider,
+                    soundProvider,
+                    answers[0],
+                  ),
                 ),
                 SizedBox(width: 16),
                 AnswerButton(
                   text: answers[1],
                   color: Colors.blue,
-                  onTap: () => _checkAnswer(context, clockProvider, answers[1]),
+                  onTap: () => _checkAnswer(
+                    context,
+                    clockProvider,
+                    soundProvider,
+                    answers[1],
+                  ),
                 ),
               ],
             ),
@@ -73,13 +89,23 @@ class GridTestWidget extends StatelessWidget {
                 AnswerButton(
                   text: answers[2],
                   color: Colors.orange,
-                  onTap: () => _checkAnswer(context, clockProvider, answers[2]),
+                  onTap: () => _checkAnswer(
+                    context,
+                    clockProvider,
+                    soundProvider,
+                    answers[2],
+                  ),
                 ),
                 SizedBox(width: 16),
                 AnswerButton(
                   text: answers[3],
                   color: Colors.green,
-                  onTap: () => _checkAnswer(context, clockProvider, answers[3]),
+                  onTap: () => _checkAnswer(
+                    context,
+                    clockProvider,
+                    soundProvider,
+                    answers[3],
+                  ),
                 ),
               ],
             ),
@@ -131,10 +157,12 @@ class GridTestWidget extends StatelessWidget {
   void _checkAnswer(
     BuildContext context,
     ClockViewmodel clockProvider,
+    SoundProvider soundProvider,
     String text,
   ) {
     if (text == words.elementAt(index).spanish) {
       carouselProvider.addPoints();
+      soundProvider.playCorrectSound();
       clockProvider.countDownController.restart();
 
       // Actualización 19/12 - Hacer que se pare cuando lleva el total de preguntas.
@@ -142,7 +170,6 @@ class GridTestWidget extends StatelessWidget {
         clockProvider.countDownController.pause();
         clockProvider.openDialog(context, true);
       }
-      
     } else {
       carouselProvider.subtractPoints();
       showSnackBar(context, AppStrings.incorrectAnswer);

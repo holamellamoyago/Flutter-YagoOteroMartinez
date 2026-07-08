@@ -99,7 +99,8 @@ class SupabaseService {
   // ── Series (paginated) ──
 
   Future<List<String>> getSeries() async {
-    final series = <String>{};
+    // Get series with their car counts, filter out noise (min 3 cars)
+    final series = <String, int>{};
     int offset = 0;
     const pageSize = 1000;
 
@@ -112,13 +113,20 @@ class SupabaseService {
       if (data.isEmpty) break;
       for (final row in data) {
         final s = (row['series'] as String?) ?? '';
-        if (s.isNotEmpty && !RegExp(r"^'\d").hasMatch(s)) series.add(s);
+        if (s.isNotEmpty && !RegExp(r"^'\d").hasMatch(s)) {
+          series[s] = (series[s] ?? 0) + 1;
+        }
       }
       if (data.length < pageSize) break;
       offset += pageSize;
     }
 
-    return series.toList()..sort();
+    // Keep only series with >= 3 cars (real collections, not mislabeled models)
+    return series.entries
+        .where((e) => e.value >= 3)
+        .map((e) => e.key)
+        .toList()
+      ..sort();
   }
 
   // ── Filtered search ──

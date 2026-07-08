@@ -5,6 +5,8 @@ import '../controllers/filter_controller.dart';
 import '../theme/hw_theme.dart';
 import 'car_list_screen.dart';
 import 'filter_screen.dart';
+import 'brand_list_screen.dart';
+import 'series_list_screen.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends GetView<YearsController> {
@@ -51,11 +53,11 @@ class HomeScreen extends GetView<YearsController> {
         _YearRow(years: controller.years),
         const SizedBox(height: 24),
 
-        _SectionHeader(title: 'By Brand', subtitle: '${_filter.brands.length} brands', onSeeAll: () => _openFilter(brand: null)),
+        _SectionHeader(title: 'By Brand', subtitle: '${_filter.brands.length} brands', onSeeAll: () => Get.to(() => const BrandListScreen())),
         _BrandRow(brands: _filter.brands, onTap: (b) => _openFilter(brand: b)),
         const SizedBox(height: 24),
 
-        _SectionHeader(title: 'By Series', subtitle: '${_filter.series.length} series', onSeeAll: () => _openFilter(series: null)),
+        _SectionHeader(title: 'By Series', subtitle: '${_filter.series.length} series', onSeeAll: () => Get.to(() => const SeriesListScreen())),
         _SeriesRow(series: _filter.series, onTap: (s) => _openFilter(series: s)),
         const SizedBox(height: 80),
       ],

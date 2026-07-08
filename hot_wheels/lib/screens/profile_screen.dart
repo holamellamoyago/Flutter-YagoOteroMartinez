@@ -70,7 +70,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               CircleAvatar(
                 radius: 50,
                 backgroundColor: HwTheme.orange.withAlpha(30),
-                // Always show initial, NetworkImage loads on top if successful
                 child: Text(name[0].toUpperCase(),
                     style: const TextStyle(
                         fontSize: 40,

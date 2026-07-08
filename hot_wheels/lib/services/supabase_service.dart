@@ -57,7 +57,7 @@ class SupabaseService {
       for (final row in data) {
         final name = (row['model_name'] as String?) ?? '';
         final brand = _extractBrand(name);
-        if (brand.isNotEmpty) brands.add(brand);
+        if (brand.isNotEmpty && !RegExp(r"^['\d]").hasMatch(brand)) brands.add(brand);
       }
       if (data.length < pageSize) break;
       offset += pageSize;

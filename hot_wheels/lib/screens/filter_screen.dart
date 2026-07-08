@@ -12,22 +12,27 @@ class FilterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.find<FilterController>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search'),
-        actions: [
-          Obx(() => c.hasFilters
-              ? IconButton(icon: const Icon(Icons.clear_all), tooltip: 'Clear', onPressed: c.clearFilters)
-              : const SizedBox.shrink()),
-        ],
-      ),
-      body: Column(
-        children: [
-          _buildSearchBar(c),
-          _buildFilterChips(c),
-          const Divider(height: 1, color: Colors.white12),
-          Expanded(child: _buildResults(c)),
-        ],
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) c.clearFilters();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Search'),
+          actions: [
+            Obx(() => c.hasFilters
+                ? IconButton(icon: const Icon(Icons.clear_all), tooltip: 'Clear all', onPressed: c.clearFilters)
+                : const SizedBox.shrink()),
+          ],
+        ),
+        body: Column(
+          children: [
+            _buildSearchBar(c),
+            _buildFilterChips(c),
+            const Divider(height: 1, color: Colors.white12),
+            Expanded(child: _buildResults(c)),
+          ],
+        ),
       ),
     );
   }
@@ -71,6 +76,7 @@ class FilterScreen extends StatelessWidget {
               value: c.selectedBrand.value,
               items: c.brands,
               onChanged: (v) { c.selectedBrand.value = v; c.search(); },
+              onClear: () { c.selectedBrand.value = null; c.search(); },
             ),
             const SizedBox(width: 8),
             _buildDropdown(
@@ -78,6 +84,7 @@ class FilterScreen extends StatelessWidget {
               value: c.selectedSeries.value,
               items: c.series,
               onChanged: (v) { c.selectedSeries.value = v; c.search(); },
+              onClear: () { c.selectedSeries.value = null; c.search(); },
             ),
             const SizedBox(width: 8),
             _buildDropdown(
@@ -85,6 +92,7 @@ class FilterScreen extends StatelessWidget {
               value: c.selectedYear.value,
               items: c.years,
               onChanged: (v) { c.selectedYear.value = v; c.search(); },
+              onClear: () { c.selectedYear.value = null; c.search(); },
             ),
           ],
         ),
@@ -92,23 +100,49 @@ class FilterScreen extends StatelessWidget {
     });
   }
 
-  Widget _buildDropdown<T>({required String label, required T? value, required List<T> items, required void Function(T?) onChanged}) {
+  Widget _buildDropdown<T>({
+    required String label,
+    required T? value,
+    required List<T> items,
+    required void Function(T?) onChanged,
+    required VoidCallback onClear,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(color: HwTheme.surface, borderRadius: BorderRadius.circular(8), border: Border.all(color: value != null ? HwTheme.orange : Colors.white12)),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<T>(
-          value: value,
-          hint: Text(label, style: const TextStyle(color: Colors.white38, fontSize: 13)),
-          style: const TextStyle(color: Colors.white, fontSize: 13),
-          dropdownColor: HwTheme.card,
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.white38),
-          items: [
-            DropdownMenuItem<T>(value: null, child: Text('All $label', style: const TextStyle(color: Colors.white38, fontSize: 13))),
-            ...items.map((item) => DropdownMenuItem<T>(value: item, child: SizedBox(width: 140, child: Text('$item', style: const TextStyle(fontSize: 13), overflow: TextOverflow.ellipsis)))),
-          ],
-          onChanged: onChanged,
-        ),
+      decoration: BoxDecoration(
+        color: HwTheme.surface,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: value != null ? HwTheme.orange : Colors.white12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (value != null)
+            GestureDetector(
+              onTap: onClear,
+              child: const Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: Icon(Icons.close, color: Colors.white38, size: 14),
+              ),
+            ),
+          DropdownButtonHideUnderline(
+            child: DropdownButton<T>(
+              value: value,
+              hint: Text(label, style: TextStyle(color: value != null ? HwTheme.orange : Colors.white38, fontSize: 13)),
+              style: const TextStyle(color: Colors.white, fontSize: 13),
+              dropdownColor: HwTheme.card,
+              icon: const Icon(Icons.arrow_drop_down, color: Colors.white38),
+              items: [
+                DropdownMenuItem<T>(value: null, child: Text('All $label', style: const TextStyle(color: Colors.white38, fontSize: 13))),
+                ...items.map((item) => DropdownMenuItem<T>(
+                  value: item,
+                  child: SizedBox(width: 140, child: Text('$item', style: const TextStyle(fontSize: 13), overflow: TextOverflow.ellipsis)),
+                )),
+              ],
+              onChanged: onChanged,
+            ),
+          ),
+        ],
       ),
     );
   }

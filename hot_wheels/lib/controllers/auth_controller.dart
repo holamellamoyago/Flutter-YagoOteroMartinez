@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,18 +13,20 @@ class AuthController extends GetxController {
 
   static AuthController get to => Get.find<AuthController>();
 
-  // Google Sign-In client (native, no Custom Tabs)
-  late final GoogleSignIn _googleSignIn;
+  // Google Sign-In client (native mobile only)
+  GoogleSignIn? _googleSignIn;
 
   @override
   void onInit() {
     super.onInit();
 
-    // Init Google Sign-In with web client ID for server auth
-    _googleSignIn = GoogleSignIn(
-      clientId:
-          '621549090806-20cjrpiv64an3p6qil1b8vh06hirjcv6.apps.googleusercontent.com',
-    );
+    // Init Google Sign-In on mobile only (web uses Supabase OAuth popup)
+    if (!kIsWeb) {
+      _googleSignIn = GoogleSignIn(
+        clientId:
+            '621549090806-20cjrpiv64an3p6qil1b8vh06hirjcv6.apps.googleusercontent.com',
+      );
+    }
 
     // Listen for session changes
     _client.auth.onAuthStateChange.listen((data) {
@@ -58,15 +61,21 @@ class AuthController extends GetxController {
     }
   }
 
-  /// Native Google Sign-In → Supabase
+  /// Google Sign-In: native on mobile, Supabase popup on web
   Future<void> signInWithGoogle() async {
+    if (kIsWeb) {
+      // Web: Supabase handles the popup natively
+      await _client.auth.signInWithOAuth(OAuthProvider.google);
+      return;
+    }
+
+    // Mobile: google_sign_in native dialog → idToken → Supabase
     try {
-      final googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return; // user cancelled
+      final googleUser = await _googleSignIn!.signIn();
+      if (googleUser == null) return;
 
       final googleAuth = await googleUser.authentication;
       final idToken = googleAuth.idToken;
-      final accessToken = googleAuth.accessToken;
 
       if (idToken == null) {
         Get.snackbar('Error', 'Failed to get Google ID token',
@@ -79,12 +88,12 @@ class AuthController extends GetxController {
       await _client.auth.signInWithIdToken(
         provider: OAuthProvider.google,
         idToken: idToken,
-        accessToken: accessToken,
+        accessToken: googleAuth.accessToken,
       );
     } on Exception catch (e) {
       final msg = e.toString();
       if (msg.contains('SIGN_IN_CANCELLED') || msg.contains('SIGN_IN_REQUIRED')) {
-        return; // user cancelled
+        return;
       }
       Get.snackbar('Google Sign-In Error', 'Sign in failed. Try again.',
           snackPosition: SnackPosition.BOTTOM,
@@ -106,7 +115,7 @@ class AuthController extends GetxController {
 
   Future<void> signOut() async {
     await _client.auth.signOut();
-    await _googleSignIn.signOut();
+    if (!kIsWeb) await _googleSignIn?.signOut();
     user.value = null;
     isLoggedIn.value = false;
   }

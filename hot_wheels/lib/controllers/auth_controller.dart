@@ -64,8 +64,12 @@ class AuthController extends GetxController {
   /// Google Sign-In: native on mobile, Supabase popup on web
   Future<void> signInWithGoogle() async {
     if (kIsWeb) {
-      // Web: Supabase handles the popup natively
-      await _client.auth.signInWithOAuth(OAuthProvider.google);
+      // Web: Supabase popup → needs explicit redirectTo
+      await _client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: Uri.base.toString(),
+        queryParams: {'skipBrowserRedirect': 'true'},
+      );
       return;
     }
 

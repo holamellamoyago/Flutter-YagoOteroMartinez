@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import '../services/supabase_service.dart';
 import '../controllers/filter_controller.dart';
-import '../theme/hw_theme.dart';
 import 'filter_screen.dart';
 
 class BrandListScreen extends StatefulWidget {
@@ -36,12 +35,17 @@ class _BrandListScreenState extends State<BrandListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final text = theme.textTheme;
+    final dimColor = text.bodySmall!.color!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Brands'),
         actions: [
           IconButton(
-            icon: Icon(_gridMode ? Icons.view_list : Icons.grid_view, color: Colors.white),
+            icon: Icon(_gridMode ? Icons.view_list : Icons.grid_view, color: cs.onSurface),
             tooltip: _gridMode ? 'List view' : 'Grid view',
             onPressed: () => setState(() => _gridMode = !_gridMode),
           ),
@@ -50,8 +54,8 @@ class _BrandListScreenState extends State<BrandListScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _brands == null || _brands!.isEmpty
-              ? const Center(child: Text('No brands found', style: TextStyle(color: Colors.white38)))
-              : _gridMode ? _buildGrid() : _buildList(),
+              ? Center(child: Text('No brands found', style: TextStyle(color: dimColor)))
+              : _gridMode ? _buildGrid(theme, cs, dimColor) : _buildList(theme, cs, dimColor),
     );
   }
 
@@ -62,7 +66,7 @@ class _BrandListScreenState extends State<BrandListScreen> {
     Get.to(() => const FilterScreen());
   }
 
-  Widget _buildGrid() {
+  Widget _buildGrid(ThemeData theme, ColorScheme cs, Color dimColor) {
     return GridView.builder(
       padding: const EdgeInsets.all(12),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: 0.85),
@@ -72,7 +76,7 @@ class _BrandListScreenState extends State<BrandListScreen> {
         return GestureDetector(
           onTap: () => _openBrand(b),
           child: Container(
-            decoration: BoxDecoration(color: HwTheme.card, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
+            decoration: BoxDecoration(color: theme.cardTheme.color ?? cs.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: theme.dividerColor)),
             child: Column(
               children: [
                 Expanded(
@@ -81,7 +85,7 @@ class _BrandListScreenState extends State<BrandListScreen> {
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
                     child: b.imageUrl != null
                         ? CachedNetworkImage(imageUrl: b.imageUrl!, fit: BoxFit.cover, width: double.infinity)
-                        : Container(color: Colors.white12, child: const Icon(Icons.directions_car, color: Colors.white38)),
+                        : Container(color: theme.dividerColor, child: Icon(Icons.directions_car, color: dimColor)),
                   ),
                 ),
                 Expanded(
@@ -91,9 +95,9 @@ class _BrandListScreenState extends State<BrandListScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(b.name, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
+                        Text(b.name, style: TextStyle(color: cs.onSurface, fontSize: 11, fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
                         const SizedBox(height: 2),
-                        Text('${b.count} cars', style: const TextStyle(color: Colors.white38, fontSize: 10)),
+                        Text('${b.count} cars', style: TextStyle(color: dimColor, fontSize: 10)),
                       ],
                     ),
                   ),
@@ -106,25 +110,25 @@ class _BrandListScreenState extends State<BrandListScreen> {
     );
   }
 
-  Widget _buildList() {
+  Widget _buildList(ThemeData theme, ColorScheme cs, Color dimColor) {
     return ListView.builder(
       padding: const EdgeInsets.all(12),
       itemCount: _brands!.length,
       itemBuilder: (ctx, i) {
         final b = _brands![i];
         return Card(
-          color: HwTheme.card,
+          color: theme.cardTheme.color ?? cs.surface,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: b.imageUrl != null
                   ? CachedNetworkImage(imageUrl: b.imageUrl!, width: 56, height: 56, fit: BoxFit.cover)
-                  : Container(width: 56, height: 56, color: Colors.white12, child: const Icon(Icons.directions_car, color: Colors.white38)),
+                  : Container(width: 56, height: 56, color: theme.dividerColor, child: Icon(Icons.directions_car, color: dimColor)),
             ),
-            title: Text(b.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-            subtitle: Text('${b.count} cars', style: const TextStyle(color: Colors.white54, fontSize: 12)),
-            trailing: const Icon(Icons.chevron_right, color: Colors.white24),
+            title: Text(b.name, style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w600)),
+            subtitle: Text('${b.count} cars', style: TextStyle(color: dimColor, fontSize: 12)),
+            trailing: Icon(Icons.chevron_right, color: dimColor),
             onTap: () => _openBrand(b),
           ),
         );

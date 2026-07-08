@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import '../controllers/app_controllers.dart';
-import '../theme/hw_theme.dart';
 import 'car_detail_screen.dart';
 
 class CarListScreen extends StatelessWidget {
@@ -99,6 +98,11 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final text = theme.textTheme;
+    final dimColor = text.bodySmall!.color!;
+
     final car = widget.group.primary;
     final images = widget.group.images;
     final hasVariants = widget.group.variants.length > 1;
@@ -107,9 +111,9 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
       onTap: () => Get.to(() => CarDetailScreen(car: car)),
       child: Container(
         decoration: BoxDecoration(
-          color: HwTheme.card,
+          color: theme.cardTheme.color ?? cs.surface,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.white12),
+          border: Border.all(color: theme.dividerColor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,9 +127,9 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
                   fit: StackFit.expand,
                   children: [
                     if (images.isEmpty)
-                      const Icon(Icons.directions_car, color: Colors.white24, size: 32)
+                      Icon(Icons.directions_car, color: dimColor, size: 32)
                     else if (images.length == 1)
-                      CachedNetworkImage(imageUrl: images.first, fit: BoxFit.cover, placeholder: (_, _) => const Center(child: Icon(Icons.directions_car, color: Colors.white24, size: 32)), errorWidget: (_, _, _) => const Icon(Icons.broken_image, color: Colors.white24))
+                      CachedNetworkImage(imageUrl: images.first, fit: BoxFit.cover, placeholder: (_, _) => Center(child: Icon(Icons.directions_car, color: dimColor, size: 32)), errorWidget: (_, _, _) => Icon(Icons.broken_image, color: dimColor))
                     else
                       PageView.builder(
                         controller: _pageController,
@@ -134,7 +138,7 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
                           _anim.forward(from: 0);
                         },
                         itemCount: images.length,
-                        itemBuilder: (ctx, i) => CachedNetworkImage(imageUrl: images[i], fit: BoxFit.cover, placeholder: (_, _) => const Center(child: Icon(Icons.directions_car, color: Colors.white24, size: 32)), errorWidget: (_, _, _) => const Icon(Icons.broken_image, color: Colors.white24)),
+                        itemBuilder: (ctx, i) => CachedNetworkImage(imageUrl: images[i], fit: BoxFit.cover, placeholder: (_, _) => Center(child: Icon(Icons.directions_car, color: dimColor, size: 32)), errorWidget: (_, _, _) => Icon(Icons.broken_image, color: dimColor)),
                       ),
                     // Variant badge
                     if (hasVariants)
@@ -143,7 +147,7 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(6)),
-                          child: Text('${widget.group.variants.length}', style: const TextStyle(color: HwTheme.orange, fontSize: 9, fontWeight: FontWeight.bold)),
+                          child: Text('${widget.group.variants.length}', style: TextStyle(color: cs.primary, fontSize: 9, fontWeight: FontWeight.bold)),
                         ),
                       ),
                     // Page dots
@@ -155,7 +159,7 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
                           children: List.generate(images.length, (i) => Container(
                             width: 4, height: 4,
                             margin: const EdgeInsets.symmetric(horizontal: 1.5),
-                            decoration: BoxDecoration(shape: BoxShape.circle, color: i == _current ? HwTheme.orange : Colors.white38),
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: i == _current ? cs.primary : dimColor),
                           )),
                         ),
                       ),
@@ -171,11 +175,11 @@ class _CarCardState extends State<_CarCard> with SingleTickerProviderStateMixin 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(car.modelName, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w500)),
+                    Text(car.modelName, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 10, color: cs.onSurface, fontWeight: FontWeight.w500)),
                     if (car.series != null)
-                      Text(car.series!, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 8, color: HwTheme.orange)),
+                      Text(car.series!, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 8, color: cs.primary)),
                     const Spacer(),
-                    Text('#${car.displayNumber}', style: const TextStyle(fontSize: 9, color: Colors.white38)),
+                    Text('#${car.displayNumber}', style: TextStyle(fontSize: 9, color: dimColor)),
                   ],
                 ),
               ),

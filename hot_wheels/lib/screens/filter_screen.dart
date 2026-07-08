@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import '../controllers/filter_controller.dart';
-import '../theme/hw_theme.dart';
 import 'car_detail_screen.dart';
 
 class FilterScreen extends StatelessWidget {
@@ -10,6 +9,11 @@ class FilterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final text = theme.textTheme;
+    final dimColor = text.bodySmall!.color!;
+
     final c = Get.find<FilterController>();
 
     return PopScope(
@@ -27,30 +31,30 @@ class FilterScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
-            _buildSearchBar(c),
-            _buildFilterChips(c),
-            const Divider(height: 1, color: Colors.white12),
-            Expanded(child: _buildResults(c)),
+            _buildSearchBar(c, cs, dimColor),
+            _buildFilterChips(c, cs, theme, dimColor),
+            Divider(height: 1, color: theme.dividerColor),
+            Expanded(child: _buildResults(c, cs, theme, dimColor)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSearchBar(FilterController c) {
+  Widget _buildSearchBar(FilterController c, ColorScheme cs, Color dimColor) {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: TextField(
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(color: cs.onSurface),
         decoration: InputDecoration(
           hintText: 'Search by model name...',
-          hintStyle: const TextStyle(color: Colors.white38),
+          hintStyle: TextStyle(color: dimColor),
           filled: true,
-          fillColor: HwTheme.surface,
+          fillColor: cs.surface,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-          prefixIcon: const Icon(Icons.search, color: Colors.white38),
+          prefixIcon: Icon(Icons.search, color: dimColor),
           suffixIcon: Obx(() => c.query.isNotEmpty
-              ? IconButton(icon: const Icon(Icons.close, color: Colors.white38, size: 18), onPressed: () { c.query.value = ''; c.search(); })
+              ? IconButton(icon: Icon(Icons.close, color: dimColor, size: 18), onPressed: () { c.query.value = ''; c.search(); })
               : const SizedBox.shrink()),
         ),
         onChanged: (v) {
@@ -61,7 +65,7 @@ class FilterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterChips(FilterController c) {
+  Widget _buildFilterChips(FilterController c, ColorScheme cs, ThemeData theme, Color dimColor) {
     return Obx(() {
       if (c.loadingOptions.value) {
         return const Padding(padding: EdgeInsets.all(8), child: SizedBox(height: 40, child: Center(child: CircularProgressIndicator(strokeWidth: 2))));
@@ -77,6 +81,7 @@ class FilterScreen extends StatelessWidget {
               items: c.brands,
               onChanged: (v) { c.selectedBrand.value = v; c.search(); },
               onClear: () { c.selectedBrand.value = null; c.search(); },
+              cs: cs, theme: theme, dimColor: dimColor,
             ),
             const SizedBox(width: 8),
             _buildDropdown(
@@ -85,6 +90,7 @@ class FilterScreen extends StatelessWidget {
               items: c.series,
               onChanged: (v) { c.selectedSeries.value = v; c.search(); },
               onClear: () { c.selectedSeries.value = null; c.search(); },
+              cs: cs, theme: theme, dimColor: dimColor,
             ),
             const SizedBox(width: 8),
             _buildDropdown(
@@ -93,6 +99,7 @@ class FilterScreen extends StatelessWidget {
               items: c.years,
               onChanged: (v) { c.selectedYear.value = v; c.search(); },
               onClear: () { c.selectedYear.value = null; c.search(); },
+              cs: cs, theme: theme, dimColor: dimColor,
             ),
           ],
         ),
@@ -106,13 +113,16 @@ class FilterScreen extends StatelessWidget {
     required List<T> items,
     required void Function(T?) onChanged,
     required VoidCallback onClear,
+    required ColorScheme cs,
+    required ThemeData theme,
+    required Color dimColor,
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: HwTheme.surface,
+        color: cs.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: value != null ? HwTheme.orange : Colors.white12),
+        border: Border.all(color: value != null ? cs.primary : theme.dividerColor),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -120,20 +130,20 @@ class FilterScreen extends StatelessWidget {
           if (value != null)
             GestureDetector(
               onTap: onClear,
-              child: const Padding(
-                padding: EdgeInsets.only(right: 4),
-                child: Icon(Icons.close, color: Colors.white38, size: 14),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Icon(Icons.close, color: dimColor, size: 14),
               ),
             ),
           DropdownButtonHideUnderline(
             child: DropdownButton<T>(
               value: value,
-              hint: Text(label, style: TextStyle(color: value != null ? HwTheme.orange : Colors.white38, fontSize: 13)),
-              style: const TextStyle(color: Colors.white, fontSize: 13),
-              dropdownColor: HwTheme.card,
-              icon: const Icon(Icons.arrow_drop_down, color: Colors.white38),
+              hint: Text(label, style: TextStyle(color: value != null ? cs.primary : dimColor, fontSize: 13)),
+              style: TextStyle(color: cs.onSurface, fontSize: 13),
+              dropdownColor: theme.cardTheme.color ?? cs.surface,
+              icon: Icon(Icons.arrow_drop_down, color: dimColor),
               items: [
-                DropdownMenuItem<T>(value: null, child: Text('All $label', style: const TextStyle(color: Colors.white38, fontSize: 13))),
+                DropdownMenuItem<T>(value: null, child: Text('All $label', style: TextStyle(color: dimColor, fontSize: 13))),
                 ...items.map((item) => DropdownMenuItem<T>(
                   value: item,
                   child: SizedBox(width: 140, child: Text('$item', style: const TextStyle(fontSize: 13), overflow: TextOverflow.ellipsis)),
@@ -147,13 +157,13 @@ class FilterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResults(FilterController c) {
+  Widget _buildResults(FilterController c, ColorScheme cs, ThemeData theme, Color dimColor) {
     return Obx(() {
       if (c.searching.value) return const Center(child: CircularProgressIndicator());
       if (c.results.isEmpty) {
         return Center(
           child: Text(c.hasFilters ? 'No results' : 'Use filters to search',
-            style: const TextStyle(color: Colors.white38)),
+            style: TextStyle(color: dimColor)),
         );
       }
       return ListView.builder(
@@ -162,18 +172,18 @@ class FilterScreen extends StatelessWidget {
         itemBuilder: (ctx, i) {
           final car = c.results[i];
           return Card(
-            color: HwTheme.card,
+            color: theme.cardTheme.color ?? cs.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: ListTile(
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: car.imageUrl != null
                     ? CachedNetworkImage(imageUrl: car.imageUrl!, width: 50, height: 50, fit: BoxFit.cover)
-                    : Container(width: 50, height: 50, color: Colors.white12, child: const Icon(Icons.directions_car, color: Colors.white38)),
+                    : Container(width: 50, height: 50, color: theme.dividerColor, child: Icon(Icons.directions_car, color: dimColor)),
               ),
-              title: Text(car.modelName, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14)),
-              subtitle: Text('${car.year} · ${car.series ?? "No series"}', style: const TextStyle(color: Colors.white54, fontSize: 11)),
-              trailing: Text('#${car.displayNumber}', style: const TextStyle(color: Colors.white38, fontSize: 11)),
+              title: Text(car.modelName, style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w500, fontSize: 14)),
+              subtitle: Text('${car.year} · ${car.series ?? "No series"}', style: TextStyle(color: dimColor, fontSize: 11)),
+              trailing: Text('#${car.displayNumber}', style: TextStyle(color: dimColor, fontSize: 11)),
               onTap: () => Get.to(() => CarDetailScreen(car: car)),
             ),
           );

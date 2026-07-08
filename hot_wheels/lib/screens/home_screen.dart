@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/app_controllers.dart';
+import '../controllers/auth_controller.dart';
 import '../controllers/filter_controller.dart';
 import '../theme/hw_theme.dart';
 import 'car_list_screen.dart';
@@ -8,11 +10,13 @@ import 'filter_screen.dart';
 import 'brand_list_screen.dart';
 import 'series_list_screen.dart';
 import 'login_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends GetView<YearsController> {
   const HomeScreen({super.key});
 
   FilterController get _filter => Get.find<FilterController>();
+  AuthController get _auth => Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +25,50 @@ class HomeScreen extends GetView<YearsController> {
       appBar: AppBar(
         title: const Text('Hot Wheels'),
         actions: [
-          IconButton(icon: const Icon(Icons.person_outline), tooltip: 'Account', onPressed: () => Get.to(() => const LoginScreen())),
-          IconButton(icon: const Icon(Icons.search), onPressed: () => Get.to(() => const FilterScreen())),
+          // Reactive account button
+          Obx(() {
+            final user = _auth.user.value;
+            if (user != null) {
+              final avatar = user.userMetadata?['avatar_url'] as String?;
+              return IconButton(
+                icon: CircleAvatar(
+                  radius: 14,
+                  backgroundImage: avatar != null
+                      ? CachedNetworkImageProvider(avatar)
+                      : null,
+                  child: avatar == null
+                      ? Text(
+                          (user.userMetadata?['full_name']?.toString() ??
+                                  user.email ??
+                                  'U')[0]
+                              .toUpperCase(),
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: HwTheme.orange),
+                        )
+                      : null,
+                ),
+                tooltip: 'Account',
+                onPressed: () => Get.to(() => const ProfileScreen()),
+              );
+            }
+            return IconButton(
+              icon: const Icon(Icons.person_outline),
+              tooltip: 'Sign in',
+              onPressed: () => Get.to(() => const LoginScreen()),
+            );
+          }),
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => Get.to(() => const FilterScreen()),
+          ),
         ],
       ),
       body: Obx(() {
-        if (controller.loading.value) return const Center(child: CircularProgressIndicator());
+        if (controller.loading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
         if (controller.error.value != null) return _buildError();
         return _buildSections();
       }),
@@ -40,7 +82,8 @@ class HomeScreen extends GetView<YearsController> {
         const SizedBox(height: 12),
         Text('Error loading data', style: Get.textTheme.bodyMedium),
         const SizedBox(height: 12),
-        ElevatedButton(onPressed: () => controller.load(), child: const Text('Retry')),
+        ElevatedButton(
+            onPressed: () => controller.load(), child: const Text('Retry')),
       ]),
     );
   }
@@ -49,24 +92,39 @@ class HomeScreen extends GetView<YearsController> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 16),
       children: [
-        _SectionHeader(title: 'By Year', subtitle: '${controller.years.length} years', onSeeAll: () {}),
+        _SectionHeader(
+            title: 'By Year',
+            subtitle: '${controller.years.length} years',
+            onSeeAll: () {}),
         _YearRow(years: controller.years),
         const SizedBox(height: 24),
-
-        _SectionHeader(title: 'By Brand', subtitle: '${_filter.brands.length} brands', onSeeAll: () => Get.to(() => const BrandListScreen())),
-        _BrandRow(brands: _filter.brands, onTap: (b) => _openFilter(brand: b)),
+        _SectionHeader(
+            title: 'By Brand',
+            subtitle: '${_filter.brands.length} brands',
+            onSeeAll: () => Get.to(() => const BrandListScreen())),
+        _BrandRow(
+            brands: _filter.brands, onTap: (b) => _openFilter(brand: b)),
         const SizedBox(height: 24),
-
-        _SectionHeader(title: 'By Series', subtitle: '${_filter.series.length} series', onSeeAll: () => Get.to(() => const SeriesListScreen())),
-        _SeriesRow(series: _filter.series, onTap: (s) => _openFilter(series: s)),
+        _SectionHeader(
+            title: 'By Series',
+            subtitle: '${_filter.series.length} series',
+            onSeeAll: () => Get.to(() => const SeriesListScreen())),
+        _SeriesRow(
+            series: _filter.series, onTap: (s) => _openFilter(series: s)),
         const SizedBox(height: 80),
       ],
     );
   }
 
   void _openFilter({String? brand, String? series}) {
-    if (brand != null) { _filter.selectedBrand.value = brand; _filter.search(); }
-    if (series != null) { _filter.selectedSeries.value = series; _filter.search(); }
+    if (brand != null) {
+      _filter.selectedBrand.value = brand;
+      _filter.search();
+    }
+    if (series != null) {
+      _filter.selectedSeries.value = series;
+      _filter.search();
+    }
     Get.to(() => const FilterScreen());
   }
 }
@@ -77,19 +135,36 @@ class _SectionHeader extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onSeeAll;
-  const _SectionHeader({required this.title, required this.subtitle, required this.onSeeAll});
+  const _SectionHeader(
+      {required this.title, required this.subtitle, required this.onSeeAll});
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(title,
+              style: TextStyle(
+                  color: cs.onSurface,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
           const SizedBox(width: 8),
-          Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2), decoration: BoxDecoration(color: HwTheme.orange.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(10)), child: Text(subtitle, style: const TextStyle(color: HwTheme.orange, fontSize: 11))),
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+                color: cs.primary.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(subtitle,
+                style: TextStyle(color: cs.primary, fontSize: 11)),
+          ),
           const Spacer(),
-          GestureDetector(onTap: onSeeAll, child: const Text('See all', style: TextStyle(color: HwTheme.orange, fontSize: 13))),
+          GestureDetector(
+              onTap: onSeeAll,
+              child: Text('See all',
+                  style: TextStyle(color: cs.primary, fontSize: 13))),
         ],
       ),
     );
@@ -104,6 +179,7 @@ class _YearRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return SizedBox(
       height: 100,
       child: ListView.separated(
@@ -117,12 +193,19 @@ class _YearRow extends StatelessWidget {
             onTap: () => Get.to(() => CarListScreen(year: y)),
             child: Container(
               width: 80,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [HwTheme.orange, HwTheme.flame], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                borderRadius: BorderRadius.circular(12),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [HwTheme.orange, HwTheme.flame],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               alignment: Alignment.center,
-              child: Text(y.toString(), style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(y.toString(),
+                  style: TextStyle(
+                      color: cs.onPrimary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold)),
             ),
           );
         },
@@ -140,6 +223,8 @@ class _BrandRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final text = theme.textTheme;
     return SizedBox(
       height: 80,
       child: ListView.separated(
@@ -153,10 +238,18 @@ class _BrandRow extends StatelessWidget {
             onTap: () => onTap(b),
             child: Container(
               width: 110,
-              decoration: BoxDecoration(color: HwTheme.card, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
+              decoration: BoxDecoration(
+                  color: theme.cardTheme.color ?? theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: theme.dividerColor)),
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(b, style: const TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis),
+              child: Text(b,
+                  style: TextStyle(
+                      color: text.bodyMedium!.color!,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500),
+                  overflow: TextOverflow.ellipsis),
             ),
           );
         },
@@ -174,6 +267,8 @@ class _SeriesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final text = theme.textTheme;
     return SizedBox(
       height: 80,
       child: ListView.separated(
@@ -187,10 +282,17 @@ class _SeriesRow extends StatelessWidget {
             onTap: () => onTap(s),
             child: Container(
               width: 130,
-              decoration: BoxDecoration(color: HwTheme.card, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
+              decoration: BoxDecoration(
+                  color: theme.cardTheme.color ?? theme.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: theme.dividerColor)),
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(s, style: const TextStyle(color: Colors.white70, fontSize: 11), maxLines: 2, overflow: TextOverflow.ellipsis),
+              child: Text(s,
+                  style: TextStyle(
+                      color: text.bodyMedium!.color!, fontSize: 11),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis),
             ),
           );
         },

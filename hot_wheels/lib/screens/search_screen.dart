@@ -11,15 +11,20 @@ class SearchScreen extends GetView<CarSearchController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final text = theme.textTheme;
+    final dimColor = text.bodySmall!.color!;
+
     Get.put(CarSearchController());
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
+          style: TextStyle(color: cs.onSurface),
+          decoration: InputDecoration(
             hintText: 'Search cars...',
-            hintStyle: TextStyle(color: Colors.white38),
+            hintStyle: TextStyle(color: dimColor),
             border: InputBorder.none,
           ),
           onSubmitted: (q) => controller.search(q),
@@ -36,12 +41,12 @@ class SearchScreen extends GetView<CarSearchController> {
         if (controller.results.isEmpty) {
           return Center(child: Text('Type to search', style: Get.textTheme.bodyMedium));
         }
-        return _buildResults(controller.results);
+        return _buildResults(controller.results, theme, cs, dimColor);
       }),
     );
   }
 
-  Widget _buildResults(List<HotWheelsCar> cars) {
+  Widget _buildResults(List<HotWheelsCar> cars, ThemeData theme, ColorScheme cs, Color dimColor) {
     return ListView.builder(
       padding: const EdgeInsets.all(8),
       itemCount: cars.length,
@@ -54,11 +59,11 @@ class SearchScreen extends GetView<CarSearchController> {
               borderRadius: BorderRadius.circular(6),
               child: car.imageUrl != null
                   ? CachedNetworkImage(imageUrl: car.imageUrl!, width: 50, height: 50, fit: BoxFit.cover)
-                  : Container(width: 50, height: 50, color: Colors.white12, child: const Icon(Icons.directions_car, color: Colors.white38)),
+                  : Container(width: 50, height: 50, color: theme.dividerColor, child: Icon(Icons.directions_car, color: dimColor)),
             ),
-            title: Text(car.modelName, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
-            subtitle: Text('${car.year} · ${car.series ?? "No series"}', style: const TextStyle(color: Colors.white54, fontSize: 12)),
-            trailing: Text('#${car.displayNumber}', style: const TextStyle(color: Colors.white38, fontSize: 11)),
+            title: Text(car.modelName, style: TextStyle(color: cs.onSurface, fontWeight: FontWeight.w500)),
+            subtitle: Text('${car.year} · ${car.series ?? "No series"}', style: TextStyle(color: dimColor, fontSize: 12)),
+            trailing: Text('#${car.displayNumber}', style: TextStyle(color: dimColor, fontSize: 11)),
             onTap: () => Get.to(() => CarDetailScreen(car: car)),
           ),
         );

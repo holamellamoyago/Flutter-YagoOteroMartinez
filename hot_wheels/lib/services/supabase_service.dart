@@ -82,7 +82,14 @@ class SupabaseService {
       }
       if (data.length < pageSize) break; offset += pageSize;
     }
-    return series.entries.where((e) => e.value >= 3).map((e) => e.key).toList()..sort();
+    return series.entries.where((e) => e.value >= 3).map((e) => e.key).toList()
+      ..sort((a, b) {
+        final aNum = RegExp(r'^\d').hasMatch(a);
+        final bNum = RegExp(r'^\d').hasMatch(b);
+        if (aNum && !bNum) return 1;
+        if (!aNum && bNum) return -1;
+        return a.compareTo(b);
+      });
   }
 
   Future<List<SeriesInfo>> getSeriesWithStats() async {
@@ -100,7 +107,14 @@ class SupabaseService {
       }
       if (data.length < pageSize) break; offset += pageSize;
     }
-    return series.entries.where((e) => e.value.count >= 3).map((e) => SeriesInfo(name: e.key, count: e.value.count, imageUrl: e.value.imageUrl)).toList()..sort((a, b) => a.name.compareTo(b.name));
+    return series.entries.where((e) => e.value.count >= 3).map((e) => SeriesInfo(name: e.key, count: e.value.count, imageUrl: e.value.imageUrl)).toList()
+      ..sort((a, b) {
+        final aNum = RegExp(r'^\d').hasMatch(a.name);
+        final bNum = RegExp(r'^\d').hasMatch(b.name);
+        if (aNum && !bNum) return 1;
+        if (!aNum && bNum) return -1;
+        return a.name.compareTo(b.name);
+      });
   }
 
   // ── Filtered search ──

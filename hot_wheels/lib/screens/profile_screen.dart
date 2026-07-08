@@ -70,16 +70,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               CircleAvatar(
                 radius: 50,
                 backgroundColor: HwTheme.orange.withAlpha(30),
-                backgroundImage: avatar != null
-                    ? CachedNetworkImageProvider(avatar)
-                    : null,
-                child: avatar == null
-                    ? Text(name[0].toUpperCase(),
-                        style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: HwTheme.orange))
-                    : null,
+                // Always show initial, NetworkImage loads on top if successful
+                child: Text(name[0].toUpperCase(),
+                    style: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: HwTheme.orange)),
+                foregroundImage: avatar != null ? NetworkImage(avatar) : null,
               ),
               const SizedBox(height: 16),
               Text(name, style: Theme.of(context).textTheme.titleMedium),

@@ -35,21 +35,16 @@ class HomeScreen extends GetView<YearsController> {
               return IconButton(
                 icon: CircleAvatar(
                   radius: 14,
-                  backgroundImage: avatar != null
-                      ? CachedNetworkImageProvider(avatar)
-                      : null,
-                  child: avatar == null
-                      ? Text(
-                          (user.userMetadata?['full_name']?.toString() ??
-                                  user.email ??
-                                  'U')[0]
-                              .toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: HwTheme.orange),
-                        )
-                      : null,
+                  child: Text(
+                      (user.userMetadata?['full_name']?.toString() ??
+                              user.email ??
+                              'U')[0]
+                          .toUpperCase(),
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: HwTheme.orange)),
+                  foregroundImage: avatar != null ? NetworkImage(avatar) : null,
                 ),
                 tooltip: 'Account',
                 onPressed: () => Get.to(() => const ProfileScreen()),

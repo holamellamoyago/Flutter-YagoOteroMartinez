@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 12),
 
                   // Apple (iOS only)
-                  if (Platform.isIOS) ...[
+                  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) ...[
                     _ProviderButton(
                       icon: 'assets/apple_icon.png',
                       label: 'Continue with Apple',

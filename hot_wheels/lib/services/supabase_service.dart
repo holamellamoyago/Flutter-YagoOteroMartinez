@@ -36,7 +36,7 @@ class SupabaseService {
       for (final row in data) {
         final name = (row['model_name'] as String?) ?? '';
         final brand = _extractBrand(name);
-        if (brand.isEmpty || RegExp(r"^['\d]").hasMatch(brand)) continue;
+        if (brand.isEmpty || RegExp(r"""^['"\d]""").hasMatch(brand)) continue;
         final stats = brands.putIfAbsent(brand, () => _BrandStats());
         stats.count++;
         stats.imageUrl ??= row['image_url'] as String?;

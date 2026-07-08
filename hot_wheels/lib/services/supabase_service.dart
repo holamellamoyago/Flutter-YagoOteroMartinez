@@ -237,6 +237,32 @@ class SupabaseService {
     return 0; // Placeholder — paginate for exact count
   }
 
+  Future<HotWheelsCar?> getCarByOffset(int offset) async {
+    final data = await _client.from('cars').select().range(offset, offset).limit(1);
+    if (data.isEmpty) return null;
+    return HotWheelsCar.fromJson(data.first);
+  }
+
+  /// Deterministic daily car: same car all day for all users
+  Future<HotWheelsCar?> getDailyCar() async {
+    // Count total cars via pagination
+    int total = 0;
+    int off = 0;
+    const ps = 1000;
+    while (true) {
+      final data = await _client.from('cars').select('id').range(off, off + ps - 1);
+      total += (data as List).length;
+      if ((data as List).length < ps) break;
+      off += ps;
+    }
+    if (total == 0) return null;
+
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final seed = today.hashCode.abs();
+    final offset = seed % total;
+    return getCarByOffset(offset);
+  }
+
   // ──────────────────────────────────────────────
   // Favorites
   // ──────────────────────────────────────────────

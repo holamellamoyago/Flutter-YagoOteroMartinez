@@ -7,6 +7,7 @@ import '../models/user_list.dart';
 import '../theme/hw_theme.dart';
 import 'list_detail_screen.dart';
 import 'login_screen.dart';
+import 'favorites_screen.dart';
 
 class MyListsScreen extends StatefulWidget {
   const MyListsScreen({super.key});
@@ -252,9 +253,36 @@ class _MyListsScreenState extends State<MyListsScreen> {
           color: HwTheme.orange,
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: ctrl.lists.length,
+            itemCount: ctrl.lists.length + 1, // +1 for favorites
             itemBuilder: (ctx, i) {
-              final list = ctrl.lists[i];
+              // Favorites special card
+              if (i == 0) {
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  color: HwTheme.orange.withAlpha(20),
+                  child: ListTile(
+                    leading: Container(
+                      width: 48, height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        gradient: const LinearGradient(
+                          colors: [HwTheme.orange, HwTheme.flame],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight),
+                      ),
+                      child: const Icon(Icons.favorite, color: Colors.white),
+                    ),
+                    title: const Text('Coches favoritos',
+                        style: TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: Text('Your favorite cars',
+                        style: Theme.of(context).textTheme.bodySmall),
+                    trailing: const Icon(Icons.chevron_right, color: Colors.white38),
+                    onTap: () => Get.to(() => const FavoritesScreen()),
+                  ),
+                );
+              }
+
+              final list = ctrl.lists[i - 1];
               return Card(
                 margin: const EdgeInsets.only(bottom: 12),
                 child: ListTile(

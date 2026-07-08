@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
-import 'favorites_screen.dart';
+import 'my_lists_screen.dart';
 import 'create_screen.dart';
 import '../theme/hw_theme.dart';
 
@@ -14,22 +14,22 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
+  void switchToTab(int index) {
+    setState(() => _currentIndex = index);
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 250),
-        child: IndexedStack(
-          key: ValueKey(_currentIndex),
-          index: _currentIndex,
-          children: const [
-            HomeScreen(),
-            FavoritesScreen(),
-            CreateScreen(),
-          ],
-        ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: const [
+          HomeScreen(),
+          MyListsScreen(),
+          CreateScreen(),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
@@ -49,9 +49,9 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Icon(Icons.favorite_outline),
-            selectedIcon: Icon(Icons.favorite, color: HwTheme.orange),
-            label: 'Favorites',
+            icon: Icon(Icons.bookmark_outline),
+            selectedIcon: Icon(Icons.bookmark, color: HwTheme.orange),
+            label: 'My Lists',
           ),
           NavigationDestination(
             icon: Icon(Icons.auto_awesome_outlined),

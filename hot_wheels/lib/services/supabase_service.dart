@@ -43,12 +43,14 @@ class SupabaseService {
       }
       if (data.length < pageSize) break; offset += pageSize;
     }
-    return brands.entries.where((e) => e.value.count >= 2).toList()..sort((a, b) => a.key.compareTo(b.key));
+    return brands.entries.where((e) => e.value.count >= 2).toList()
+      ..sort((a, b) => b.value.count.compareTo(a.value.count));
   }
 
   Future<List<BrandInfo>> getBrandsWithStats() async {
     final entries = await _getBrandsWithStats();
-    return entries.map((e) => BrandInfo(name: e.key, count: e.value.count, imageUrl: e.value.imageUrl)).toList();
+    return entries.map((e) => BrandInfo(name: e.key, count: e.value.count, imageUrl: e.value.imageUrl)).toList()
+      ..sort((a, b) => b.count.compareTo(a.count));
   }
 
   String _extractBrand(String modelName) {
@@ -113,7 +115,7 @@ class SupabaseService {
         final bNum = RegExp(r'^\d').hasMatch(b.name);
         if (aNum && !bNum) return 1;
         if (!aNum && bNum) return -1;
-        return a.name.compareTo(b.name);
+        return b.count.compareTo(a.count);
       });
   }
 

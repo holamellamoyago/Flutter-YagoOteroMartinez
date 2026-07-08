@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/user_list.dart';
 import '../services/supabase_service.dart';
 import '../theme/hw_theme.dart';
@@ -59,10 +60,10 @@ class _ListDetailScreenState extends State<ListDetailScreen> {
       await _service.updateList(widget.list.id, isPublic: true);
     }
     final link = 'https://hotwheels.app/list/${widget.list.id}';
-    Get.snackbar('Share link', link,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xFF1B5E20),
-        colorText: const Color(0xFFFFFFFF));
+    await Share.share(
+      'Check out my Hot Wheels list: ${widget.list.name}\n$link',
+      subject: widget.list.name,
+    );
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share_plus/share_plus.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/lists_controller.dart';
 import '../models/user_list.dart';
@@ -182,15 +183,14 @@ class _MyListsScreenState extends State<MyListsScreen> {
   }
 
   void _shareList(UserList list) async {
-    // Phase 4: deep link
     if (!list.isPublic) {
       await ListsController.to.updateList(list.id, isPublic: true);
     }
     final link = 'https://hotwheels.app/list/${list.id}';
-    Get.snackbar('Link copied', link,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xFF1B5E20),
-        colorText: const Color(0xFFFFFFFF));
+    await Share.share(
+      'Check out my Hot Wheels list: ${list.name}\n$link',
+      subject: list.name,
+    );
   }
 
   @override

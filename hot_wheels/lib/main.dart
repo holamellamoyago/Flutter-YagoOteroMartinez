@@ -10,7 +10,7 @@ import 'controllers/lists_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'services/deep_link_service.dart';
 import 'services/pending_link_service.dart';
-import 'screens/home_screen.dart';
+import 'screens/main_screen.dart';
 
 final themeCtrl = Get.put(ThemeController());
 
@@ -40,7 +40,7 @@ class HotWheelsApp extends StatelessWidget {
       title: 'Hot Wheels',
       debugShowCheckedModeBanner: false,
       theme: themeCtrl.isDark.value ? HwTheme.dark : HwTheme.light,
-      home: const HomeScreen(),
+      home: const MainScreen(),
     ));
   }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../controllers/auth_controller.dart';
+import '../services/supabase_service.dart';
 import '../theme/hw_theme.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
@@ -10,8 +11,38 @@ import 'my_lists_screen.dart';
 import 'friends_screen.dart';
 import 'groups_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final _service = SupabaseService();
+  int _listCount = 0;
+  int _carCount = 0;
+  int _friendCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCounts();
+  }
+
+  Future<void> _loadCounts() async {
+    try {
+      final lists = await _service.getUserLists();
+      final friends = await _service.getFriends();
+      if (mounted) {
+        setState(() {
+          _listCount = lists.length;
+          _carCount = lists.fold(0, (sum, l) => sum + l.carCount);
+          _friendCount = friends.length;
+        });
+      }
+    } catch (_) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +67,6 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-
-              // Avatar
               CircleAvatar(
                 radius: 50,
                 backgroundColor: HwTheme.orange.withAlpha(30),
@@ -53,14 +82,11 @@ class ProfileScreen extends StatelessWidget {
                     : null,
               ),
               const SizedBox(height: 16),
-              Text(name,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(name, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 4),
               Text(user.email ?? '',
                   style: Theme.of(context).textTheme.bodySmall),
               const SizedBox(height: 8),
-
-              // Edit profile & password buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -71,27 +97,23 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   TextButton.icon(
-                    onPressed: () => _showChangePassword(context, client,
-                        user.email ?? ''),
+                    onPressed: () =>
+                        _showChangePassword(context, client, user.email ?? ''),
                     icon: const Icon(Icons.lock_outline, size: 16),
                     label: const Text('Password'),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-
-              // Stats
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _StatCard(label: 'Lists', value: '0'),
-                  _StatCard(label: 'Cars', value: '0'),
-                  _StatCard(label: 'Friends', value: '0'),
+                  _StatCard(label: 'Lists', value: _listCount.toString()),
+                  _StatCard(label: 'Cars', value: _carCount.toString()),
+                  _StatCard(label: 'Friends', value: _friendCount.toString()),
                 ],
               ),
               const SizedBox(height: 36),
-
-              // Navigation
               _NavOption(
                   icon: Icons.bookmark_outline,
                   label: 'My Lists',
@@ -112,8 +134,6 @@ class ProfileScreen extends StatelessWidget {
                   label: 'Settings',
                   onTap: () => Get.to(() => const SettingsScreen())),
               const SizedBox(height: 36),
-
-              // Logout
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
@@ -161,7 +181,6 @@ class ProfileScreen extends StatelessWidget {
                     .from('profiles')
                     .update({'display_name': ctrl.text.trim()})
                     .eq('id', Supabase.instance.client.auth.currentUser!.id);
-                // Also update auth metadata
                 await Supabase.instance.client.auth.updateUser(
                   UserAttributes(data: {'full_name': ctrl.text.trim()}),
                 );
@@ -190,8 +209,7 @@ class ProfileScreen extends StatelessWidget {
       AlertDialog(
         backgroundColor: Theme.of(context).cardTheme.color,
         title: const Text('Change Password'),
-        content: Text(
-            'We\'ll send a password reset link to $email',
+        content: Text('We\'ll send a password reset link to $email',
             style: const TextStyle(color: Colors.white70)),
         actions: [
           TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),

@@ -112,7 +112,7 @@ class SupabaseService {
       if (data.isEmpty) break;
       for (final row in data) {
         final s = (row['series'] as String?) ?? '';
-        if (s.isNotEmpty) series.add(s);
+        if (s.isNotEmpty && !RegExp(r"^'\d").hasMatch(s)) series.add(s);
       }
       if (data.length < pageSize) break;
       offset += pageSize;

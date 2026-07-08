@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/hw_theme.dart';
 import 'controllers/filter_controller.dart';
-import 'screens/years_screen.dart';
+import 'screens/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class HotWheelsApp extends StatelessWidget {
       title: 'Hot Wheels',
       debugShowCheckedModeBanner: false,
       theme: HwTheme.dark,
-      home: const YearsScreen(),
+      home: const HomeScreen(),
     );
   }
 }

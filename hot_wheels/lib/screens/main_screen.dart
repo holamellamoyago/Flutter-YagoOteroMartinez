@@ -14,37 +14,48 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  final _screens = const [
-    HomeScreen(),
-    FavoritesScreen(),
-    CreateScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        selectedItemColor: HwTheme.orange,
-        unselectedItemColor: Theme.of(context).textTheme.bodySmall?.color,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        child: IndexedStack(
+          key: ValueKey(_currentIndex),
+          index: _currentIndex,
+          children: const [
+            HomeScreen(),
+            FavoritesScreen(),
+            CreateScreen(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (i) => setState(() => _currentIndex = i),
+        backgroundColor: cs.surface,
+        surfaceTintColor: cs.surfaceTint,
+        indicatorColor: cs.primary.withAlpha(30),
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        height: 70,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        animationDuration: const Duration(milliseconds: 300),
+        destinations: const [
+          NavigationDestination(
             icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+            selectedIcon: Icon(Icons.home, color: HwTheme.orange),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.favorite_outline),
-            activeIcon: Icon(Icons.favorite),
+            selectedIcon: Icon(Icons.favorite, color: HwTheme.orange),
             label: 'Favorites',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.auto_awesome_outlined),
-            activeIcon: Icon(Icons.auto_awesome),
+            selectedIcon: Icon(Icons.auto_awesome, color: HwTheme.orange),
             label: 'Create',
           ),
         ],

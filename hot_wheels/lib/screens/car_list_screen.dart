@@ -27,13 +27,14 @@ class CarListScreen extends StatelessWidget {
     final map = <String, _CarGroup>{};
     for (final car in cars) {
       final base = car.modelName.replaceAll(RegExp(r'\s*\(\d.*\)$'), '').trim();
-      if (map.containsKey(base)) {
-        map[base]!.variants.add(car);
-        if (car.imageUrl != null) map[base]!.images.add(car.imageUrl!);
+      final key = '$base|${car.year}';  // group by model + year
+      if (map.containsKey(key)) {
+        map[key]!.variants.add(car);
+        if (car.imageUrl != null) map[key]!.images.add(car.imageUrl!);
       } else {
         final group = _CarGroup(primary: car, variants: [car], images: []);
         if (car.imageUrl != null) group.images.add(car.imageUrl!);
-        map[base] = group;
+        map[key] = group;
       }
     }
     return map.values.toList()..sort((a, b) => a.primary.modelName.compareTo(b.primary.modelName));

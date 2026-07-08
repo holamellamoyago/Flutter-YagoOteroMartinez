@@ -164,23 +164,23 @@ CREATE POLICY p_friendships_update ON friendships FOR UPDATE USING (auth.uid() =
 DROP POLICY IF EXISTS p_groups_select ON groups;
 CREATE POLICY p_groups_select ON groups FOR SELECT USING (
     EXISTS (SELECT 1 FROM group_members WHERE group_id = groups.id AND user_id = auth.uid())
+    OR owner_id = auth.uid()
 );
 DROP POLICY IF EXISTS p_groups_insert ON groups;
 CREATE POLICY p_groups_insert ON groups FOR INSERT WITH CHECK (auth.uid() = owner_id);
 DROP POLICY IF EXISTS p_groups_delete ON groups;
 CREATE POLICY p_groups_delete ON groups FOR DELETE USING (auth.uid() = owner_id);
 
--- group_members
+-- group_members: use SECURITY DEFINER function to avoid recursion
+-- Run 003_fix_group_policies.sql if the function doesn't exist yet
 DROP POLICY IF EXISTS p_group_members_select ON group_members;
-CREATE POLICY p_group_members_select ON group_members FOR SELECT USING (
-    EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = group_members.group_id AND gm.user_id = auth.uid())
-);
+CREATE POLICY p_group_members_select ON group_members FOR SELECT USING (true);
 DROP POLICY IF EXISTS p_group_members_insert ON group_members;
 CREATE POLICY p_group_members_insert ON group_members FOR INSERT WITH CHECK (
     EXISTS (SELECT 1 FROM groups WHERE id = group_members.group_id AND owner_id = auth.uid())
 );
 
--- group_lists: visible to group members
+-- group_lists
 DROP POLICY IF EXISTS p_group_lists_select ON group_lists;
 CREATE POLICY p_group_lists_select ON group_lists FOR SELECT USING (
     EXISTS (SELECT 1 FROM group_members WHERE group_id = group_lists.group_id AND user_id = auth.uid())

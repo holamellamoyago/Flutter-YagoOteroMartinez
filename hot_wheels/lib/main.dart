@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'theme/hw_theme.dart';
+import 'controllers/filter_controller.dart';
 import 'screens/years_screen.dart';
 
 Future<void> main() async {
@@ -22,6 +23,9 @@ class HotWheelsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize global controllers
+    Get.put(FilterController());
+    
     return GetMaterialApp(
       title: 'Hot Wheels',
       debugShowCheckedModeBanner: false,

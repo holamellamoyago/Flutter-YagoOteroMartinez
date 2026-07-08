@@ -5,34 +5,34 @@ import '../controllers/filter_controller.dart';
 import '../theme/hw_theme.dart';
 import 'car_detail_screen.dart';
 
-class FilterScreen extends GetView<FilterController> {
+class FilterScreen extends StatelessWidget {
   const FilterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(FilterController());
+    final c = Get.find<FilterController>();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search'),
         actions: [
-          Obx(() => controller.hasFilters
-              ? IconButton(icon: const Icon(Icons.clear_all), tooltip: 'Clear', onPressed: controller.clearFilters)
+          Obx(() => c.hasFilters
+              ? IconButton(icon: const Icon(Icons.clear_all), tooltip: 'Clear', onPressed: c.clearFilters)
               : const SizedBox.shrink()),
         ],
       ),
       body: Column(
         children: [
-          _buildSearchBar(),
-          _buildFilterChips(),
+          _buildSearchBar(c),
+          _buildFilterChips(c),
           const Divider(height: 1, color: Colors.white12),
-          Expanded(child: _buildResults()),
+          Expanded(child: _buildResults(c)),
         ],
       ),
     );
   }
 
-  Widget _buildSearchBar() {
+  Widget _buildSearchBar(FilterController c) {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: TextField(
@@ -44,21 +44,21 @@ class FilterScreen extends GetView<FilterController> {
           fillColor: HwTheme.surface,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
           prefixIcon: const Icon(Icons.search, color: Colors.white38),
-          suffixIcon: Obx(() => controller.query.isNotEmpty
-              ? IconButton(icon: const Icon(Icons.close, color: Colors.white38, size: 18), onPressed: () { controller.query.value = ''; controller.search(); })
+          suffixIcon: Obx(() => c.query.isNotEmpty
+              ? IconButton(icon: const Icon(Icons.close, color: Colors.white38, size: 18), onPressed: () { c.query.value = ''; c.search(); })
               : const SizedBox.shrink()),
         ),
         onChanged: (v) {
-          controller.query.value = v;
-          if (v.length >= 2 || v.isEmpty) controller.search();
+          c.query.value = v;
+          if (v.length >= 2 || v.isEmpty) c.search();
         },
       ),
     );
   }
 
-  Widget _buildFilterChips() {
+  Widget _buildFilterChips(FilterController c) {
     return Obx(() {
-      if (controller.loadingOptions.value) {
+      if (c.loadingOptions.value) {
         return const Padding(padding: EdgeInsets.all(8), child: SizedBox(height: 40, child: Center(child: CircularProgressIndicator(strokeWidth: 2))));
       }
       return SingleChildScrollView(
@@ -68,23 +68,23 @@ class FilterScreen extends GetView<FilterController> {
           children: [
             _buildDropdown(
               label: 'Brand',
-              value: controller.selectedBrand.value,
-              items: controller.brands,
-              onChanged: (v) { controller.selectedBrand.value = v; controller.search(); },
+              value: c.selectedBrand.value,
+              items: c.brands,
+              onChanged: (v) { c.selectedBrand.value = v; c.search(); },
             ),
             const SizedBox(width: 8),
             _buildDropdown(
               label: 'Series',
-              value: controller.selectedSeries.value,
-              items: controller.series,
-              onChanged: (v) { controller.selectedSeries.value = v; controller.search(); },
+              value: c.selectedSeries.value,
+              items: c.series,
+              onChanged: (v) { c.selectedSeries.value = v; c.search(); },
             ),
             const SizedBox(width: 8),
             _buildDropdown(
               label: 'Year',
-              value: controller.selectedYear.value,
-              items: controller.years,
-              onChanged: (v) { controller.selectedYear.value = v; controller.search(); },
+              value: c.selectedYear.value,
+              items: c.years,
+              onChanged: (v) { c.selectedYear.value = v; c.search(); },
             ),
           ],
         ),
@@ -105,7 +105,7 @@ class FilterScreen extends GetView<FilterController> {
           icon: const Icon(Icons.arrow_drop_down, color: Colors.white38),
           items: [
             DropdownMenuItem<T>(value: null, child: Text('All $label', style: const TextStyle(color: Colors.white38, fontSize: 13))),
-            ...items.map((item) => DropdownMenuItem<T>(value: item, child: Text('$item'.length > 30 ? '${'$item'.substring(0, 28)}...' : '$item', style: const TextStyle(fontSize: 13)))),
+            ...items.map((item) => DropdownMenuItem<T>(value: item, child: SizedBox(width: 140, child: Text('$item', style: const TextStyle(fontSize: 13), overflow: TextOverflow.ellipsis)))),
           ],
           onChanged: onChanged,
         ),
@@ -113,20 +113,20 @@ class FilterScreen extends GetView<FilterController> {
     );
   }
 
-  Widget _buildResults() {
+  Widget _buildResults(FilterController c) {
     return Obx(() {
-      if (controller.searching.value) return const Center(child: CircularProgressIndicator());
-      if (controller.results.isEmpty) {
+      if (c.searching.value) return const Center(child: CircularProgressIndicator());
+      if (c.results.isEmpty) {
         return Center(
-          child: Text(controller.hasFilters ? 'No results' : 'Use filters to search',
+          child: Text(c.hasFilters ? 'No results' : 'Use filters to search',
             style: const TextStyle(color: Colors.white38)),
         );
       }
       return ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: controller.results.length,
+        itemCount: c.results.length,
         itemBuilder: (ctx, i) {
-          final car = controller.results[i];
+          final car = c.results[i];
           return Card(
             color: HwTheme.card,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
